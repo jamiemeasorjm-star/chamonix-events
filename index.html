@@ -89,6 +89,7 @@
                             <option value="Vallorcine">Vallorcine</option>
                         </select>
                     </div>
+                    <button id="search-btn" class="bg-alpine-600 hover:bg-alpine-700 text-white px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition shadow-sm">Search</button>
                     <button id="reset-filters" class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-2 rounded-lg text-sm whitespace-nowrap transition">Reset</button>
                 </div>
                 <div class="mt-2 text-sm text-gray-500">
@@ -149,10 +150,13 @@
             const com = document.getElementById('filter-commune').value;
 
             let filtered = allEvents.filter(e => {
-                const fd = formatDate(e.start_date);
-                if (!fd) return false;
-                if (startVal && fd.iso < startVal) return false;
-                if (endVal && fd.iso > endVal) return false;
+                const sd = formatDate(e.start_date);
+                const ed = formatDate(e.end_date);
+                if (!sd) return false;
+                const eventStart = sd.iso;
+                const eventEnd = ed ? ed.iso : eventStart;
+                if (startVal && eventEnd < startVal) return false;
+                if (endVal && eventStart > endVal) return false;
                 if (cat && e.category !== cat) return false;
                 if (com && e.commune !== com) return false;
                 return true;
@@ -171,31 +175,52 @@
             container.innerHTML = filtered.map(e => {
                 const fd = formatDate(e.start_date);
                 const desc = e.description ? e.description.replace(/<[^>]*>/g,'').substring(0,150) : '';
-                const todayLabel = fd && isToday(fd.date) ? '<span class="today-tag">Today</span>' : (fd && isTomorrow(fd.date) ? '<span class="today-tag">Tomorrow</span>' : '');
-                return `<div class="event-card bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex gap-4 cursor-pointer" onclick="window.open('${e.source_url||''}','_blank')">
-                    <div class="flex-shrink-0 w-16 text-center">
-                        <div class="day-num text-alpine-800">${fd ? fd.dayNum : '?'}</div>
-                        <div class="day-month text-gray-500 font-medium">${fd ? fd.month : ''}</div>
-                        <div class="text-xs text-gray-400 mt-0.5">${fd ? fd.day : ''}</div>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <h3 class="font-semibold text-gray-900 text-base leading-tight">${e.title}</h3>
-                            ${todayLabel}
-                        </div>
-                        <div class="flex items-center gap-2 mt-1 flex-wrap">
-                            <span class="category-pill ${catClass(e.category)}">${e.category}</span>
-                            ${e.commune ? `<span class="text-xs text-gray-400">📍 ${e.commune}</span>` : ''}
-                            ${e.time ? `<span class="text-xs text-gray-400">🕐 ${e.time}</span>` : ''}
-                        </div>
-                        ${desc ? `<p class="text-sm text-gray-500 mt-2 line-clamp-2">${desc}</p>` : ''}
-                        <div class="text-xs text-alpine-600 mt-2 hover:underline">View details →</div>
-                    </div>
-                </div>`;
+                const todayLabel = fd && isToday(fd.date) ? '<span class=\"today-tag\">Today</span>' : (fd && isTomorrow(fd.date) ? '<span class=\"today-tag\">Tomorrow</span>' : '');
+                const dateLabel = e.end_date && e.end_date !== e.start_date
+                    ? (fd ? fd.dayNum + ' ' + fd.month : '') + ' → ' + (formatDate(e.end_date)?.dayNum || '') + ' ' + (formatDate(e.end_date)?.month || '')
+                    : (fd ? fd.dayNum + ' ' + fd.month : '');
+                const imgHtml = e.image_url ? '<img src="' + e.image_url + '" alt="' + e.title + '" class="w-full h-40 object-cover rounded-t-xl" onerror="this.style.display=\'none\'">' : '';
+                const venueHtml = e.venue_name ? '<span class="text-xs text-gray-400">📍 ' + e.venue_name.substring(0, 40) + '</span>' : '';
+                const addressHtml = e.address ? '<span class="text-xs text-gray-400">🏠 ' + e.address.substring(0, 40) + '</span>' : '';
+                return '<div class="event-card bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden cursor-pointer" onclick="window.open(\'' + (e.source_url||'') + '\',\'_blank\')" >' +
+                    imgHtml +
+                    '<div class="p-4 flex gap-4">' +
+                        '<div class="flex-shrink-0 w-16 text-center">' +
+                            '<div class="day-num text-alpine-800">' + (fd ? fd.dayNum : '?') + '</div>' +
+                            '<div class="day-month text-gray-500 font-medium">' + (fd ? fd.month : '') + '</div>' +
+                            '<div class="text-xs text-gray-400 mt-0.5">' + (fd ? fd.day : '') + '</div>' +
+                        '</div>' +
+                        '<div class="flex-1 min-w-0">' +
+                            '<div class="flex items-center gap-2 flex-wrap">' +
+                                '<h3 class="font-semibold text-gray-900 text-base leading-tight">' + e.title + '</h3>' +
+                                todayLabel +
+                            '</div>' +
+                            '<div class="flex items-center gap-2 mt-1 flex-wrap">' +
+                                '<span class="category-pill ' + catClass(e.category) + '">' + e.category + '</span>' +
+                                (e.commune ? '<span class="text-xs text-gray-400">📍 ' + e.commune + '</span>' : '') +
+                                (dateLabel ? '<span class="text-xs text-gray-400">📅 ' + dateLabel + '</span>' : '') +
+                                (e.time ? '<span class="text-xs text-gray-400">🕐 ' + e.time + '</span>' : '') +
+                            '</div>' +
+                            (venueHtml || addressHtml ? '<div class="flex items-center gap-2 mt-1 flex-wrap">' + venueHtml + addressHtml + '</div>' : '') +
+                            (desc ? '<p class="text-sm text-gray-500 mt-2 line-clamp-2">' + desc + '</p>' : '') +
+                            '<div class="text-xs text-alpine-600 mt-2 hover:underline">View details →</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
             }).join('');
         }
 
-        // Load data
+        function applyFilters() {
+            const startVal = document.getElementById('filter-start').value;
+            const endVal = document.getElementById('filter-end').value;
+            if (startVal && !endVal) {
+                const d = new Date(startVal);
+                d.setDate(d.getDate() + 30);
+                document.getElementById('filter-end').value = fmt(d);
+            }
+            render();
+        }
+
         fetch('data/events.json')
             .then(r => r.json())
             .then(data => {
@@ -203,20 +228,19 @@
                 render();
             })
             .catch(() => {
-                document.getElementById('events-list').innerHTML = '<div class="text-center py-16 text-gray-400"><p>Could not load events</p><p class="text-sm mt-1">Make sure events.json exists in the data/ folder</p></div>';
+                document.getElementById('events-list').innerHTML = '<div class=\"text-center py-16 text-gray-400\"><p>Could not load events</p><p class=\"text-sm mt-1\">Make sure events.json exists in the data/ folder</p></div>';
             });
 
-        // Filter listeners
         ['filter-start','filter-end','filter-category','filter-commune'].forEach(id => {
             document.getElementById(id).addEventListener('change', render);
         });
+        document.getElementById('search-btn').addEventListener('click', applyFilters);
         document.getElementById('reset-filters').addEventListener('click', () => {
             document.getElementById('filter-start').value = fmt(today);
             document.getElementById('filter-end').value = fmt(in30);
             document.getElementById('filter-category').value = '';
             document.getElementById('filter-commune').value = '';
             render();
-        });
-    </script>
+        });</script>
 </body>
 </html>
