@@ -352,6 +352,16 @@ def run(dry_run: bool = False, fetch_detail: bool = True):
     events = deduplicate(events)
     events = merge_with_existing(events)
 
+    # Normalize raw dicts back to Event objects for downstream code
+    def to_event(e):
+        if isinstance(e, Event):
+            return e
+        valid = {'title','description','start_date','end_date','time','venue_id','category',
+                 'commune','source_id','source_url','image_url','price','venue_name','address',
+                 'contact_phone','website','status','confidence','created_at','updated_at','id'}
+        return Event(**{k:v for k,v in e.items() if k in valid})
+    events = [to_event(e) for e in events]
+
     for ev in events:
         if not ev.start_date:
             print(f"  WARN: missing start_date for '{ev.title}'", file=sys.stderr)
