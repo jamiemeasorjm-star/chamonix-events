@@ -24,4 +24,7 @@ run "allocine_vox" scripts.allocine_vox
 run "chamonix_com" scripts.chamonix_com
 run "chamonix_com_detail" scripts.chamonix_com_detail
 
+# Cleanup: remove past events
+echo "[$TIMESTAMP] Removing past events..."
+python3 scripts/clean_past.py
 echo "[$TIMESTAMP] === Chamonix scraper run complete ==="

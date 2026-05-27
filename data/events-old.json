@@ -1,5 +1,128 @@
 [
   {
+    "id": "",
+    "title": "Marché de Chamonix",
+    "description": "Alimentation, produits du terroir, et produits manufacturés\\nAccès libre.\\nToute l'année le samedi de 7h à 13h.\\nMarché de ChamonixPlace du Mont-Blanc164 Place du Mont-Blanc74400 Chamonix-Mont-BlancEuropean Environment Agency (EEA) | COPERNICUS by the European Union and ESA |© OpenMapTiles© OpenStreetMap contributors© Loopi",
+    "start_date": "",
+    "category": "market",
+    "commune": "Chamonix",
+    "source_id": "chamonix_com",
+    "source_url": "https://www.chamonix.com/agenda/evenements-et-manifestations/marche-de-chamonix",
+    "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/179798/1937073.jpg?itok=8XXZ4Mq0",
+    "status": "pending_review",
+    "confidence": 0.5,
+    "created_at": "2026-05-27T11:58:02.687055+00:00",
+    "updated_at": "2026-05-27T11:58:02.687057+00:00",
+    "address": "Place du Mont-Blanc164 Place du Mont-Blanc74400 Chamonix-Mont-Blanc"
+  },
+  {
+    "id": "concert-live-à-larveyron-2026-02-05",
+    "title": "🎸 Concert live à l’Arveyron",
+    "description": "🎸 Live concert at ArveyronOn Thursday, February 5th, 2026, Arveyron welcomes Cisco Herzhaft, a leading figure of acoustic blues.Raw guitar, deep voice, pure emotion.",
+    "start_date": "2026-02-05",
+    "category": "exhibition",
+    "commune": "Chamonix",
+    "source_id": "chamonix_net",
+    "source_url": "https://www.chamonix.net/english/events/concert-live-arveyron",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/Concert%20Cisco%20Herzhaft.png?itok=psXo29IJ",
+    "status": "published",
+    "confidence": 1.0,
+    "created_at": "2026-05-27T11:57:58.165132+00:00",
+    "updated_at": "2026-05-27T11:57:58.165134+00:00"
+  },
+  {
+    "id": "music-concert-the-third-eye-2026-03-12",
+    "title": "Music concert The Third Eye",
+    "description": "The MJC is offering a free concert by The Third Eye.The Third Eye, a 100% rock 'n' roll concert.",
+    "start_date": "2026-03-12",
+    "category": "exhibition",
+    "commune": "Chamonix",
+    "source_id": "chamonix_net",
+    "source_url": "https://www.chamonix.net/english/events/concert-musique-third-eye",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/concert-the-third-eye-chamonix.jpg?itok=c8nNbXVI",
+    "status": "published",
+    "confidence": 1.0,
+    "created_at": "2026-05-27T11:57:58.165117+00:00",
+    "updated_at": "2026-05-27T11:57:58.165118+00:00"
+  },
+  {
+    "id": "slalom-géant-des-légendes-aux-planards-2026-03-20",
+    "title": "Slalom Géant des Légendes aux Planards",
+    "description": "Le vendredi 20 mars à partir de 18h30, Les Planards accueillent le Slalom Géant des Légendes, une soirée festive organisée avec le Comptoir des Légendes.Le Programme",
+    "start_date": "2026-03-20",
+    "category": "sport",
+    "commune": "Chamonix",
+    "source_id": "chamonix_net",
+    "source_url": "https://www.chamonix.net/english/events/slalom-geant-des-legendes-aux-planards",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/slalom-legendes-chamonix.jpg?itok=4fgX2sye",
+    "status": "published",
+    "confidence": 1.0,
+    "created_at": "2026-05-27T11:57:58.165111+00:00",
+    "updated_at": "2026-05-27T11:57:58.165112+00:00"
+  },
+  {
+    "id": "the-unlimited-festival-2026-2026-03-25",
+    "title": "The Unlimited Festival 2026",
+    "description": "5 jours de ski sauvage et de musique sans limites",
+    "start_date": "2026-03-25",
+    "end_date": "2026-03-29",
+    "category": "exhibition",
+    "commune": "Chamonix",
+    "source_id": "chamonix_net",
+    "source_url": "https://www.chamonix.net/english/events/unlimited-festival-2026",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/unlimited-festival-2026.jpg?itok=yf-RCclD",
+    "status": "published",
+    "confidence": 1.0,
+    "created_at": "2026-05-27T11:57:58.165103+00:00",
+    "updated_at": "2026-05-27T11:57:58.165104+00:00"
+  },
+  {
+    "id": "banked-slalom-snowboard-zero-g-2026-03-28",
+    "title": "Banked Slalom Snowboard Zero G",
+    "description": "🔥 The Banked Slalom at La Flégère is back! 🔥After a successful first edition last year, we created an association for our events: VIRAGES, supported by Zero G and Season Guiding.",
+    "start_date": "2026-03-28",
+    "category": "sport",
+    "commune": "Chamonix",
+    "source_id": "chamonix_net",
+    "source_url": "https://www.chamonix.net/english/events/banked-slalom-snowboard-zero-g",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/banked-report-2026.jpg?itok=GFZDLaSr",
+    "status": "published",
+    "confidence": 1.0,
+    "created_at": "2026-05-27T11:57:58.165097+00:00",
+    "updated_at": "2026-05-27T11:57:58.165098+00:00"
+  },
+  {
+    "id": "la-grande-montet-2026-04-05",
+    "title": "La Grande Montet",
+    "description": "The Ski Mountaineering section of the Chamonix Sports Club is organizing the longest Vertical Race in France.",
+    "start_date": "2026-04-05",
+    "category": "sport",
+    "commune": "Chamonix",
+    "source_id": "chamonix_net",
+    "source_url": "https://www.chamonix.net/english/events/la-grande-montet",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/trace-des-grands-web_A742432.jpg?itok=esajH9GG",
+    "status": "published",
+    "confidence": 1.0,
+    "created_at": "2026-05-27T11:57:58.165091+00:00",
+    "updated_at": "2026-05-27T11:57:58.165092+00:00"
+  },
+  {
+    "id": "chamonix-shops-street-sale-2026-04-11",
+    "title": "Chamonix Shops Street Sale",
+    "description": "The traders' sale returns to liven up the streets of Chamonix this Saturday 11 and Sunday 12 April 2026From 10 a.m. to 7 p.m.",
+    "start_date": "2026-04-11",
+    "end_date": "2026-04-12",
+    "category": "family",
+    "commune": "Chamonix",
+    "source_id": "chamonix_net",
+    "source_url": "https://www.chamonix.net/english/events/chamonix-shops-street-sale",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/braderie_chmx1.JPG?itok=1WnL0cAt",
+    "status": "published",
+    "confidence": 1.0,
+    "created_at": "2026-05-27T11:57:58.165085+00:00",
+    "updated_at": "2026-05-27T11:57:58.165086+00:00"
+  },
+  {
     "id": "exposition-peintures-montagnes-2026-04-24",
     "title": "Exposition peintures Montagnes",
     "description": "La technique de la gravure sur place permet de saisir le mouvement du paysage, et par le trait spontané, sa force.\nJe tente d’apprendre le relief, de dessiner mille fois la même montagne pour m’abstraire et rêver.\nJ’imprime l’estampe sous presse.Les techniques utilisées sont : gravure sur bois et linoléum, gravure sur acier : aquatinte, sucre, eau-forte, et pointe sèche. Huile, pastel.Elève en sculpture de Jacques Canonici et de Marie-Claire Graillot en gravure, je travaille comme marin professionnel ; j’embarque sur le pont à la pêche ou en machine au commerce au long cours.\\nEntrée libre.\\nDu 24/04 au 20/06/2026 le mardi, mercredi, jeudi, vendredi et samedi de 9h à 12h et de 14h à 17h.\\nExposition peintures MontagnesMaison de Village d'Argentière101 rte du village74400 ArgentièreArrêt de bus le plus proche : Argentière La FizArrêt de train le plus proche : Gare ArgentièreParking à proximité : La FizEuropean Environment Agency (EEA) | COPERNICUS by the European Union and ESA |© OpenMapTiles© OpenStreetMap contributors© Loopi",
@@ -12,9 +135,39 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/7794961/40935840.jpg?itok=uTkgpr9h",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205383+00:00",
-    "updated_at": "2026-05-27T12:18:28.205385+00:00",
+    "created_at": "2026-05-27T11:58:02.687063+00:00",
+    "updated_at": "2026-05-27T11:58:02.687064+00:00",
     "address": "Maison de Village d'Argentière101 rte du village74400 Argentière"
+  },
+  {
+    "id": "open-mic-in-servoz-2026-05-01",
+    "title": "Open Mic in Servoz",
+    "description": "Everyone is welcome, from beginners to professionals.Prepare your performance and take the stage.Enjoy an inclusive, friendly, and relaxed atmosphere.",
+    "start_date": "2026-05-01",
+    "category": "exhibition",
+    "commune": "Chamonix",
+    "source_id": "chamonix_net",
+    "source_url": "https://www.chamonix.net/english/events/open-mic-servoz",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/open%20mic%20FB2%20may%201st.jpeg?itok=tDnElSnO",
+    "status": "published",
+    "confidence": 1.0,
+    "created_at": "2026-05-27T11:57:58.165078+00:00",
+    "updated_at": "2026-05-27T11:57:58.165080+00:00"
+  },
+  {
+    "id": "le-freeride-day-2026-05-03",
+    "title": "Le Freeride Day",
+    "description": "Come celebrate the end of the ski season at Grands Montets on Sunday, May 3, 2026. Music, skiing, entertainment, bars…This day is included in valid season, annual, and stay passes.",
+    "start_date": "2026-05-03",
+    "category": "sport",
+    "commune": "Chamonix",
+    "source_id": "chamonix_net",
+    "source_url": "https://www.chamonix.net/english/events/le-freeride-day",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/40316384.jpg?itok=qVj9HUfw",
+    "status": "published",
+    "confidence": 1.0,
+    "created_at": "2026-05-27T11:57:58.165071+00:00",
+    "updated_at": "2026-05-27T11:57:58.165073+00:00"
   },
   {
     "id": "exposition-charlie-adam-2026-05-04",
@@ -29,8 +182,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/7814397/41467816.jpg?itok=GVF1T1T0",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205395+00:00",
-    "updated_at": "2026-05-27T12:18:28.205397+00:00",
+    "created_at": "2026-05-27T11:58:02.687076+00:00",
+    "updated_at": "2026-05-27T11:58:02.687077+00:00",
     "time": "8h30",
     "address": "Mairie Les Houches1 place de la Mairie74310 Les Houches"
   },
@@ -127,8 +280,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/7642399/37152921.jpg?itok=aofUgQ9L",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205353+00:00",
-    "updated_at": "2026-05-27T12:18:28.205355+00:00",
+    "created_at": "2026-05-27T11:58:02.687031+00:00",
+    "updated_at": "2026-05-27T11:58:02.687033+00:00",
     "time": "9h30",
     "address": "Espace Michel Croz  -EMC274400 Chamonix-Mont-Blanc"
   },
@@ -205,8 +358,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/7644105/37180078.jpg?itok=cWdyVXAs",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205363+00:00",
-    "updated_at": "2026-05-27T12:18:28.205365+00:00",
+    "created_at": "2026-05-27T11:58:02.687042+00:00",
+    "updated_at": "2026-05-27T11:58:02.687043+00:00",
     "address": "Presbytère Saint-Michel82 rue de la Mollard74400 Chamonix-Mont-Blanc"
   },
   {
@@ -221,8 +374,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/7828078/41394704.jpg?itok=GuEXnOqB",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205370+00:00",
-    "updated_at": "2026-05-27T12:18:28.205372+00:00",
+    "created_at": "2026-05-27T11:58:02.687050+00:00",
+    "updated_at": "2026-05-27T11:58:02.687051+00:00",
     "address": "Espace Michel Croz  -EMC274400 Chamonix-Mont-Blanc"
   },
   {
@@ -237,8 +390,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/7810115/41096013.jpg?itok=I1GZ3v9_",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205389+00:00",
-    "updated_at": "2026-05-27T12:18:28.205390+00:00",
+    "created_at": "2026-05-27T11:58:02.687069+00:00",
+    "updated_at": "2026-05-27T11:58:02.687070+00:00",
     "time": "20h30",
     "address": "Espace Animation27 pl de la Mairie74310 Les Houches"
   },
@@ -254,8 +407,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/7820276/41268391.jpg?itok=7FPkdoi0",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205412+00:00",
-    "updated_at": "2026-05-27T12:18:28.205413+00:00",
+    "created_at": "2026-05-27T11:58:02.687093+00:00",
+    "updated_at": "2026-05-27T11:58:02.687094+00:00",
     "time": "11h30",
     "address": "Lac des Chavants148 allée des dilligences74310 Les Houches"
   },
@@ -271,8 +424,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/7806746/41047286.jpg?itok=ZWhKxF0I",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205432+00:00",
-    "updated_at": "2026-05-27T12:18:28.205433+00:00",
+    "created_at": "2026-05-27T11:58:02.687113+00:00",
+    "updated_at": "2026-05-27T11:58:02.687114+00:00",
     "time": "0h49",
     "address": "Espace Animation27 pl de la Mairie74310 Les Houches"
   },
@@ -288,8 +441,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/7806742/41047274.jpg?itok=Y1VCa0tK",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205420+00:00",
-    "updated_at": "2026-05-27T12:18:28.205421+00:00",
+    "created_at": "2026-05-27T11:58:02.687101+00:00",
+    "updated_at": "2026-05-27T11:58:02.687102+00:00",
     "time": "1h26",
     "address": "Espace Animation27 pl de la Mairie74310 Les Houches"
   },
@@ -305,8 +458,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/7832709/41456551.jpg?itok=uZhMxlBz",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205451+00:00",
-    "updated_at": "2026-05-27T12:18:28.205453+00:00",
+    "created_at": "2026-05-27T11:58:02.687133+00:00",
+    "updated_at": "2026-05-27T11:58:02.687134+00:00",
     "time": "19h30",
     "address": "Place du Mont-Blancplace du Mont-Blanc74400 Chamonix-Mont-Blanc"
   },
@@ -322,8 +475,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/6727346/41425962.jpg?itok=tYmQLNiO",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205440+00:00",
-    "updated_at": "2026-05-27T12:18:28.205441+00:00",
+    "created_at": "2026-05-27T11:58:02.687120+00:00",
+    "updated_at": "2026-05-27T11:58:02.687121+00:00",
     "time": "20h30",
     "address": "Eglise Saint MichelPlace de l'église74400 Chamonix-Mont-Blanc"
   },
@@ -339,8 +492,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/7831098/41432926.jpg?itok=NjzvDXwy",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205446+00:00",
-    "updated_at": "2026-05-27T12:18:28.205447+00:00",
+    "created_at": "2026-05-27T11:58:02.687126+00:00",
+    "updated_at": "2026-05-27T11:58:02.687128+00:00",
     "address": "Centre sportif Richard Bozon214 av. de la Plage74400 Chamonix-Mont-Blanc"
   },
   {
@@ -355,8 +508,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/7806739/41047251.jpg?itok=6Hx1pDor",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205459+00:00",
-    "updated_at": "2026-05-27T12:18:28.205461+00:00",
+    "created_at": "2026-05-27T11:58:02.687140+00:00",
+    "updated_at": "2026-05-27T11:58:02.687142+00:00",
     "time": "1h56",
     "address": "Espace Animation27 pl de la Mairie74310 Les Houches"
   },
@@ -372,8 +525,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/7834183/41472098.jpg?itok=n7VJMh4X",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205471+00:00",
-    "updated_at": "2026-05-27T12:18:28.205472+00:00",
+    "created_at": "2026-05-27T11:58:02.687153+00:00",
+    "updated_at": "2026-05-27T11:58:02.687154+00:00",
     "address": "Lac des Gaillandsroute des Gaillands74400 Chamonix-Mont-Blanc"
   },
   {
@@ -388,8 +541,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/7830766/41430377.jpg?itok=gZIClt70",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205465+00:00",
-    "updated_at": "2026-05-27T12:18:28.205466+00:00",
+    "created_at": "2026-05-27T11:58:02.687146+00:00",
+    "updated_at": "2026-05-27T11:58:02.687147+00:00",
     "address": "Pré de l'Eglise74310 Servoz"
   },
   {
@@ -404,8 +557,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/7776974/40366104.jpg?itok=_AQk3TtQ",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205478+00:00",
-    "updated_at": "2026-05-27T12:18:28.205479+00:00",
+    "created_at": "2026-05-27T11:58:02.687168+00:00",
+    "updated_at": "2026-05-27T11:58:02.687169+00:00",
     "address": "Tennis de Chamonix214  av. de la Plage74400 Chamonix-Mont-Blanc"
   },
   {
@@ -420,8 +573,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/7841180/41582876.jpg?itok=xXlfdodB",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205487+00:00",
-    "updated_at": "2026-05-27T12:18:28.205488+00:00",
+    "created_at": "2026-05-27T11:58:02.687178+00:00",
+    "updated_at": "2026-05-27T11:58:02.687180+00:00",
     "time": "12h30",
     "address": "Observatoire du Mont-Blanc67, lacets du Belvédère74400 Chamonix-Mont-Blanc"
   },
@@ -438,8 +591,8 @@
     "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/chamonix-film-festival-2026.jpg?itok=p99mMkiy",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:23.787383+00:00",
-    "updated_at": "2026-05-27T12:18:23.787385+00:00"
+    "created_at": "2026-05-27T11:57:58.165065+00:00",
+    "updated_at": "2026-05-27T11:57:58.165066+00:00"
   },
   {
     "id": "marathon-du-mont-blanc-2026-06-25",
@@ -454,8 +607,8 @@
     "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/maarathon-du-mont-blanc.jpg?itok=seWyt_5g",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:23.787370+00:00",
-    "updated_at": "2026-05-27T12:18:23.787373+00:00"
+    "created_at": "2026-05-27T11:57:58.165055+00:00",
+    "updated_at": "2026-05-27T11:57:58.165057+00:00"
   },
   {
     "id": "marché-paysan-2026-11-01",
@@ -470,8 +623,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/189875/21711221.jpg?itok=tgrWFd5r",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205322+00:00",
-    "updated_at": "2026-05-27T12:18:28.205337+00:00",
+    "created_at": "2026-05-27T11:58:02.686996+00:00",
+    "updated_at": "2026-05-27T11:58:02.687013+00:00",
     "time": "18h30",
     "address": "La ferme du Pain de Chibon427 route du pont74310 Les Houches"
   },
@@ -487,8 +640,8 @@
     "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/marche_chamonix3.jpg?itok=OAU1mlHj",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:23.787338+00:00",
-    "updated_at": "2026-05-27T12:18:23.787353+00:00"
+    "created_at": "2026-05-27T11:57:58.165030+00:00",
+    "updated_at": "2026-05-27T11:57:58.165043+00:00"
   },
   {
     "id": "exposition-trésor-minéral-la-collection-raymond-thibault-2027-09-22",
@@ -503,8 +656,8 @@
     "image_url": "https://www.chamonix.com/sites/default/files/styles/ogimage/public/sit/images/5979331/20447255.jpg?itok=x3IOHKH9",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T12:18:28.205404+00:00",
-    "updated_at": "2026-05-27T12:18:28.205406+00:00",
+    "created_at": "2026-05-27T11:58:02.687085+00:00",
+    "updated_at": "2026-05-27T11:58:02.687087+00:00",
     "address": "Musée des Cristaux - Espace Tairraz615 allée du Recteur Payot74400 Chamonix-Mont-Blanc"
   }
 ]
