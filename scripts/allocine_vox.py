@@ -62,6 +62,7 @@ def parse(html):
             "description": f"Film screening at {venue["name"]}",
             "event_type": "cinema",
             "category": "Cinema",
+            "source_id": "allocine_vox",
             "source_url": URL,
             "image_url": image_url,
             "venue": venue["name"],

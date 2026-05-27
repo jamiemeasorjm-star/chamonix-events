@@ -331,11 +331,13 @@ def deduplicate(events: list[Event]) -> list[Event]:
 def extract_venues(events: list[Event]) -> list[Venue]:
     venue_map: dict[str, Venue] = {}
     for ev in events:
-        if ev.venue_id and ev.venue_id not in venue_map:
-            venue_map[ev.venue_id] = Venue(
-                id=ev.venue_id,
-                name=ev.venue_id.replace("-", " ").title(),
-                commune=ev.commune,
+        vid = ev.get("venue_id") if isinstance(ev, dict) else ev.venue_id
+        commune = ev.get("commune", "Chamonix") if isinstance(ev, dict) else ev.commune
+        if vid and vid not in venue_map:
+            venue_map[vid] = Venue(
+                id=vid,
+                name=vid.replace("-", " ").title(),
+                commune=commune,
                 source_id=SOURCE_ID,
             )
     return list(venue_map.values())
@@ -346,10 +348,34 @@ def export_json(events: list[Event], venues: list[Venue]):
     events_path = DATA_DIR / "events.json"
     venues_path = DATA_DIR / "venues.json"
 
+    def as_dict(e):
+        return e.to_dict() if hasattr(e, "to_dict") else e
+
     with open(events_path, "w", encoding="utf-8") as f:
-        json.dump([ev.to_dict() for ev in events], f, indent=2, ensure_ascii=False)
+        json.dump([as_dict(ev) for ev in events], f, indent=2, ensure_ascii=False)
     with open(venues_path, "w", encoding="utf-8") as f:
         json.dump([v.to_dict() for v in venues], f, indent=2, ensure_ascii=False)
+
+
+def merge_with_existing(new_events: list[Event]) -> list[Event]:
+    existing_path = DATA_DIR / "events.json"
+    if not existing_path.exists():
+        return new_events
+    try:
+        with open(existing_path) as f:
+            existing_data = json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return new_events
+    other_source = [e for e in existing_data if e.get("source_id") != "chamonix_com"]
+    combined_events = [e.to_dict() for e in new_events] + other_source
+    combined_events.sort(key=lambda e: (e.get("start_date", "") or "", e.get("title", "")))
+    result = []
+    for e in combined_events:
+        if isinstance(e, Event):
+            result.append(e)
+        else:
+            result.append(e)
+    return result
 
 
 def run(dry_run: bool = False):
@@ -381,6 +407,8 @@ def run(dry_run: bool = False):
             ev.confidence = min(ev.confidence, 0.5)
 
     events.sort(key=lambda e: e.start_date)
+
+    events = merge_with_existing(events)
 
     venues = extract_venues(events)
 

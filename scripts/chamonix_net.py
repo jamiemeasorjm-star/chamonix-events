@@ -228,7 +228,13 @@ def merge_with_existing(new_events: list[Event]) -> list[Event]:
     combined = [e.to_dict() for e in new_events] + kept_com
     combined.sort(key=lambda e: (e.get("start_date", "") or "", e.get("title", "")))
 
-    return [Event(**e) if not isinstance(e, Event) else e for e in combined]
+    result = []
+    for e in combined:
+        if isinstance(e, Event):
+            result.append(e)
+        else:
+            result.append(e)
+    return result
 
 
 def classify_category(title: str, description: str = "") -> str:
@@ -293,8 +299,10 @@ def deduplicate(events: list[Event]) -> list[Event]:
 def export_json(events: list[Event]):
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     events_path = DATA_DIR / "events.json"
+    def as_dict(e):
+        return e.to_dict() if hasattr(e, "to_dict") else e
     with open(events_path, "w", encoding="utf-8") as f:
-        json.dump([ev.to_dict() for ev in events], f, indent=2, ensure_ascii=False)
+        json.dump([as_dict(ev) for ev in events], f, indent=2, ensure_ascii=False)
 
 
 def run(dry_run: bool = False, fetch_detail: bool = True):
