@@ -156,12 +156,15 @@
             const cat = document.getElementById('filter-category').value;
             const com = document.getElementById('filter-commune').value;
 
+            const todayISO = fmt(new Date());
             let filtered = allEvents.filter(e => {
                 const sd = formatDate(e.start_date);
                 const ed = formatDate(e.end_date);
                 if (!sd) return false;
                 const eventStart = sd.iso;
                 const eventEnd = ed ? ed.iso : eventStart;
+                // Hide past events
+                if (eventEnd < todayISO) return false;
                 if (startVal && eventEnd < startVal) return false;
                 if (endVal && eventStart > endVal) return false;
                 if (cat && e.category !== cat) return false;

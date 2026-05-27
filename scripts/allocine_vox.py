@@ -66,7 +66,7 @@ def parse(html):
             "image_url": image_url,
             "venue": venue["name"],
             "address": venue["address"],
-            "commune": "Chamonix-Mont-Blanc",
+            "commune": "Chamonix",
             "start_date": dates_sorted[0],
             "end_date": dates_sorted[-1],
             "showtimes": showtimes,
