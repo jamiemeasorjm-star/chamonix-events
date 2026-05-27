@@ -54,7 +54,7 @@ def parse(html):
             continue
         dates_sorted = sorted(showtimes.keys())
         img = card.find("img")
-        image_url = img.get("src","") or img.get("data-src","") if img else ""
+        image_url = img.get("data-src","") or img.get("src","") if img else ""
         if "acsta.net" in image_url:
             image_url = re.sub(r"/r_\d+_\d+/", "/r_640_/", image_url)
         events.append({

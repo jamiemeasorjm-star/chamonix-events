@@ -35,87 +35,6 @@
     "address": "Mairie Les Houches1 place de la Mairie74310 Les Houches"
   },
   {
-    "title": "La Vénus électrique",
-    "description": "Film screening at Le Vox",
-    "event_type": "cinema",
-    "category": "Cinema",
-    "source_id": "allocine_vox",
-    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
-    "image_url": "data:image/gif;base64,R0lGODlhAwAEAIAAAAAAAAAAACH5BAEAAAAALAAAAAADAAQAAAIDhI9WADs=",
-    "venue": "Le Vox",
-    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
-    "commune": "Chamonix",
-    "start_date": "2026-05-27",
-    "end_date": "2026-05-27",
-    "showtimes": {
-      "2026-05-27": [
-        "15:30",
-        "20:30"
-      ]
-    },
-    "language": "Francais"
-  },
-  {
-    "title": "L’Abandon",
-    "description": "Film screening at Le Vox",
-    "event_type": "cinema",
-    "category": "Cinema",
-    "source_id": "allocine_vox",
-    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
-    "image_url": "data:image/gif;base64,R0lGODlhAwAEAIAAAAAAAAAAACH5BAEAAAAALAAAAAADAAQAAAIDhI9WADs=",
-    "venue": "Le Vox",
-    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
-    "commune": "Chamonix",
-    "start_date": "2026-05-27",
-    "end_date": "2026-05-27",
-    "showtimes": {
-      "2026-05-27": [
-        "18:00"
-      ]
-    },
-    "language": "Francais"
-  },
-  {
-    "title": "Michael",
-    "description": "Film screening at Le Vox",
-    "event_type": "cinema",
-    "category": "Cinema",
-    "source_id": "allocine_vox",
-    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
-    "image_url": "data:image/gif;base64,R0lGODlhAwAEAIAAAAAAAAAAACH5BAEAAAAALAAAAAADAAQAAAIDhI9WADs=",
-    "venue": "Le Vox",
-    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
-    "commune": "Chamonix",
-    "start_date": "2026-05-27",
-    "end_date": "2026-05-27",
-    "showtimes": {
-      "2026-05-27": [
-        "20:30"
-      ]
-    },
-    "language": "Francais"
-  },
-  {
-    "title": "Pour le plaisir",
-    "description": "Film screening at Le Vox",
-    "event_type": "cinema",
-    "category": "Cinema",
-    "source_id": "allocine_vox",
-    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
-    "image_url": "data:image/gif;base64,R0lGODlhAwAEAIAAAAAAAAAAACH5BAEAAAAALAAAAAADAAQAAAIDhI9WADs=",
-    "venue": "Le Vox",
-    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
-    "commune": "Chamonix",
-    "start_date": "2026-05-27",
-    "end_date": "2026-05-27",
-    "showtimes": {
-      "2026-05-27": [
-        "18:15"
-      ]
-    },
-    "language": "Francais"
-  },
-  {
     "id": "spectacle-très-jeune-public-émouvoir-2026-05-27",
     "title": "Spectacle très jeune public - (é)Mouvoir",
     "description": "Le point de départ de cette exploration est l’attention particulière du jeune enfant lorsqu’il regarde les feuilles des arbres bouger et sa fascination pour ce qui est en mouvement.(É)mouvoir explorera la notion d’impermanence :comme le monde végétal, le tout-petit est en constante évolution. Tout ce qui nous entoure se transforme continuellement, même si nous ne le percevons pas, et c’est ce que nous avons envie de montrer à travers cette création.Nous avons envie de concevoir un parcours où l’enfant puisse expérimenter sans être dirigé : sentir la pluie sur la peau, caresser la mousse, traverser de grandes herbes mouvantes, s’étendre sur un tapis de feuillesNous proposerons une scénographie où le tout petit pourra se déplacer d’un coin à l’autre de l’espace pour explorer selon ses besoins, et nous espérons que l’adulte, qui fera aussi cette traversée, sera au côté de l’enfant dans une expérience partagée non pas comme guide mais comme compagnon de route !Compagnie entre eux deux rivesescalator_warning_blackAge minimum0.5 ans\\nTarif unique : 5 € (par personne).\\nMercredi 27 mai 2026 Horaires de représentation à partir de 9h30 et à partir de 11h15.\\nSpectacle très jeune public - (é)MouvoirEspace Michel Croz  -EMC274400 Chamonix-Mont-BlancEuropean Environment Agency (EEA) | COPERNICUS by the European Union and ESA |© OpenMapTiles© OpenStreetMap contributors© Loopi",
@@ -131,67 +50,6 @@
     "updated_at": "2026-05-27T12:31:09.498044+00:00",
     "time": "9h30",
     "address": "Espace Michel Croz  -EMC274400 Chamonix-Mont-Blanc"
-  },
-  {
-    "title": "Star Wars: The Mandalorian and Grogu",
-    "description": "Film screening at Le Vox",
-    "event_type": "cinema",
-    "category": "Cinema",
-    "source_id": "allocine_vox",
-    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
-    "image_url": "https://fr.web.img6.acsta.net/c_160_213/img/6e/84/6e847b845d10b7194d43f604b3ef1f20.jpg",
-    "venue": "Le Vox",
-    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
-    "commune": "Chamonix",
-    "start_date": "2026-05-27",
-    "end_date": "2026-05-27",
-    "showtimes": {
-      "2026-05-27": [
-        "15:30",
-        "20:15"
-      ]
-    },
-    "language": "Francais"
-  },
-  {
-    "title": "Super Mario Galaxy Le Film",
-    "description": "Film screening at Le Vox",
-    "event_type": "cinema",
-    "category": "Cinema",
-    "source_id": "allocine_vox",
-    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
-    "image_url": "data:image/gif;base64,R0lGODlhAwAEAIAAAAAAAAAAACH5BAEAAAAALAAAAAADAAQAAAIDhI9WADs=",
-    "venue": "Le Vox",
-    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
-    "commune": "Chamonix",
-    "start_date": "2026-05-27",
-    "end_date": "2026-05-27",
-    "showtimes": {
-      "2026-05-27": [
-        "15:30"
-      ]
-    },
-    "language": "Francais"
-  },
-  {
-    "title": "Vivaldi et moi",
-    "description": "Film screening at Le Vox",
-    "event_type": "cinema",
-    "category": "Cinema",
-    "source_id": "allocine_vox",
-    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
-    "image_url": "data:image/gif;base64,R0lGODlhAwAEAIAAAAAAAAAAACH5BAEAAAAALAAAAAADAAQAAAIDhI9WADs=",
-    "venue": "Le Vox",
-    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
-    "commune": "Chamonix",
-    "start_date": "2026-05-27",
-    "end_date": "2026-05-27",
-    "showtimes": {
-      "2026-05-27": [
-        "18:00"
-      ]
-    },
-    "language": "Francais"
   },
   {
     "id": "don-de-sang-2026-05-28",
@@ -506,5 +364,147 @@
     "created_at": "2026-05-27T12:31:09.498095+00:00",
     "updated_at": "2026-05-27T12:31:09.498096+00:00",
     "address": "Musée des Cristaux - Espace Tairraz615 allée du Recteur Payot74400 Chamonix-Mont-Blanc"
+  },
+  {
+    "title": "Star Wars: The Mandalorian and Grogu",
+    "description": "Film screening at Le Vox",
+    "event_type": "cinema",
+    "category": "Cinema",
+    "source_id": "allocine_vox",
+    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
+    "image_url": "https://fr.web.img6.acsta.net/c_160_213/img/6e/84/6e847b845d10b7194d43f604b3ef1f20.jpg",
+    "venue": "Le Vox",
+    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
+    "commune": "Chamonix",
+    "start_date": "2026-05-27",
+    "end_date": "2026-05-27",
+    "showtimes": {
+      "2026-05-27": [
+        "15:30",
+        "20:15"
+      ]
+    },
+    "language": "Francais"
+  },
+  {
+    "title": "La Vénus électrique",
+    "description": "Film screening at Le Vox",
+    "event_type": "cinema",
+    "category": "Cinema",
+    "source_id": "allocine_vox",
+    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
+    "image_url": "https://fr.web.img4.acsta.net/c_160_213/img/8f/b2/8fb29a2a2cc94a83af4989ba69a23fcd.jpg",
+    "venue": "Le Vox",
+    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
+    "commune": "Chamonix",
+    "start_date": "2026-05-27",
+    "end_date": "2026-05-27",
+    "showtimes": {
+      "2026-05-27": [
+        "15:30",
+        "20:30"
+      ]
+    },
+    "language": "Francais"
+  },
+  {
+    "title": "Super Mario Galaxy Le Film",
+    "description": "Film screening at Le Vox",
+    "event_type": "cinema",
+    "category": "Cinema",
+    "source_id": "allocine_vox",
+    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
+    "image_url": "https://fr.web.img5.acsta.net/c_160_213/img/92/3c/923c580e3fb2488d308865d6b6a2e381.jpg",
+    "venue": "Le Vox",
+    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
+    "commune": "Chamonix",
+    "start_date": "2026-05-27",
+    "end_date": "2026-05-27",
+    "showtimes": {
+      "2026-05-27": [
+        "15:30"
+      ]
+    },
+    "language": "Francais"
+  },
+  {
+    "title": "L’Abandon",
+    "description": "Film screening at Le Vox",
+    "event_type": "cinema",
+    "category": "Cinema",
+    "source_id": "allocine_vox",
+    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
+    "image_url": "https://fr.web.img6.acsta.net/c_160_213/img/2a/ff/2aff99358841773f126dd22734bbb72b.jpg",
+    "venue": "Le Vox",
+    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
+    "commune": "Chamonix",
+    "start_date": "2026-05-27",
+    "end_date": "2026-05-27",
+    "showtimes": {
+      "2026-05-27": [
+        "18:00"
+      ]
+    },
+    "language": "Francais"
+  },
+  {
+    "title": "Vivaldi et moi",
+    "description": "Film screening at Le Vox",
+    "event_type": "cinema",
+    "category": "Cinema",
+    "source_id": "allocine_vox",
+    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
+    "image_url": "https://fr.web.img6.acsta.net/c_160_213/img/0b/e6/0be6712ea95b821a63891ca86b72ee0e.jpg",
+    "venue": "Le Vox",
+    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
+    "commune": "Chamonix",
+    "start_date": "2026-05-27",
+    "end_date": "2026-05-27",
+    "showtimes": {
+      "2026-05-27": [
+        "18:00"
+      ]
+    },
+    "language": "Francais"
+  },
+  {
+    "title": "Pour le plaisir",
+    "description": "Film screening at Le Vox",
+    "event_type": "cinema",
+    "category": "Cinema",
+    "source_id": "allocine_vox",
+    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
+    "image_url": "https://fr.web.img5.acsta.net/c_160_213/img/fe/a2/fea2774a98df8c1101bafd7896f82b68.jpg",
+    "venue": "Le Vox",
+    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
+    "commune": "Chamonix",
+    "start_date": "2026-05-27",
+    "end_date": "2026-05-27",
+    "showtimes": {
+      "2026-05-27": [
+        "18:15"
+      ]
+    },
+    "language": "Francais"
+  },
+  {
+    "title": "Michael",
+    "description": "Film screening at Le Vox",
+    "event_type": "cinema",
+    "category": "Cinema",
+    "source_id": "allocine_vox",
+    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
+    "image_url": "https://fr.web.img6.acsta.net/c_160_213/img/f2/01/f201af7e5a1b0119af9047725a3f2785.jpeg",
+    "venue": "Le Vox",
+    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
+    "commune": "Chamonix",
+    "start_date": "2026-05-27",
+    "end_date": "2026-05-27",
+    "showtimes": {
+      "2026-05-27": [
+        "20:30"
+      ]
+    },
+    "language": "Francais"
   }
 ]
