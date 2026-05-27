@@ -36,13 +36,24 @@
 
 ## Planned Sources
 
-### P2 — Nightlife Venues (22 listed)
+### P2 — Nightlife Venues (deferred — no scrapeable event data)
+
+### ✅ P3 — Cinema (AlloCiné — Le Vox)
+
+| Field | Value |
+|-------|-------|
+| URL | `https://www.allocine.fr/seance/salle_gen_csalle=P1406.html` |
+| Type | AlloCiné — server-rendered HTML |
+| Status | Active — 7 cinema events with titles, showtimes |
+| Scraper | `scripts/allocine_vox.py` |
+| Events | 7 films at Le Vox (3 screens) |
+| Schedule | Daily at 08:00 (cron: `chamonix-cinema`) |
+| Notes | Schedules change weekly. Some images lazy-loaded by JS.`
+
+
 
 **Chamonix Centre:**
-- L'Alibi, Le Chamonix, Bar du Moulin, Mix Bar, Le Shack!, Maison des Artistes, Bar d'Up, Moö, French Blvd, Stories, Couleur Café, Beer O'Clock, Synge&Co, South bar, ChaChaCha, Amnesia, Le Garage
 
-**Les Houches area:**
-- The Wine Factory, Café de la Gare, Les Copains d'Abord
 
 ### P3 — Cultural Venues
 

@@ -30,10 +30,12 @@
         .cat-exhibition { background: #e0e7ff; color: #3730a3; }
         .cat-nightlife { background: #fce7f3; color: #9d174d; }
         .cat-family { background: #ccfbf1; color: #115e59; }
+        .cat-cinema { background: #fce7f3; color: #9d174d; }
         .cat-other { background: #f1f5f9; color: #475569; }
         .event-card { transition: all 0.2s; }
         .event-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px -5px rgba(0,0,0,0.1); }
         .today-tag { background: #fee2e2; color: #991b1b; font-size: 0.65rem; padding: 1px 6px; border-radius: 999px; font-weight: 600; margin-left: 6px; }
+        @keyframes countUp { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 640px) {
             .filter-row { flex-direction: column; gap: 0.5rem; }
         }
@@ -75,18 +77,14 @@
                             <option value="exhibition">Exhibition</option>
                             <option value="nightlife">Nightlife</option>
                             <option value="family">Family</option>
+                            <option value="Cinema">Cinema</option>
                             <option value="other">Other</option>
                         </select>
                     </div>
                     <div class="flex-1 min-w-0">
                         <label class="text-xs font-medium text-gray-500 block mb-1">Commune</label>
                         <select id="filter-commune" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-alpine-400">
-                            <option value="">All</option>
-                            <option value="Chamonix">Chamonix</option>
-                            <option value="Argentiere">Argentiere</option>
-                            <option value="Les Houches">Les Houches</option>
-                            <option value="Servoz">Servoz</option>
-                            <option value="Vallorcine">Vallorcine</option>
+                            <option value="">All communes</option>
                         </select>
                     </div>
                     <button id="search-btn" class="bg-alpine-600 hover:bg-alpine-700 text-white px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition shadow-sm">Search</button>
@@ -99,13 +97,13 @@
 
             <!-- Events List -->
             <div id="events-list" class="space-y-3">
-                <div class="text-center py-12 text-gray-400">Loading events...</div>
+                <div id="loading-spinner" class="text-center py-16"><div class="inline-block w-8 h-8 border-4 border-alpine-200 border-t-alpine-600 rounded-full animate-spin"></div><p class="text-sm text-gray-400 mt-3">Loading events...</p></div>
             </div>
         </main>
 
         <!-- Footer -->
         <footer class="border-t border-gray-200 py-6 px-4 mt-8 text-center text-xs text-gray-400">
-            <p>Data sourced from <a href="https://www.chamonix.com/evenements" class="underline hover:text-alpine-600">chamonix.com</a></p>
+            <p>Data sourced from <a href="https://www.chamonix.net/english/events" class="underline hover:text-alpine-600">chamonix.net</a>, <a href="https://www.allocine.fr/seance/salle_gen_csalle=P1406.html" class="underline hover:text-alpine-600">AlloCiné</a></p>
         </footer>
     </div>
 
@@ -148,7 +146,7 @@
         }
 
         function catClass(cat) {
-            const map = { concert:'cat-concert', theatre:'cat-theatre', sport:'cat-sport', market:'cat-market', exhibition:'cat-exhibition', nightlife:'cat-nightlife', family:'cat-family' };
+            const map = { concert:'cat-concert', theatre:'cat-theatre', sport:'cat-sport', market:'cat-market', exhibition:'cat-exhibition', nightlife:'cat-nightlife', family:'cat-family', Cinema:'cat-cinema' };
             return map[cat] || 'cat-other';
         }
 
@@ -173,11 +171,11 @@
 
             filtered.sort((a,b) => (a.start_date||'').localeCompare(b.start_date||''));
 
-            document.getElementById('event-count').textContent = filtered.length;
+            animateCount(filtered.length);
 
             const container = document.getElementById('events-list');
             if (filtered.length === 0) {
-                container.innerHTML = '<div class="text-center py-16 text-gray-400"><p class="text-4xl mb-2">🗓️</p><p>No events found for this filter</p><p class="text-sm mt-1">Try adjusting the date range or clearing filters</p></div>';
+                container.innerHTML = '<div class="text-center py-20"><div class="text-6xl mb-4">🔍</div><p class="text-gray-500 text-lg font-medium">No events match your filters</p><p class="text-gray-400 text-sm mt-2 max-w-sm mx-auto">Try expanding the date range, picking a different category, or clearing all filters to see everything happening in the valley.</p><button onclick="document.getElementById(\'reset-filters\').click()" class="mt-4 bg-alpine-600 hover:bg-alpine-700 text-white px-5 py-2 rounded-lg text-sm font-medium transition shadow-sm">Clear filters</button></div>';
                 return;
             }
 
@@ -188,8 +186,8 @@
                 const dateLabel = e.end_date && e.end_date !== e.start_date
                     ? (fd ? fd.display : '') + ' → ' + (formatDate(e.end_date)?.display || '')
                     : (fd ? fd.display : '');
-                const imgHtml = e.image_url ? '<img src="' + e.image_url + '" alt="' + e.title + '" class="w-full h-40 object-cover rounded-t-xl" onerror="this.style.display=\'none\'">' : '';
-                const venueHtml = e.venue_name ? '<span class="text-xs text-gray-400">📍 ' + e.venue_name.substring(0, 40) + '</span>' : '';
+                const imgHtml = e.image_url && !e.image_url.startsWith('data:') ? '<img src="' + e.image_url + '" alt="' + e.title + '" class="w-full h-40 object-cover rounded-t-xl" onerror="this.onerror=null;this.parentNode.innerHTML=\'<div class=\\\'w-full h-40 bg-gradient-to-br from-alpine-100 to-alpine-200 flex items-center justify-center text-4xl rounded-t-xl\\\'><span>🎬<\\/span><\\/div>\'">' : '<div class="w-full h-40 bg-gradient-to-br from-alpine-100 to-alpine-200 flex items-center justify-center text-4xl rounded-t-xl"><span>🎬</span></div>';
+                const venueHtml = e.venue ? '<span class="text-xs text-gray-400">📍 ' + e.venue.substring(0, 40) + '</span>' : '';
                 const addressHtml = e.address ? '<span class="text-xs text-gray-400">🏠 ' + e.address.substring(0, 40) + '</span>' : '';
                 return '<div class="event-card bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden cursor-pointer" onclick="window.open(\'' + (e.source_url||'') + '\',\'_blank\')" >' +
                     imgHtml +
@@ -211,6 +209,7 @@
                             '</div>' +
                             (venueHtml || addressHtml ? '<div class="flex items-center gap-2 mt-1 flex-wrap">' + venueHtml + addressHtml + '</div>' : '') +
                             (desc ? '<p class="text-sm text-gray-500 mt-2 line-clamp-2">' + desc + '</p>' : '') +
+                            (e.showtimes ? '<details class="mt-2"><summary class="text-xs text-alpine-600 cursor-pointer hover:underline">Showtimes</summary><div class="mt-1 text-xs text-gray-500 space-y-0.5">' + Object.entries(e.showtimes).map(s => '<div><span class="font-medium">' + s[0] + '</span>: ' + s[1].join(', ') + '</div>').join('') + '</div></details>' : '') +
                             '<div class="text-xs text-alpine-600 mt-2 hover:underline">View details →</div>' +
                         '</div>' +
                     '</div>' +
@@ -229,13 +228,37 @@
             render();
         }
 
+        function populateCommunes(data) {
+            const sel = document.getElementById('filter-commune');
+            const communes = [...new Set(data.map(e => e.commune).filter(Boolean))].sort();
+            communes.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c;
+                opt.textContent = c;
+                sel.appendChild(opt);
+            });
+        }
+
+        function animateCount(newCount) {
+            const el = document.getElementById('event-count');
+            const old = parseInt(el.textContent) || 0;
+            el.textContent = newCount;
+            el.style.animation = 'none';
+            requestAnimationFrame(() => {
+                el.style.animation = 'countUp 0.3s ease-out';
+            });
+        }
+
         fetch('data/events.json')
             .then(r => r.json())
             .then(data => {
                 allEvents = data;
+                populateCommunes(data);
+                document.getElementById('loading-spinner').style.display = 'none';
                 render();
             })
             .catch(() => {
+                document.getElementById('loading-spinner').style.display = 'none';
                 document.getElementById('events-list').innerHTML = '<div class=\"text-center py-16 text-gray-400\"><p>Could not load events</p><p class=\"text-sm mt-1\">Make sure events.json exists in the data/ folder</p></div>';
             });
 

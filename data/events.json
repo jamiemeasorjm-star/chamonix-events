@@ -17,120 +17,109 @@
   {
     "id": "concert-live-à-larveyron-2026-02-05",
     "title": "🎸 Concert live à l’Arveyron",
-    "description": "Cultural Events & ExhibitionsMusic Festival🎸 Live concert at ArveyronOn Thursday, February 5th, 2026, Arveyron welcomes Cisco Herzhaft, a leading figure of acoustic blues.Raw guitar, deep voice, pure emotion.An authentic blues experience in a warm, intimate setting for a truly genuine blues evening.📅 Thursday, February 5th, 2026🕕 6:00 PM – 8:00 PM📍 Hôtel Arveyron – Chamonix",
+    "description": "🎸 Live concert at ArveyronOn Thursday, February 5th, 2026, Arveyron welcomes Cisco Herzhaft, a leading figure of acoustic blues.Raw guitar, deep voice, pure emotion.",
     "start_date": "2026-02-05",
-    "time": "-07:37",
     "category": "exhibition",
     "commune": "Chamonix",
     "source_id": "chamonix_net",
     "source_url": "https://www.chamonix.net/english/events/concert-live-arveyron",
-    "image_url": "https://www.chamonix.net/sites/default/files/events/Concert%20Cisco%20Herzhaft.png",
-    "venue_name": "Hôtel Arveyron – Chamonix",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/Concert%20Cisco%20Herzhaft.png?itok=psXo29IJ",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T05:38:08.072847+00:00",
-    "updated_at": "2026-05-27T05:38:08.072849+00:00"
+    "created_at": "2026-05-27T06:01:02.029042+00:00",
+    "updated_at": "2026-05-27T06:01:02.029044+00:00"
   },
   {
     "id": "music-concert-the-third-eye-2026-03-12",
     "title": "Music concert The Third Eye",
-    "description": "Cultural Events & ExhibitionsMusic FestivalThe MJC is offering a free concert by The Third Eye.The Third Eye, a 100% rock 'n' roll concert.",
+    "description": "The MJC is offering a free concert by The Third Eye.The Third Eye, a 100% rock 'n' roll concert.",
     "start_date": "2026-03-12",
     "category": "exhibition",
     "commune": "Chamonix",
     "source_id": "chamonix_net",
     "source_url": "https://www.chamonix.net/english/events/concert-musique-third-eye",
-    "image_url": "https://www.chamonix.net/sites/default/files/events/concert-the-third-eye-chamonix.jpg",
-    "venue_name": "MJC Chamonix",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/concert-the-third-eye-chamonix.jpg?itok=c8nNbXVI",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T05:38:08.072831+00:00",
-    "updated_at": "2026-05-27T05:38:08.072833+00:00"
+    "created_at": "2026-05-27T06:01:02.029031+00:00",
+    "updated_at": "2026-05-27T06:01:02.029032+00:00"
   },
   {
     "id": "slalom-géant-des-légendes-aux-planards-2026-03-20",
     "title": "Slalom Géant des Légendes aux Planards",
-    "description": "Sport & LeisureLe vendredi 20 mars à partir de 18h30, Les Planards accueillent le Slalom Géant des Légendes, une soirée festive organisée avec le Comptoir des Légendes.Le Programmeun slalom géant chronométré (catégorie “à l’ancienne” et catégorie ouverte à tous), la présence d’anciens champions de ski, une descente aux flambeaux pour clôturer la soirée, ainsi qu’une ambiance festive avec DJ, écran géant et exposition de voitures de collection sur le parvis.Un apéritif sera offert et de quoi se restaurer sur place (tartiflette géante et sandwich raclette – 8,00€ ).Les inscriptions à la course sont gratuites :https://www.comptoirdeslegendesduski.com/cdl-2024-inscription",
+    "description": "Le vendredi 20 mars à partir de 18h30, Les Planards accueillent le Slalom Géant des Légendes, une soirée festive organisée avec le Comptoir des Légendes.Le Programme",
     "start_date": "2026-03-20",
-    "time": "-07:37",
     "category": "sport",
     "commune": "Chamonix",
     "source_id": "chamonix_net",
     "source_url": "https://www.chamonix.net/english/events/slalom-geant-des-legendes-aux-planards",
-    "image_url": "https://www.chamonix.net/sites/default/files/events/slalom-legendes-chamonix.jpg",
-    "venue_name": "Les Planards Ski Resort",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/slalom-legendes-chamonix.jpg?itok=4fgX2sye",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T05:38:08.072821+00:00",
-    "updated_at": "2026-05-27T05:38:08.072822+00:00"
+    "created_at": "2026-05-27T06:01:02.029023+00:00",
+    "updated_at": "2026-05-27T06:01:02.029024+00:00"
   },
   {
     "id": "the-unlimited-festival-2026-2026-03-25",
     "title": "The Unlimited Festival 2026",
-    "description": "Cultural Events & ExhibitionsMusic Festival5 jours de ski sauvage et de musique sans limitesUnlimited Festival est un festival de musique électronique unique qui se déroule chaque année à Chamonix, au cœur des Alpes. Il combine concerts en altitude, scènes en plein air et soirées en ville, dans un cadre naturel exceptionnel face au Mont-Blanc. Une expérience immersive mêlant musique, montagne et énergie collective.Programme :Mercredi 25 mars : Soirée d’ouverture à PlanprazDe 17h30 à 19h30 : Julya KarmaDe 19h30 à 21h : Âme live presentsJeudi 26 mars : Après-midi à PlanprazDe 12h30 à 16h30 : Jimi Jules x Jamiie all day longMaison des Artistes : de 19h à 21h : Antraum : Anton b2b traumerLa Folie Douce : de 23h45 à 01h45 : FolamourVendredi 27 mars :Aiguille du Midi : de 12h à 14h : FolamourPlanpraz : de 12h30 à 14h30 : Lilya Mandre et de 14h30 à 16h30 : Alex WannLa Folie Douce : de 21h30 à 01h45 : Dixon x trikk all night longSamedi 28 mars : Une après-midi à PlanprazDe 12h30 à 14h30 : MeeraDe 14h30 à 16h30 : ReznikParc Couttet :De 17h à 19h : ParallelleDe 19h à 20h30 : Paul Kalkbrenner liveLa Folie Douce Janssen :De 21h30 à 23h : Mack LoenzDe 23h à 00h30 : FedeleLa Folie Douce :De 22h à 23h45 : RaxonDe 23h45 à 01h45 : Maceo PlexDimanche 29 mars : Closing, après-midi à PlanprazDe 14h30 à 16h30 : Nina KravizMaison des Artistes :De 19h à 21h : Tijana t",
+    "description": "5 jours de ski sauvage et de musique sans limites",
     "start_date": "2026-03-25",
     "end_date": "2026-03-29",
-    "time": "-06:33",
     "category": "exhibition",
     "commune": "Chamonix",
     "source_id": "chamonix_net",
     "source_url": "https://www.chamonix.net/english/events/unlimited-festival-2026",
-    "image_url": "https://www.chamonix.net/sites/default/files/events/unlimited-festival-2026.jpg",
-    "venue_name": "All Chamonix Valley",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/unlimited-festival-2026.jpg?itok=yf-RCclD",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T05:38:08.072808+00:00",
-    "updated_at": "2026-05-27T05:38:08.072809+00:00"
+    "created_at": "2026-05-27T06:01:02.029012+00:00",
+    "updated_at": "2026-05-27T06:01:02.029014+00:00"
   },
   {
     "id": "banked-slalom-snowboard-zero-g-2026-03-28",
     "title": "Banked Slalom Snowboard Zero G",
-    "description": "Sport & Leisure🔥 The Banked Slalom at La Flégère is back! 🔥After a successful first edition last year, we created an association for our events: VIRAGES, supported by Zero G and Season Guiding.We're doing it again for a 100% snowboard day on the sunniest side of Chamonix, at least we hope so this year ;)A slightly different course, new banked turns, but the same great vibe! If you loved it last year, you'll adore this edition. If you missed it, now's the time to join us.No-pressure competition, just great riding among enthusiasts, carving, fun, and a friendly day where snowboarding reigns supreme. Whether you're coming to challenge yourself or just for the pleasure of carving between the gates, we're waiting for you to share a great time on the slopes!🏔️🎉 📅 PRACTICAL INFORMATION📍 Location: Bottom of the INDEX slope, La Flégère🚡 Access: Flégère gondola + Index chairlift⏳ Date: Saturday, March 28, 2026⏰ PROGRAM☕ 8:30-9:30 AM: Welcome & bib collection (Flégère gondola)👀 9:00-11:30 AM: Course familiarization🏁 12:00-1:30 PM: First run🏁 2:00-3:30 PM: Second run🏆 5:30 PM: Meet at L'Hydromel for the awards ceremony🎶 7:00 PM: DJ Set - SKREDRegistrations:v",
+    "description": "🔥 The Banked Slalom at La Flégère is back! 🔥After a successful first edition last year, we created an association for our events: VIRAGES, supported by Zero G and Season Guiding.",
     "start_date": "2026-03-28",
     "category": "sport",
     "commune": "Chamonix",
     "source_id": "chamonix_net",
     "source_url": "https://www.chamonix.net/english/events/banked-slalom-snowboard-zero-g",
-    "image_url": "https://www.chamonix.net/sites/default/files/events/banked-report-2026.jpg",
-    "venue_name": "La Flégere Ski Resort",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/banked-report-2026.jpg?itok=GFZDLaSr",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T05:38:08.072797+00:00",
-    "updated_at": "2026-05-27T05:38:08.072799+00:00"
+    "created_at": "2026-05-27T06:01:02.029004+00:00",
+    "updated_at": "2026-05-27T06:01:02.029006+00:00"
   },
   {
     "id": "la-grande-montet-2026-04-05",
     "title": "La Grande Montet",
-    "description": "Sport & LeisureThe Ski Mountaineering section of the Chamonix Sports Club is organizing the longest Vertical Race in France. Two courses to choose from: 711m of elevation gain over 2.9km or 1088m of elevation gain over 5.1km.",
+    "description": "The Ski Mountaineering section of the Chamonix Sports Club is organizing the longest Vertical Race in France.",
     "start_date": "2026-04-05",
     "category": "sport",
     "commune": "Chamonix",
     "source_id": "chamonix_net",
     "source_url": "https://www.chamonix.net/english/events/la-grande-montet",
-    "image_url": "https://www.chamonix.net/sites/default/files/events/trace-des-grands-web_A742432.jpg",
-    "venue_name": "Télécabine de Plan Joran - Argentière",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/trace-des-grands-web_A742432.jpg?itok=esajH9GG",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T05:38:08.072789+00:00",
-    "updated_at": "2026-05-27T05:38:08.072790+00:00"
+    "created_at": "2026-05-27T06:01:02.028996+00:00",
+    "updated_at": "2026-05-27T06:01:02.028997+00:00"
   },
   {
     "id": "chamonix-shops-street-sale-2026-04-11",
     "title": "Chamonix Shops Street Sale",
-    "description": "Children & FamilyThe traders' sale returns to liven up the streets of Chamonix this Saturday 11 and Sunday 12 April 2026From 10 a.m. to 7 p.m.Chamoniards and visitors can stroll in search of bargains in front of the shops taking part in this event organized at the end of each tourist season by the Chamonix Valley Professional Guild.",
+    "description": "The traders' sale returns to liven up the streets of Chamonix this Saturday 11 and Sunday 12 April 2026From 10 a.m. to 7 p.m.",
     "start_date": "2026-04-11",
     "end_date": "2026-04-12",
-    "time": "-19:00",
     "category": "family",
     "commune": "Chamonix",
     "source_id": "chamonix_net",
     "source_url": "https://www.chamonix.net/english/events/chamonix-shops-street-sale",
-    "image_url": "https://www.chamonix.net/sites/default/files/events/braderie_chmx1.JPG",
-    "venue_name": "Pedestrians Streets in Chamonix",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/braderie_chmx1.JPG?itok=1WnL0cAt",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T05:38:08.072782+00:00",
-    "updated_at": "2026-05-27T05:38:08.072783+00:00"
+    "created_at": "2026-05-27T06:01:02.028988+00:00",
+    "updated_at": "2026-05-27T06:01:02.028990+00:00"
   },
   {
     "id": "exposition-peintures-montagnes-2026-04-24",
@@ -151,35 +140,32 @@
   {
     "id": "open-mic-in-servoz-2026-05-01",
     "title": "Open Mic in Servoz",
-    "description": "Cultural Events & ExhibitionsEveryone is welcome, from beginners to professionals.Prepare your performance and take the stage.Enjoy an inclusive, friendly, and relaxed atmosphere.Discover local talent while enjoying homemade food and drinks!MORE INFORMATION AND REGISTRATION: NOAM0674043650 (WHATSAPP +447804099806)",
+    "description": "Everyone is welcome, from beginners to professionals.Prepare your performance and take the stage.Enjoy an inclusive, friendly, and relaxed atmosphere.",
     "start_date": "2026-05-01",
-    "time": "-05:26",
     "category": "exhibition",
     "commune": "Chamonix",
     "source_id": "chamonix_net",
     "source_url": "https://www.chamonix.net/english/events/open-mic-servoz",
-    "image_url": "https://www.chamonix.net/sites/default/files/events/open%20mic%20FB2%20may%201st.jpeg",
-    "venue_name": "Maison du Lieutenant",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/open%20mic%20FB2%20may%201st.jpeg?itok=tDnElSnO",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T05:38:08.072773+00:00",
-    "updated_at": "2026-05-27T05:38:08.072775+00:00"
+    "created_at": "2026-05-27T06:01:02.028980+00:00",
+    "updated_at": "2026-05-27T06:01:02.028982+00:00"
   },
   {
     "id": "le-freeride-day-2026-05-03",
     "title": "Le Freeride Day",
-    "description": "Sport & LeisureCome celebrate the end of the ski season at Grands Montets on Sunday, May 3, 2026. Music, skiing, entertainment, bars…This day is included in valid season, annual, and stay passes.Costume contest in the afternoon with a Manga theme.Entertainment:The unmissable \"water slide\" pool (operated by DYNASTAR)The Nuyama ziplineThe EVO2 climbing wallsLaser tag by the ESF (French Ski School) of ArgentièreFace painting by Mam'zelle PastelDJs in Lognan and at the summit of BochardFood and drinks at Le Spot and Le Comptoir à Raclette in LognanFood and drinks at the ski patrollers' BBQ and the Argentero bar at the summit of Bochard",
+    "description": "Come celebrate the end of the ski season at Grands Montets on Sunday, May 3, 2026. Music, skiing, entertainment, bars…This day is included in valid season, annual, and stay passes.",
     "start_date": "2026-05-03",
     "category": "sport",
     "commune": "Chamonix",
     "source_id": "chamonix_net",
     "source_url": "https://www.chamonix.net/english/events/le-freeride-day",
-    "image_url": "https://www.chamonix.net/sites/default/files/events/40316384.jpg",
-    "venue_name": "Les Grands Montets",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/40316384.jpg?itok=qVj9HUfw",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T05:38:08.072765+00:00",
-    "updated_at": "2026-05-27T05:38:08.072766+00:00"
+    "created_at": "2026-05-27T06:01:02.028971+00:00",
+    "updated_at": "2026-05-27T06:01:02.028973+00:00"
   },
   {
     "id": "exposition-charlie-adam-2026-05-04",
@@ -426,38 +412,34 @@
   {
     "id": "chamonix-film-festival-2026-06-10",
     "title": "Chamonix Film Festival",
-    "description": "Cultural Events & ExhibitionsFilm FestivalLa 5e édition du Chamonix film festival s’annonce comme un moment fort de l’année montagne à Chamonix. Avec une sélection exceptionnelle de 18 films, dont 14 inédits en France",
+    "description": "La 5e édition du Chamonix film festival s’annonce comme un moment fort de l’année montagne à Chamonix. Avec une sélection exceptionnelle de 18 films, dont 14 inédits en France",
     "start_date": "2026-06-10",
     "end_date": "2026-06-14",
-    "time": "-07:25",
     "category": "exhibition",
     "commune": "Chamonix",
     "source_id": "chamonix_net",
     "source_url": "https://www.chamonix.net/english/events/chamonix-film-festival",
-    "image_url": "https://www.chamonix.net/sites/default/files/events/chamonix-film-festival-2026.jpg",
-    "venue_name": "Cinema Vox de Chamonix",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/chamonix-film-festival-2026.jpg?itok=p99mMkiy",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T05:38:08.072757+00:00",
-    "updated_at": "2026-05-27T05:38:08.072758+00:00"
+    "created_at": "2026-05-27T06:01:02.028962+00:00",
+    "updated_at": "2026-05-27T06:01:02.028964+00:00"
   },
   {
     "id": "marathon-du-mont-blanc-2026-06-25",
     "title": "Marathon du Mont-Blanc",
-    "description": "Sport & LeisureThe MONT-BLANC MARATHON will take place from 27 to 30 JUNE 2024. Registrations for the 10km du Mont-Blanc, KM Vertical, Young Race Marathon and Mini Cross.Organised by the Chamonix Sports Club",
+    "description": "The MONT-BLANC MARATHON will take place from 27 to 30 JUNE 2024. Registrations for the 10km du Mont-Blanc, KM Vertical, Young Race Marathon and Mini Cross.",
     "start_date": "2026-06-25",
     "end_date": "2026-06-28",
-    "time": "-14:00",
     "category": "sport",
     "commune": "Chamonix",
     "source_id": "chamonix_net",
     "source_url": "https://www.chamonix.net/english/events/marathon-du-mont-blanc",
-    "image_url": "https://www.chamonix.net/sites/default/files/events/maarathon-du-mont-blanc.jpg",
-    "venue_name": "Start & finish near the Tourist Office",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/maarathon-du-mont-blanc.jpg?itok=seWyt_5g",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T05:38:08.072745+00:00",
-    "updated_at": "2026-05-27T05:38:08.072747+00:00"
+    "created_at": "2026-05-27T06:01:02.028952+00:00",
+    "updated_at": "2026-05-27T06:01:02.028953+00:00"
   },
   {
     "id": "marché-paysan-2026-11-01",
@@ -478,19 +460,17 @@
   {
     "id": "chamonix-market-day-every-saturday-2026-12-01",
     "title": "Chamonix Market Day (Every Saturday)",
-    "description": "Tradition & MarketsEvery Saturday morning, from 8am to 1pm. Find all sorts of treats from local and regional producers, fresh fruits, seasonal vegetables, cheeses and charcuterie. Also, there are many craft stalls featuring artisan products, clothes and shoes.",
+    "description": "Every Saturday morning, from 8am to 1pm. Find all sorts of treats from local and regional producers, fresh fruits, seasonal vegetables, cheeses and charcuterie.",
     "start_date": "2026-12-01",
-    "time": "from 08:00 to 15:00",
     "category": "market",
     "commune": "Chamonix",
     "source_id": "chamonix_net",
     "source_url": "https://www.chamonix.net/english/events/chamonix-market-day",
-    "image_url": "https://www.chamonix.net/sites/default/files/events/marche_chamonix3.jpg",
-    "venue_name": "Place du Mont Blanc",
+    "image_url": "https://www.chamonix.net/sites/default/files/styles/normal_size/public/events/marche_chamonix3.jpg?itok=OAU1mlHj",
     "status": "published",
     "confidence": 1.0,
-    "created_at": "2026-05-27T05:38:08.072712+00:00",
-    "updated_at": "2026-05-27T05:38:08.072728+00:00"
+    "created_at": "2026-05-27T06:01:02.028886+00:00",
+    "updated_at": "2026-05-27T06:01:02.028936+00:00"
   },
   {
     "id": "exposition-trésor-minéral-la-collection-raymond-thibault-2027-09-22",
@@ -507,5 +487,133 @@
     "confidence": 1.0,
     "created_at": "2026-05-26T22:45:01.809119+00:00",
     "updated_at": "2026-05-26T22:45:01.809122+00:00"
+  },
+  {
+    "title": "Star Wars: The Mandalorian and Grogu",
+    "description": "Film screening at Le Vox",
+    "event_type": "cinema",
+    "category": "Cinema",
+    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
+    "image_url": "https://fr.web.img6.acsta.net/c_640_640/img/6e/84/6e847b845d10b7194d43f604b3ef1f20.jpg",
+    "venue": "Le Vox",
+    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
+    "commune": "Chamonix-Mont-Blanc",
+    "start_date": "2026-05-27",
+    "end_date": "2026-05-27",
+    "showtimes": {
+      "2026-05-27": [
+        "15:30",
+        "20:15"
+      ]
+    }
+  },
+  {
+    "title": "La Vénus électrique",
+    "description": "Film screening at Le Vox",
+    "event_type": "cinema",
+    "category": "Cinema",
+    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
+    "image_url": "",
+    "venue": "Le Vox",
+    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
+    "commune": "Chamonix-Mont-Blanc",
+    "start_date": "2026-05-27",
+    "end_date": "2026-05-27",
+    "showtimes": {
+      "2026-05-27": [
+        "15:30",
+        "20:30"
+      ]
+    }
+  },
+  {
+    "title": "Super Mario Galaxy Le Film",
+    "description": "Film screening at Le Vox",
+    "event_type": "cinema",
+    "category": "Cinema",
+    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
+    "image_url": "",
+    "venue": "Le Vox",
+    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
+    "commune": "Chamonix-Mont-Blanc",
+    "start_date": "2026-05-27",
+    "end_date": "2026-05-27",
+    "showtimes": {
+      "2026-05-27": [
+        "15:30"
+      ]
+    }
+  },
+  {
+    "title": "L’Abandon",
+    "description": "Film screening at Le Vox",
+    "event_type": "cinema",
+    "category": "Cinema",
+    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
+    "image_url": "",
+    "venue": "Le Vox",
+    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
+    "commune": "Chamonix-Mont-Blanc",
+    "start_date": "2026-05-27",
+    "end_date": "2026-05-27",
+    "showtimes": {
+      "2026-05-27": [
+        "18:00"
+      ]
+    }
+  },
+  {
+    "title": "Vivaldi et moi",
+    "description": "Film screening at Le Vox",
+    "event_type": "cinema",
+    "category": "Cinema",
+    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
+    "image_url": "",
+    "venue": "Le Vox",
+    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
+    "commune": "Chamonix-Mont-Blanc",
+    "start_date": "2026-05-27",
+    "end_date": "2026-05-27",
+    "showtimes": {
+      "2026-05-27": [
+        "18:00"
+      ]
+    }
+  },
+  {
+    "title": "Pour le plaisir",
+    "description": "Film screening at Le Vox",
+    "event_type": "cinema",
+    "category": "Cinema",
+    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
+    "image_url": "",
+    "venue": "Le Vox",
+    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
+    "commune": "Chamonix-Mont-Blanc",
+    "start_date": "2026-05-27",
+    "end_date": "2026-05-27",
+    "showtimes": {
+      "2026-05-27": [
+        "18:15"
+      ]
+    }
+  },
+  {
+    "title": "Michael",
+    "description": "Film screening at Le Vox",
+    "event_type": "cinema",
+    "category": "Cinema",
+    "source_url": "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html",
+    "image_url": "",
+    "venue": "Le Vox",
+    "address": "22, cours Bartavel, 74400 Chamonix-Mont-Blanc",
+    "commune": "Chamonix-Mont-Blanc",
+    "start_date": "2026-05-27",
+    "end_date": "2026-05-27",
+    "showtimes": {
+      "2026-05-27": [
+        "20:30"
+      ]
+    }
   }
 ]
