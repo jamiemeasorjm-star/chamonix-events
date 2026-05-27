@@ -116,6 +116,12 @@
         in30.setDate(in30.getDate() + 30);
 
         function fmt(d) { return d.toISOString().split('T')[0]; }
+        function fmtDMY(d) {
+            const dd = String(d.getDate()).padStart(2, '0');
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const yyyy = d.getFullYear();
+            return dd + '/' + mm + '/' + yyyy;
+        }
         document.getElementById('filter-start').value = fmt(today);
         document.getElementById('filter-end').value = fmt(in30);
 
@@ -127,7 +133,10 @@
             try {
                 const d = new Date(isoStr);
                 if (isNaN(d.getTime())) return null;
-                return { date: d, day: DAYS[d.getDay()], dayNum: d.getDate(), month: MONTHS[d.getMonth()], year: d.getFullYear(), iso: fmt(d) };
+                const dd = String(d.getDate()).padStart(2, '0');
+                const mm = String(d.getMonth() + 1).padStart(2, '0');
+                const yyyy = d.getFullYear();
+                return { date: d, day: DAYS[d.getDay()], dayNum: d.getDate(), month: MONTHS[d.getMonth()], year: yyyy, iso: fmt(d), display: dd + '/' + mm + '/' + yyyy };
             } catch { return null; }
         }
 
@@ -177,8 +186,8 @@
                 const desc = e.description ? e.description.replace(/<[^>]*>/g,'').substring(0,150) : '';
                 const todayLabel = fd && isToday(fd.date) ? '<span class=\"today-tag\">Today</span>' : (fd && isTomorrow(fd.date) ? '<span class=\"today-tag\">Tomorrow</span>' : '');
                 const dateLabel = e.end_date && e.end_date !== e.start_date
-                    ? (fd ? fd.dayNum + ' ' + fd.month : '') + ' → ' + (formatDate(e.end_date)?.dayNum || '') + ' ' + (formatDate(e.end_date)?.month || '')
-                    : (fd ? fd.dayNum + ' ' + fd.month : '');
+                    ? (fd ? fd.display : '') + ' → ' + (formatDate(e.end_date)?.display || '')
+                    : (fd ? fd.display : '');
                 const imgHtml = e.image_url ? '<img src="' + e.image_url + '" alt="' + e.title + '" class="w-full h-40 object-cover rounded-t-xl" onerror="this.style.display=\'none\'">' : '';
                 const venueHtml = e.venue_name ? '<span class="text-xs text-gray-400">📍 ' + e.venue_name.substring(0, 40) + '</span>' : '';
                 const addressHtml = e.address ? '<span class="text-xs text-gray-400">🏠 ' + e.address.substring(0, 40) + '</span>' : '';
@@ -187,8 +196,7 @@
                     '<div class="p-4 flex gap-4">' +
                         '<div class="flex-shrink-0 w-16 text-center">' +
                             '<div class="day-num text-alpine-800">' + (fd ? fd.dayNum : '?') + '</div>' +
-                            '<div class="day-month text-gray-500 font-medium">' + (fd ? fd.month : '') + '</div>' +
-                            '<div class="text-xs text-gray-400 mt-0.5">' + (fd ? fd.day : '') + '</div>' +
+                            '<div class="text-xs text-gray-400 mt-0.5">' + (fd ? fd.display : '') + '</div>' +
                         '</div>' +
                         '<div class="flex-1 min-w-0">' +
                             '<div class="flex items-center gap-2 flex-wrap">' +
