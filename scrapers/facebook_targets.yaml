@@ -1,0 +1,120 @@
+pages:
+- name: Le Vox
+  page_id: PLACEHOLDER_LeVox
+  category: Cinema
+  venue: Le Vox
+  url: https://www.facebook.com/cinemavoxcham
+  enabled: true
+- name: Chamonix Mont-Blanc Tourisme
+  page_id: PLACEHOLDER_CMBT
+  category: exhibition
+  venue: ''
+  url: https://facebook.com/ChamonixMontBlancTourisme
+  enabled: false
+- name: Little Bar
+  page_id: PLACEHOLDER_LittleBar
+  category: concert
+  venue: Little Bar
+  url: https://facebook.com/LittleBarChamonix
+  enabled: false
+- name: Le Chambre 9
+  page_id: PLACEHOLDER_Chambre9
+  category: concert
+  venue: Le Chambre 9
+  url: ''
+  enabled: false
+- name: Monkey Bar
+  page_id: PLACEHOLDER_MonkeyBar
+  category: concert
+  venue: Monkey Bar
+  url: ''
+  enabled: false
+- name: Moo Bar
+  page_id: PLACEHOLDER_MooBar
+  category: concert
+  venue: Moo Bar
+  url: ''
+  enabled: false
+- name: Le Chaudron
+  page_id: PLACEHOLDER_Chaudron
+  category: concert
+  venue: Le Chaudron
+  url: ''
+  enabled: false
+- name: Bar des Sports
+  page_id: PLACEHOLDER_BarSports
+  category: concert
+  venue: Bar des Sports
+  url: ''
+  enabled: false
+- name: La Caleche
+  page_id: PLACEHOLDER_Caleche
+  category: concert
+  venue: La Caleche
+  url: ''
+  enabled: false
+- name: Le Monchu
+  page_id: PLACEHOLDER_Monchu
+  category: concert
+  venue: Le Monchu
+  url: ''
+  enabled: false
+- name: Le Bivouac
+  page_id: PLACEHOLDER_Bivouac
+  category: concert
+  venue: Le Bivouac
+  url: ''
+  enabled: false
+- name: Le Caveau
+  page_id: PLACEHOLDER_Caveau
+  category: concert
+  venue: Le Caveau
+  url: ''
+  enabled: false
+- name: La Folie Douce
+  page_id: PLACEHOLDER_FolieDouce
+  category: concert
+  venue: La Folie Douce
+  url: ''
+  enabled: false
+- name: Bistro des Sports
+  page_id: PLACEHOLDER_BistroSports
+  category: concert
+  venue: Bistro des Sports
+  url: ''
+  enabled: false
+- name: Le Royal Bar
+  page_id: PLACEHOLDER_RoyalBar
+  category: concert
+  venue: Le Royal Bar
+  url: ''
+  enabled: false
+- name: Le Garage
+  page_id: PLACEHOLDER_Garage
+  category: concert
+  venue: Le Garage
+  url: ''
+  enabled: false
+- name: La Cantina
+  page_id: PLACEHOLDER_Cantina
+  category: concert
+  venue: La Cantina
+  url: ''
+  enabled: false
+- name: Espace Michel Croz
+  page_id: PLACEHOLDER_EMC2
+  category: exhibition
+  venue: Espace Michel Croz
+  url: ''
+  enabled: false
+- name: Sortir a Chamonix (Groupe)
+  page_id: PLACEHOLDER_SortirGroupe
+  category: other
+  venue: ''
+  url: https://facebook.com/groups/sortirachamonix
+  enabled: false
+settings:
+  max_posts: 25
+  max_events: 50
+  lookback_days: 90
+  request_delay: 1.0

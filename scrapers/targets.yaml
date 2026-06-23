@@ -1,0 +1,34 @@
+pages:
+  - name: "Le Vox Chamonix"
+    url: "https://facebook.com/LeVoxChamonix"
+    type: "page"
+    category: "Cinema"
+    venue: "Le Vox"
+    enabled: true
+
+  - name: "Chamonix Mont-Blanc Tourisme"
+    url: "https://facebook.com/ChamonixMontBlancTourisme"
+    type: "page"
+    category: "exhibition"
+    venue: ""
+    enabled: true
+
+  - name: "Little Bar Chamonix"
+    url: "https://facebook.com/LittleBarChamonix"
+    type: "page"
+    category: "nightlife"
+    venue: "Little Bar"
+    enabled: false
+
+  - name: "Sortir à Chamonix"
+    url: "https://facebook.com/groups/sortirachamonix"
+    type: "group"
+    category: "other"
+    venue: ""
+    enabled: false
+
+settings:
+  scroll_pause_ms: 3000
+  max_posts_per_page: 20
+  human_delay_range: [2000, 6000]
+  storage_state_path: "session/facebook-state.json"

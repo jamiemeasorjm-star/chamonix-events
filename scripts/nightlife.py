@@ -277,7 +277,7 @@ def run(dry_run: bool = False):
         with open(DATA_DIR / "events.json", "w", encoding="utf-8") as f:
             json.dump(combined, f, indent=2, ensure_ascii=False)
 
-        with open(DATA_DIR / "venues.json", "w", encoding="utf-8") as f:
+        with open(DATA_DIR / "nightlife_venues.json", "w", encoding="utf-8") as f:
             json.dump(venues_json, f, indent=2, ensure_ascii=False)
 
         elapsed = (datetime.now(timezone.utc) - start).total_seconds()

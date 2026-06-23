@@ -12,7 +12,7 @@ run() {
     local name="$1"
     shift
     echo "[$TIMESTAMP] Running $name..."
-    if python3 -m "$@" >> "$LOG_DIR/chamonix-scraper.log" 2>&1; then
+    if /usr/bin/python3 -m "$@" >> "$LOG_DIR/chamonix-scraper.log" 2>&1; then
         echo "[$TIMESTAMP] $name OK"
     else
         echo "[$TIMESTAMP] $name FAILED (exit $?)"
@@ -26,5 +26,5 @@ run "chamonix_com_detail" scripts.chamonix_com_detail
 
 # Cleanup: remove past events
 echo "[$TIMESTAMP] Removing past events..."
-python3 scripts/clean_past.py
+/usr/bin/python3 scripts/clean_past.py
 echo "[$TIMESTAMP] === Chamonix scraper run complete ==="

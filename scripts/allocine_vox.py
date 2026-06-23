@@ -42,7 +42,21 @@ def parse(html):
         title = title_el.get_text(strip=True)
         versions = card.find_all("div", class_="showtimes-version")
         showtimes = {}
+        film_langs = set()
         for ver in versions:
+            ver_text = ver.get_text()
+            # Detect language from text like "En VF" or "En VO"
+            lang = "Francais"
+            vt = ver_text.lower()
+            if "vo" in vt and "vf" not in vt:
+                lang = "VO"
+            elif "vost" in vt:
+                lang = "VOST"
+            elif "vfst" in vt:
+                lang = "VFST"
+            elif "vf" in vt:
+                lang = "Francais"
+            film_langs.add(lang)
             for span in ver.find_all("span", attrs={"data-showtime-time": True}):
                 iso = span["data-showtime-time"]
                 dt = iso[:10]
@@ -71,7 +85,8 @@ def parse(html):
             "start_date": dates_sorted[0],
             "end_date": dates_sorted[-1],
             "showtimes": showtimes,
-            "language": "Francais"
+            "language": "|".join(sorted(film_langs)) if len(film_langs) > 0 else "Francais",
+            "voice_versions": "|".join(sorted(film_langs))
         })
     return events, venue
 
