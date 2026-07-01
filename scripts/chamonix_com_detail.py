@@ -122,10 +122,15 @@ def main():
     print(f"Extracted {len(details)}/{len(urls)} detail pages")
     if dry_run:
         for d in details[:5]:
-            print(f"  {d.get("title","?")}")
-            print(f"    desc: {d.get("description","")[:100]}")
-            print(f"    image: {'Y' if d.get("image_url") else 'N'}")
-            print(f"    dates: {d.get("start_date","?")} -> {d.get("end_date","?")}")
+            title = d.get("title","?")
+            desc = d.get("description","")[:100]
+            image = "Y" if d.get("image_url") else "N"
+            start = d.get("start_date","?")
+            end = d.get("end_date","?")
+            print(f"  {title}")
+            print(f"    desc: {desc}")
+            print(f"    image: {image}")
+            print(f"    dates: {start} -> {end}")
         return
 
     with open(EVENTS_FILE) as f:

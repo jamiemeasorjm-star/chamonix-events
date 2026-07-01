@@ -3,9 +3,20 @@ import httpx, json, re, sys, os
 from datetime import date
 from bs4 import BeautifulSoup
 
+from scripts.models import Event
+from scripts.storage import get_storage
+from scripts.sources import get_source  # T13
+import json  # T10: still needed for parsing existing events.json on legacy callers
+import os  # T10: legacy paths used by direct script invocation
+
 URL = "https://www.allocine.fr/seance/salle_gen_csalle=P1406.html"
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
 EVENTS_FILE = os.path.join(DATA_DIR, "events.json")
+
+# T13: source registry — trust_level determines confidence baseline
+SOURCE_ID = "allocine_vox"
+_source = get_source(SOURCE_ID)
+CONFIDENCE = _source.confidence_baseline() if _source else 0.8
 
 MONTHS_FR = {"janvier":1,"fevrier":2,"mars":3,"avril":4,"mai":5,"juin":6,"juillet":7,"aout":8,"septembre":9,"octobre":10,"novembre":11,"decembre":12}
 
@@ -31,7 +42,10 @@ def parse(html):
             if isinstance(d, dict) and d.get("@type")=="MovieTheater":
                 venue["name"]=d.get("name",venue["name"])
                 a=d.get("address",{})
-                venue["address"]=f"{a.get("streetAddress","")}, {a.get("postalCode","")} {a.get("addressLocality","")}".strip(", ")
+                street = a.get("streetAddress", "") or ""
+                postal = a.get("postalCode", "") or ""
+                locality = a.get("addressLocality", "") or ""
+                venue["address"] = f"{street}, {postal} {locality}".strip(", ").strip()
         except:
             pass
     events=[]
@@ -71,9 +85,10 @@ def parse(html):
         image_url = img.get("data-src","") or img.get("src","") if img else ""
         if "acsta.net" in image_url:
             image_url = re.sub(r"/r_\d+_\d+/", "/r_640_/", image_url)
+        venue_name = venue["name"]
         events.append({
             "title": title,
-            "description": f"Film screening at {venue["name"]}",
+            "description": f"Film screening at {venue_name}",
             "event_type": "cinema",
             "category": "Cinema",
             "source_id": "allocine_vox",
@@ -99,11 +114,13 @@ def main():
     dry = "--dry-run" in sys.argv
     html = fetch()
     events, venue = parse(html)
-    print(f"Found {len(events)} cinema events from {venue["name"]}")
+    venue_name = venue["name"]
+    print(f"Found {len(events)} cinema events from {venue_name}")
     for ev in events:
         days=len(ev["showtimes"])
         total=sum(len(v) for v in ev["showtimes"].values())
-        print(f"  {ev["title"]}: {days} days, {total} screenings")
+        ev_title = ev["title"]
+        print(f"  {ev_title}: {days} days, {total} screenings")
     if dry:
         print("Dry run - no changes")
         return
@@ -112,8 +129,12 @@ def main():
         with open(EVENTS_FILE) as f:
             existing = json.load(f)
     merged = merge(existing, events)
-    with open(EVENTS_FILE, "w") as f:
-        json.dump(merged, f, indent=2, ensure_ascii=False)
+    # T10: SQLite canonical. allocine_vox is skipped by T09 in the default
+    # pipeline, but if invoked manually it now writes to SQLite too.
+    # T13: stamp events with the trust-level baseline
+    for ev in merged:
+        ev["confidence"] = CONFIDENCE
+    get_storage().upsert_events(SOURCE_ID, merged)
     print(f"Merged: {len(existing)} -> {len(merged)} events")
 
 if __name__ == "__main__":

@@ -1,0 +1,76 @@
+# Chamonix Events — source registry
+#
+# Phase 2 / T13. This is the single source of truth for which data sources
+# are active, what tier they belong to, and how often the pipeline should
+# refresh them. The schema mirrors docs/schema.md (Source dataclass) and
+# is consumed by scripts/sources.py + every scraper at startup.
+#
+# Trust levels (per plan §8.1 / §8.2):
+#   high    → confidence baseline 1.0   (chamonix.net, chamonix.com, vox_pdf)
+#   medium  → confidence baseline 0.8   (allocine_vox)
+#   low     → confidence baseline 0.55  (nightlife, manual_submission)
+#
+# Ingestion cadence is an interval in hours; null means "on-demand only"
+# (used by manual_submission).
+
+# T26: global publish threshold. Events with confidence below this value
+# are routed to the review queue (review_items) instead of being published
+# to the events table. Per-source overrides allowed via min_publish_confidence
+# on individual source entries.
+#
+# Default 0.4 = "publish unless something is clearly off". Aspirational
+# target as data quality improves is 0.6 — once scrapers fill in more
+# optional fields (venue, time, image_url), event confidence rises.
+min_publish_confidence: 0.4
+
+sources:
+  - id: chamonix_net
+    name: Chamonix.net (EN)
+    type: official
+    base_url: https://www.chamonix.net/english/events
+    trust_level: high
+    ingestion_cadence_hours: 6
+    active: true
+
+  - id: chamonix_com
+    name: Chamonix.com (FR)
+    type: official
+    base_url: https://www.chamonix.com/evenements/evenements-et-manifestations
+    trust_level: high
+    ingestion_cadence_hours: 24
+    active: true
+
+  - id: vox_pdf
+    name: Le Vox cinema PDF
+    type: official
+    base_url: https://cinemavox-chamonix.com/fichier/programme.pdf
+    trust_level: high
+    ingestion_cadence_hours: 168
+    active: true
+
+  - id: allocine_vox
+    name: AlloCiné Le Vox
+    type: aggregator
+    base_url: https://www.allocine.fr/seance/salle_gen_csalle=P1406.html
+    trust_level: medium
+    ingestion_cadence_hours: 24
+    active: false
+    notes: "Disabled by T09 until T02 + T12 land."
+
+  - id: nightlife
+    name: Nightlife venues
+    type: venue
+    base_url: null
+    trust_level: low
+    ingestion_cadence_hours: 168
+    active: false
+    notes: "P3 / T30 — review-only with confidence cap 0.55."
+
+  - id: manual_submission
+    name: User submissions
+    type: community
+    base_url: null
+    trust_level: low
+    ingestion_cadence_hours: null
+    active: true
+    notes: "Phase 4 / T32 — always review (confidence capped at 0.55)."

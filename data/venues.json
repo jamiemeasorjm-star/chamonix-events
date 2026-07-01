@@ -11,7 +11,15 @@
     "has_regular_schedule": true,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "live_music",
+      "venue"
+    ],
+    "id": "big-mountain-basecamp",
+    "latitude": 45.9181185,
+    "longitude": 6.8638548,
+    "geocode_source": "nominatim_t16",
+    "postal_code": "74400"
   },
   {
     "name": "Le Solerey Brewpub",
@@ -25,7 +33,17 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "bar",
+      "events",
+      "live_music",
+      "venue"
+    ],
+    "id": "le-solerey-brewpub",
+    "latitude": 45.89252,
+    "longitude": 6.80024,
+    "geocode_source": "nominatim_address_full",
+    "postal_code": "74400"
   },
   {
     "name": "South Bar",
@@ -39,7 +57,14 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "venue"
+    ],
+    "id": "south-bar",
+    "latitude": 45.9189457,
+    "longitude": 6.868195,
+    "geocode_source": "nominatim_t16",
+    "postal_code": "74400"
   },
   {
     "name": "The Beckett & Wilde",
@@ -53,7 +78,16 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "events",
+      "live_music",
+      "venue"
+    ],
+    "id": "the-beckett-wilde",
+    "latitude": 45.9189058,
+    "longitude": 6.8674844,
+    "geocode_source": "nominatim_t16",
+    "postal_code": "74400"
   },
   {
     "name": "L'Alibi",
@@ -67,7 +101,14 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "venue"
+    ],
+    "id": "lalibi",
+    "latitude": 45.924319,
+    "longitude": 6.868156,
+    "geocode_source": "nominatim_t16",
+    "postal_code": "74400"
   },
   {
     "name": "Le Chamonix",
@@ -81,7 +122,14 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "venue"
+    ],
+    "id": "le-chamonix",
+    "latitude": 45.9234053,
+    "longitude": 6.8687896,
+    "geocode_source": "nominatim_t16",
+    "postal_code": "74400"
   },
   {
     "name": "Bar du Moulin",
@@ -95,7 +143,15 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "bar",
+      "venue"
+    ],
+    "id": "bar-du-moulin",
+    "latitude": 45.92436,
+    "longitude": 6.87049,
+    "geocode_source": "nominatim_name_first",
+    "postal_code": "74400"
   },
   {
     "name": "Mix Bar",
@@ -109,7 +165,14 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "venue"
+    ],
+    "id": "mix-bar",
+    "latitude": 45.9244,
+    "longitude": 6.87057,
+    "geocode_source": "nominatim_name_first",
+    "postal_code": "74400"
   },
   {
     "name": "Le Shack!",
@@ -123,7 +186,14 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "venue"
+    ],
+    "id": "le-shack",
+    "latitude": 45.9236404,
+    "longitude": 6.8718568,
+    "geocode_source": "nominatim_t16",
+    "postal_code": "74400"
   },
   {
     "name": "Maison des Artistes",
@@ -137,7 +207,15 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "restaurant",
+      "venue"
+    ],
+    "id": "maison-des-artistes",
+    "latitude": 45.9222769,
+    "longitude": 6.8719215,
+    "geocode_source": "nominatim_t16",
+    "postal_code": "74400"
   },
   {
     "name": "Bar d'Up",
@@ -151,7 +229,15 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "bar",
+      "venue"
+    ],
+    "id": "bar-dup",
+    "latitude": 45.92474,
+    "longitude": 6.87042,
+    "geocode_source": "nominatim_name_first",
+    "postal_code": "74400"
   },
   {
     "name": "Moo",
@@ -165,7 +251,14 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "venue"
+    ],
+    "id": "moo",
+    "latitude": 45.9233855,
+    "longitude": 6.8711474,
+    "geocode_source": "nominatim_t16",
+    "postal_code": "74400"
   },
   {
     "name": "French Blvd",
@@ -179,7 +272,14 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "venue"
+    ],
+    "id": "french-blvd",
+    "latitude": 45.92544,
+    "longitude": 6.87095,
+    "geocode_source": "nominatim_name_first",
+    "postal_code": "74400"
   },
   {
     "name": "Stories",
@@ -193,7 +293,14 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "venue"
+    ],
+    "id": "stories",
+    "latitude": 45.9184976,
+    "longitude": 6.8643418,
+    "geocode_source": "nominatim_t16",
+    "postal_code": "74400"
   },
   {
     "name": "Couleur Cafe",
@@ -207,7 +314,15 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "restaurant",
+      "venue"
+    ],
+    "id": "couleur-cafe",
+    "latitude": 45.9193361,
+    "longitude": 6.8691835,
+    "geocode_source": "nominatim_t16",
+    "postal_code": "74400"
   },
   {
     "name": "Beer O'Clock",
@@ -221,7 +336,14 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "venue"
+    ],
+    "id": "beer-oclock",
+    "latitude": 45.9201689,
+    "longitude": 6.8663706,
+    "geocode_source": "nominatim_t16",
+    "postal_code": "74400"
   },
   {
     "name": "Synge&Co",
@@ -235,7 +357,14 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "venue"
+    ],
+    "id": "syngeco",
+    "latitude": 45.918712,
+    "longitude": 6.8680384,
+    "geocode_source": "nominatim_t16",
+    "postal_code": "74400"
   },
   {
     "name": "ChaChaCha",
@@ -249,7 +378,14 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "venue"
+    ],
+    "id": "chachacha",
+    "latitude": 45.9184976,
+    "longitude": 6.8643418,
+    "geocode_source": "nominatim_t16",
+    "postal_code": "74400"
   },
   {
     "name": "Moon Tines",
@@ -263,7 +399,12 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "venue"
+    ],
+    "id": "moon-tines",
+    "geocode_source": "needs_manual_review",
+    "postal_code": "74400"
   },
   {
     "name": "O'Byrne's Pub",
@@ -277,7 +418,15 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "bar",
+      "venue"
+    ],
+    "id": "obyrnes-pub",
+    "latitude": 45.9223968,
+    "longitude": 6.8697169,
+    "geocode_source": "nominatim_t16",
+    "postal_code": "74400"
   },
   {
     "name": "The Wine Factory",
@@ -291,7 +440,14 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "venue"
+    ],
+    "id": "the-wine-factory",
+    "latitude": 45.8895295,
+    "longitude": 6.7978441,
+    "geocode_source": "nominatim_t16",
+    "postal_code": "74400"
   },
   {
     "name": "Cafe de la Gare",
@@ -305,7 +461,15 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "restaurant",
+      "venue"
+    ],
+    "id": "cafe-de-la-gare",
+    "latitude": 45.90677,
+    "longitude": 6.83925,
+    "geocode_source": "nominatim_name_commune",
+    "postal_code": "74400"
   },
   {
     "name": "Les Copains d'Abord",
@@ -319,7 +483,14 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "venue"
+    ],
+    "id": "les-copains-dabord",
+    "latitude": 45.8910337,
+    "longitude": 6.7987045,
+    "geocode_source": "nominatim_t16",
+    "postal_code": "74400"
   },
   {
     "name": "Amnesia",
@@ -333,7 +504,13 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "bar",
+      "venue"
+    ],
+    "id": "amnesia",
+    "geocode_source": "needs_manual_review",
+    "postal_code": "74400"
   },
   {
     "name": "Le Garage",
@@ -347,7 +524,13 @@
     "has_regular_schedule": false,
     "count": 0,
     "indices": [],
-    "categories": []
+    "categories": [
+      "bar",
+      "venue"
+    ],
+    "id": "le-garage",
+    "geocode_source": "needs_manual_review",
+    "postal_code": "74400"
   },
   {
     "name": "Le Vox",
@@ -372,7 +555,14 @@
       32
     ],
     "categories": [
-      "Cinema"
-    ]
+      "cinema",
+      "events",
+      "venue"
+    ],
+    "id": "le-vox",
+    "latitude": 45.92316,
+    "longitude": 6.86895,
+    "geocode_source": "nominatim_alias_cinema",
+    "postal_code": "74400"
   }
 ]

@@ -13,13 +13,18 @@ import httpx
 from bs4 import BeautifulSoup
 
 from scripts.models import Event, Venue
+from scripts.storage import get_storage
+from scripts.sources import get_source  # T13
+from scripts.scoring import compute_confidence  # T14
 
 logger = logging.getLogger(__name__)
 
 BASE_URL = "https://www.chamonix.com"
 LISTING_URL = f"{BASE_URL}/evenements/evenements-et-manifestations"
 SOURCE_ID = "chamonix_com"
-CONFIDENCE = 1.0
+# T13: confidence baseline derived from sources.yaml trust_level
+_source = get_source(SOURCE_ID)
+CONFIDENCE = _source.confidence_baseline() if _source else 1.0
 
 COMMUNE_MAP = {
     "chamonix-mont-blanc": "Chamonix",
@@ -294,7 +299,7 @@ def normalize(raw: dict) -> Event:
     category = raw.get("category", "other")
     source_url = raw.get("source_url", "")
 
-    return Event(
+    ev = Event(
         title=title,
         description=(raw.get("description") or "").strip(),
         start_date=start_date,
@@ -307,8 +312,11 @@ def normalize(raw: dict) -> Event:
         image_url=raw.get("image_url"),
         price=raw.get("price"),
         status="published",
-        confidence=CONFIDENCE,
+        confidence=CONFIDENCE,  # placeholder, recomputed below
     )
+    # T14: trust × parse_quality × completeness
+    ev.confidence = compute_confidence(SOURCE_ID, ev.to_dict())
+    return ev
 
 
 def deduplicate(events: list[Event]) -> list[Event]:
@@ -344,17 +352,18 @@ def extract_venues(events: list[Event]) -> list[Venue]:
 
 
 def export_json(events: list[Event], venues: list[Venue]):
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    events_path = DATA_DIR / "events.json"
-    venues_path = DATA_DIR / "venues.json"
+    # T10: SQLite canonical, JSON is build artefact only.
+    # T04: REMOVED venues.json write — venues are seeded by T17 (Phase 3).
+    events_path = DATA_DIR / "events.json"  # kept for backwards compat / inspection
 
     def as_dict(e):
         return e.to_dict() if hasattr(e, "to_dict") else e
 
-    with open(events_path, "w", encoding="utf-8") as f:
-        json.dump([as_dict(ev) for ev in events], f, indent=2, ensure_ascii=False)
-    with open(venues_path, "w", encoding="utf-8") as f:
-        json.dump([v.to_dict() for v in venues], f, indent=2, ensure_ascii=False)
+    get_storage().upsert_events(SOURCE_ID, [as_dict(ev) for ev in events])
+    if venues:
+        # Diagnostic only — chamonix_com.extract_venues() returns [] today
+        # because venue_id is never set on events. Don't write to disk.
+        print(f"  NOTE: chamonix_com produced {len(venues)} venues; ignored (T04)", file=sys.stderr)
 
 
 def merge_with_existing(new_events: list[Event]) -> list[Event]:

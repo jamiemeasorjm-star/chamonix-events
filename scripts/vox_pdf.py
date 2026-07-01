@@ -5,9 +5,26 @@ import pymupdf, ssl
 from datetime import date, timedelta, datetime
 from urllib.request import Request, urlopen
 
+# Allow importing from scripts.models when invoked as a flat script
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from scripts.storage import get_storage
+from scripts.sources import get_source  # T13
+from scripts.scoring import compute_confidence  # T14
+# T22: TMDB enrichment as a fallback after AlloCine search. The module is
+# imported lazily inside _enrich_with_tmdb() so vox_pdf keeps working when
+# the key isn't configured (or the module isn't present for any reason).
+try:
+    from scripts import tmdb as _tmdb  # type: ignore
+except ImportError:  # pragma: no cover - module ships with the project
+    _tmdb = None
+
 PDF_URL = "https://cinemavox-chamonix.com/fichier/programme.pdf"
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
 OUTPUT = os.path.join(DATA_DIR, "cinema_events.json")
+
+# T13: confidence baseline derived from sources.yaml trust_level
+_vox_source = get_source("vox_pdf")
+VOX_CONFIDENCE = _vox_source.confidence_baseline() if _vox_source else 1.0
 
 MONTHS = {"janvier":1,"fevrier":2,"mars":3,"avril":4,"mai":5,"juin":6,"juillet":7,
            "aout":8,"septembre":9,"octobre":10,"novembre":11,"decembre":12}
@@ -245,6 +262,9 @@ def build_events(films, day_dates, start_date, end_date):
     for film in films:
         title = re.sub(r'\s+', ' ', film["title"]).strip()
         poster, desc = lookup(title)
+        # T22: if AlloCine lookup didn't find a poster, try TMDB.
+        if not poster:
+            poster = _enrich_with_tmdb(title)
         showtimes = {}
         for ci, times in film["showtimes"].items():
             if ci < 7 and times:
@@ -272,9 +292,31 @@ def build_events(films, day_dates, start_date, end_date):
             "end_date": ad[-1],
             "showtimes": showtimes,
             "status": "published",
-            "confidence": 1.0,
+            "confidence": VOX_CONFIDENCE,  # T14: placeholder, recomputed below
         })
+    # T14: full confidence score for each cinema event
+    for ev in events:
+        ev["confidence"] = compute_confidence("vox_pdf", ev)
     return events
+
+
+def _enrich_with_tmdb(title: str) -> str:
+    """T22: TMDB poster lookup as a fallback after AlloCine.
+
+    Returns the poster URL or empty string on miss / no-key / error.
+    Cached via scripts.tmdb.lookup_poster so repeated runs are instant.
+    """
+    if not _tmdb:
+        return ""
+    try:
+        year = _tmdb.lookup_title_year(title)
+        url = _tmdb.lookup_poster(title, year=year)
+        if url:
+            print(f"  [tmdb] poster for {title!r}: {url}")
+            return url
+    except Exception as exc:  # never break the scraper on TMDB issues
+        print(f"  [tmdb] error for {title!r}: {exc}", file=sys.stderr)
+    return ""
 
 def main():
     os.makedirs(DATA_DIR, exist_ok=True)
@@ -288,9 +330,9 @@ def main():
         return
     print("Building events...")
     events = build_events(films, day_dates, sd, ed)
-    print(f"Writing {len(events)} events to {OUTPUT}...")
-    with open(OUTPUT, 'w') as f:
-        json.dump(events, f, indent=2, ensure_ascii=False)
+    print(f"Writing {len(events)} cinema events to SQLite...")
+    # T10: SQLite canonical. JSON is build artefact only.
+    get_storage().upsert_cinema(events)
     print("Done!")
     for ev in events:
         total = sum(len(v) for v in ev.get("showtimes", {}).values())

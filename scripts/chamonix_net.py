@@ -13,13 +13,18 @@ import httpx
 from bs4 import BeautifulSoup
 
 from scripts.models import Event
+from scripts.storage import get_storage
+from scripts.sources import get_source  # T13
+from scripts.scoring import compute_confidence  # T14
 
 logger = logging.getLogger(__name__)
 
 BASE_URL = "https://www.chamonix.net"
 LISTING_URL = f"{BASE_URL}/english/events"
 SOURCE_ID = "chamonix_net"
-CONFIDENCE = 1.0
+# T13: confidence baseline derived from sources.yaml trust_level
+_source = get_source(SOURCE_ID)
+CONFIDENCE = _source.confidence_baseline() if _source else 1.0
 
 COMMUNE_MAP = {
     "chamonix": "Chamonix",
@@ -261,7 +266,7 @@ def normalize(raw: dict, source_url: str) -> Event:
     commune = raw.get("commune", "Chamonix")
     category = raw.get("category") or classify_category(title, raw.get("description", ""))
 
-    return Event(
+    ev = Event(
         title=title,
         description=(raw.get("description") or "").strip(),
         start_date=start_date,
@@ -273,10 +278,11 @@ def normalize(raw: dict, source_url: str) -> Event:
         source_url=source_url,
         image_url=raw.get("image_url"),
         price=raw.get("price"),
-        venue_name=raw.get("venue_name"),
         status="published",
-        confidence=CONFIDENCE,
+        confidence=CONFIDENCE,  # T14: placeholder; real score computed below
     )
+    ev.confidence = compute_confidence(SOURCE_ID, ev.to_dict())
+    return ev
 
 
 def deduplicate(events: list[Event]) -> list[Event]:
@@ -297,12 +303,13 @@ def deduplicate(events: list[Event]) -> list[Event]:
 
 
 def export_json(events: list[Event]):
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    events_path = DATA_DIR / "events.json"
+    # T10: SQLite is now canonical. JSON is build artefact only (see build.py).
+    events_path = DATA_DIR / "events.json"  # kept for backwards compat / inspection
     def as_dict(e):
         return e.to_dict() if hasattr(e, "to_dict") else e
-    with open(events_path, "w", encoding="utf-8") as f:
-        json.dump([as_dict(ev) for ev in events], f, indent=2, ensure_ascii=False)
+    rows = [as_dict(ev) for ev in events]
+    get_storage().upsert_events(SOURCE_ID, rows)
+    # Don't delete the legacy JSON; build.py will overwrite it next run.
 
 
 def run(dry_run: bool = False, fetch_detail: bool = True):
