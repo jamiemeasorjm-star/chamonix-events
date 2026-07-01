@@ -24,6 +24,27 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 .hero-label{display:inline-block;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-d);padding:3px 10px;border-radius:100px;margin-bottom:16px;opacity:0;animation:fadeU .8s var(--ease) .3s forwards}
 .hero-title{font-family:var(--ff-serif);font-size:clamp(2.4rem,8vw,5.5rem);font-weight:500;line-height:.95;letter-spacing:-.03em;color:var(--text);margin-bottom:10px;opacity:0;animation:fadeU .8s var(--ease) .5s forwards}
 .hero-sub{font-size:clamp(.95rem,2vw,1.15rem);color:var(--text2);max-width:480px;line-height:1.6;margin-bottom:0;opacity:0;animation:fadeU .8s var(--ease) .7s forwards}
+
+/* T20-A: dynamic counters in hero */
+.hero-stats{display:flex;align-items:center;gap:14px;margin-top:24px;font-size:.78rem;color:var(--text3);opacity:0;animation:fadeU .8s var(--ease) .9s forwards;flex-wrap:wrap}
+.hero-stat{display:inline-flex;align-items:baseline;gap:6px}
+.hero-stat b{font-family:var(--ff-serif);font-size:1.4rem;font-weight:500;color:var(--gold);line-height:1;letter-spacing:-.02em}
+.hero-stat span{letter-spacing:.05em;text-transform:uppercase;font-size:.7rem}
+.hero-stat-sep{color:var(--text3);opacity:.5}
+
+/* T20-B: today highlight section */
+.today-sec{padding-top:20px}
+.td-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.td-card{display:flex;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:var(--rl);padding:12px;cursor:pointer;transition:all .3s var(--ease);align-items:center}
+.td-card:hover{border-color:var(--border-a);transform:translateY(-2px)}
+.td-img{width:64px;height:64px;border-radius:var(--rs);overflow:hidden;background:var(--surface);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.td-img img{width:100%;height:100%;object-fit:cover}
+.td-fb{font-family:var(--ff-serif);font-size:1.5rem;color:var(--text3)}
+.td-body{flex:1;min-width:0}
+.td-meta{display:flex;align-items:center;gap:8px;font-size:.65rem;color:var(--text3);margin-bottom:4px;flex-wrap:wrap}
+.td-cat{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500}
+.td-time,.td-venue{font-size:.65rem;color:var(--text3)}
+.td-title{font-family:var(--ff-serif);font-size:.95rem;font-weight:500;color:var(--text);line-height:1.25}
 .hero-scroll{position:absolute;bottom:24px;left:0;right:0;margin:0 auto;width:fit-content;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:fadeU .8s var(--ease) 1.2s forwards}
 .hero-scroll-l{width:1px;height:40px;background:linear-gradient(180deg,var(--text3) 0%,transparent 100%);animation:sP 2s ease-in-out infinite}
 .hero-scroll-t{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3)}
@@ -217,8 +238,21 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 <option value="sv">SV</option>
 </select></div></div>
 <div class="hero-label" data-i18n="hero_label">Vallee de Chamonix</div><h1 class="hero-title">Chamonix Events</h1>
-<p class="hero-sub" data-i18n="hero_sub">Decouvrez les plus beaux evenements, concerts et soirees de la vallee.</p></div>
+<p class="hero-sub" data-i18n="hero_sub">Decouvrez les plus beaux evenements, concerts et soirees de la vallee.</p>
+<div class="hero-stats" id="hero-stats" aria-live="polite">
+  <div class="hero-stat"><b id="hero-stat-week">0</b><span data-i18n="hero_stat_week">événements cette semaine</span></div>
+  <div class="hero-stat-sep">·</div>
+  <div class="hero-stat"><b id="hero-stat-today">0</b><span data-i18n="hero_stat_today">aujourd'hui</span></div>
+  <div class="hero-stat-sep">·</div>
+  <div class="hero-stat"><b id="hero-stat-weekend">0</b><span data-i18n="hero_stat_weekend">ce week-end</span></div>
+</div></div>
 <div class="hero-scroll"><span class="hero-scroll-t" data-i18n="scroll">Defiler</span><div class="hero-scroll-l"></div></div></section>
+
+<section class="sec today-sec" id="today-section" style="display:none">
+  <div class="sec-h fade-in"><div class="sec-l" data-i18n="today_label">Aujourd'hui</div><h2 class="sec-t" data-i18n="today_title">Que faire aujourd'hui</h2></div>
+  <div class="td-grid" id="today-grid"></div>
+</section>
+
 <section class="sec" id="events"><div class="sec-h fade-in"><div class="sec-l" data-i18n="sec_label">Programmation</div><h2 class="sec-t" data-i18n="sec_title">Tous les evenements</h2></div>
 <div class="flt-row fade-in">
 <div class="srch-w"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -442,6 +476,63 @@ function renderVenues(){
   }).join("");
 }
 
+function renderHeroStats(){
+  // T20-A: dynamic counters in hero
+  var now=new Date();now.setHours(0,0,0,0);
+  var todayIso=now.toISOString().slice(0,10);
+  var weekEnd=new Date(now);weekEnd.setDate(weekEnd.getDate()+7);
+  var day=now.getDay();var sat=new Date(now);sat.setDate(sat.getDate()+(day===0?0:6-day));
+  var sun=new Date(sat);sun.setDate(sun.getDate()+1);
+  var satIso=sat.toISOString().slice(0,10);
+  var sunIso=sun.toISOString().slice(0,10);
+  var weekCount=0,todayCount=0,weekendCount=0;
+  (typeof EVENTS!=="undefined"?EVENTS:[]).forEach(function(e){
+    var d=(e.start_date||"").slice(0,10);
+    if(!d)return;
+    if(d>=todayIso && d<weekEnd.toISOString().slice(0,10))weekCount++;
+    if(d===todayIso)todayCount++;
+    if(d===satIso||d===sunIso)weekendCount++;
+  });
+  var sw=document.getElementById("hero-stat-week");if(sw)sw.textContent=weekCount;
+  var st=document.getElementById("hero-stat-today");if(st)st.textContent=todayCount;
+  var se=document.getElementById("hero-stat-weekend");if(se)se.textContent=weekendCount;
+}
+
+function _td_close(tag){return "<"+"/"+tag+">";}
+
+function renderTodaySection(){
+  // T20-B: highlight today events
+  var sec=document.getElementById("today-section");
+  if(!sec)return;
+  var now=new Date();now.setHours(0,0,0,0);
+  var todayIso=now.toISOString().slice(0,10);
+  var todayEvs=(typeof EVENTS!=="undefined"?EVENTS:[]).filter(function(e){
+    return (e.start_date||"").slice(0,10)===todayIso;
+  });
+  if(!todayEvs.length){sec.style.display="none";return;}
+  sec.style.display="";
+  var grid=document.getElementById("today-grid");
+  if(!grid)return;
+  grid.innerHTML=todayEvs.slice(0,6).map(function(e){
+    var time=e.time?esc(e.time):"";
+    var cc=catColor(e.category);
+    var lb=catLabel(e.category);
+    var img=e.image_url&&!e.image_url.startsWith("data:")
+      ?"<img src=\""+e.image_url+"\" alt=\""+esc(e.title)+"\" loading=\"lazy\">"
+      :"<div class=\"td-fb\">"+(esc(e.title)[0]||"?")+_td_close("div");
+    var venueHtml=e.venue?"<span class=\"td-venue\">"+esc(e.venue)+_td_close("span"):"";
+    var timeHtml=time?"<span class=\"td-time\">"+time+_td_close("span"):"";
+    var html="<div class=\"td-card\" onclick=\"openModal("+EVENTS.indexOf(e)+")\">"
+      +"<div class=\"td-img\">"+img+_td_close("div")
+      +"<div class=\"td-body\">"
+      +"<div class=\"td-meta\"><span class=\"td-cat "+cc+"\">"+lb+_td_close("span")
+      +timeHtml+venueHtml+_td_close("div")
+      +"<div class=\"td-title\">"+esc(e.title)+_td_close("div")
+      +_td_close("div")+_td_close("div");
+    return html;
+  }).join("");
+}
+
 function render(){
   var filtered=getFilteredEvents();
   document.getElementById("ev-count").textContent=filtered.length;
@@ -462,7 +553,7 @@ function render(){
     var evVenue=e.venue||getEventVenue(e)||"";var vHtml=evVenue?'<span class="card-venue">'+esc(evVenue)+'</span>':"";
     return '<div class="card" onclick="openModal('+oi+')" style="transition-delay:'+(i*0.06)+'s">'+
       '<div class="card-img">'+img+'<div class="card-img-o"></div><div class="card-date"><div class="dy">'+dl+'</div><div class="mo">'+ml+'</div></div>'+(tag?'<div class="card-tag">'+tag+'</div>':"")+'</div>'+
-      '<div class="card-body"><div class="card-meta"><span class="card-cat '+cc+'">'+lb+'</span><span class="card-dot"></span><span class="card-venue">'+(e.time?"<span class=\"card-venue\">"+esc(e.time)+"</span><span class=\"card-dot\"></span>:"")+vHtml+'</span></div>'+
+      '<div class="card-body"><div class="card-meta"><span class="card-cat '+cc+'">'+lb+'</span><span class="card-dot"></span><span class="card-venue">'+(e.time?"<span class=\"card-venue\">"+esc(e.time)+"</span><span class=\"card-dot\"></span>":"")+vHtml+'</span></div>'+
       '<h3 class="card-title">'+esc(e.title)+'</h3>'+(desc?'<p class="card-desc">'+desc+'</p>':"")+
       '<div class="card-ft"><button class="card-cta" onclick="event.stopPropagation();openModal('+oi+')">'+t("details")+' <svg viewBox="0 0 16 16" fill="none"><path d="M1 8h12M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div></div>';
   }).join("");
@@ -650,6 +741,8 @@ function showBuildTime(){
 function init(){
 
   setTimeout(function(){var pl=document.getElementById("preloader");if(pl)pl.classList.add("hidden");},800);
+  renderHeroStats();
+  renderTodaySection();
   window.addEventListener("scroll",function(){var nav=document.getElementById("nav");if(nav)nav.classList.toggle("scrolled",window.scrollY>60);var btt=document.getElementById("btt");if(btt)btt.classList.toggle("show",window.scrollY>600);});
   document.getElementById("hamburger").addEventListener("click",function(){document.getElementById("nav-links").classList.toggle("open");});
   document.getElementById("nav-cinema").addEventListener("click",function(e){e.preventDefault();toggleCinema(true);document.getElementById("nav-links").classList.remove("open");});
