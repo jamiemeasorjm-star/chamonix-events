@@ -107,6 +107,12 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 .card-venue{font-size:.7rem;color:var(--text3)}
 .card-title{font-family:var(--ff-serif);font-size:1.15rem;font-weight:400;line-height:1.25;margin-bottom:12px}
 .card-desc{font-size:.8rem;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:16px}
+/* T25: card info row (time / venue / price) — only renders when fields exist */
+.card-info{display:flex;flex-wrap:wrap;gap:6px 14px;margin:-4px 0 12px 0;font-size:.72rem;color:var(--text3);line-height:1.4}
+.card-info-item{display:inline-flex;align-items:center;gap:5px}
+.card-info-ic{font-size:.85rem;line-height:1;color:var(--gold);opacity:.85}
+.card-info-tx{letter-spacing:.01em}
+.card-info-tx.p{color:var(--gold-h);font-weight:500}
 .card-ft{display:flex;align-items:center;justify-content:space-between}
 .card-cta{font-size:.7rem;color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:gap .3s var(--ease);background:none;border:none;cursor:pointer;font-family:var(--ff-sans)}
 .card:hover .card-cta{gap:10px}
@@ -470,9 +476,14 @@ function renderVenues(){
   var grid=document.getElementById("ven-grid");if(!grid)return;
   grid.innerHTML=VENUES.map(function(v){
     var name=esc(v.name);
-    var img=v.image?'<img class="ven-card-img" src="'+v.image+'" alt="'+name+'" loading="lazy">':'<div class="ven-card-img-f">'+(v.key[0]||"")+'</div>';
+    // Defensive: legacy venues.json had a `key` field; SQLite-migrated
+    // venues have `id` + `name` only. Fall back so renderVenues never throws
+    // — an uncaught throw here halts init() before render() runs (T25 finding).
+    var vkey=v.key||v.id||"";
+    var initial=(vkey||name)[0]||(name[0]||"");
+    var img=v.image?'<img class="ven-card-img" src="'+v.image+'" alt="'+name+'" loading="lazy">':'<div class="ven-card-img-f">'+initial+'</div>';
     var cats=v.categories.map(function(c){return'<span class="ven-card-cat">'+(CAT_LABELS[c]||c)+'</span>';}).join("");
-    return '<div class="ven-card" onclick="filterByVenue(\''+esc(v.key)+'\')">'+img+'<div class="ven-card-body"><div class="ven-card-name">'+name+'</div><div class="ven-card-meta"><span class="ven-card-type">'+esc(v.type)+'</span><span class="ven-card-loc">'+esc(v.location)+'</span></div><div class="ven-card-count">'+v.count+' '+(v.count>1?t("venue_count_other"):t("venue_count_one"))+'</div><div class="ven-card-cats">'+cats+'</div></div></div>';
+    return '<div class="ven-card" onclick="filterByVenue(\''+esc(vkey)+'\')">'+img+'<div class="ven-card-body"><div class="ven-card-name">'+name+'</div><div class="ven-card-meta"><span class="ven-card-type">'+esc(v.type||"")+'</span><span class="ven-card-loc">'+esc(v.location||"")+'</span</div>'+'<div class="ven-card-count">'+v.count+' '+(v.count>1?t("venue_count_other"):t("venue_count_one"))+'</div><div class="ven-card-cats">'+cats+'</div></div></div>';
   }).join("");
 }
 
@@ -544,17 +555,24 @@ function render(){
   }
   var evIndexMap=filtered.map(function(e){return EVENTS.indexOf(e);});
   grid.innerHTML=evIndexMap.map(function(oi,i){
-    var e=EVENTS[oi];var fd=fmt(e.start_date);var desc=strip(e.description||"").substring(0,120);
+    var e=EVENTS[oi];var fd=fmt(e.start_date);var descFull=strip(e.description||"");var desc=descFull.substring(0,180);
     var isT=fd&&fd.iso===todayS,isTm=fd&&fd.iso===tomS;
     var tag=isT?t("today"):isTm?t("tomorrow"):"";
     var dl=fd?fd.dayNum:"",ml=fd?fd.month:"";
     var cc=catColor(e.category),lb=catLabel(e.category);
     var img=e.image_url&&!e.image_url.startsWith("data:")?'<img src="'+e.image_url+'" alt="'+esc(e.title)+'" loading="lazy" data-fb="'+esc(e.title[0]||"")+'">':'<div class="card-img-f">'+(e.title[0]||"")+'</div>';
     var evVenue=e.venue||getEventVenue(e)||"";var vHtml=evVenue?'<span class="card-venue">'+esc(evVenue)+'</span>':"";
+    // T25: info row — time / venue_name / price, only when present
+    var infoItems=[];
+    if(e.time)infoItems.push('<span class="card-info-item"><span class="card-info-ic" aria-hidden="true">🕒</span><span class="card-info-tx">'+esc(e.time)+'</span></span>');
+    if(e.venue_name&&esc(e.venue_name)!==evVenue)infoItems.push('<span class="card-info-item"><span class="card-info-ic" aria-hidden="true">📍</span><span class="card-info-tx">'+esc(e.venue_name)+'</span></span>');
+    else if(evVenue&&e.time)infoItems.push('<span class="card-info-item"><span class="card-info-ic" aria-hidden="true">📍</span><span class="card-info-tx">'+esc(evVenue)+'</span></span>');
+    if(e.price)infoItems.push('<span class="card-info-item"><span class="card-info-tx p">'+esc(e.price)+'</span></span>');
+    var infoRow=infoItems.length?'<div class="card-info">'+infoItems.join("")+'</div>':"";
     return '<div class="card" onclick="openModal('+oi+')" style="transition-delay:'+(i*0.06)+'s">'+
       '<div class="card-img">'+img+'<div class="card-img-o"></div><div class="card-date"><div class="dy">'+dl+'</div><div class="mo">'+ml+'</div></div>'+(tag?'<div class="card-tag">'+tag+'</div>':"")+'</div>'+
-      '<div class="card-body"><div class="card-meta"><span class="card-cat '+cc+'">'+lb+'</span><span class="card-dot"></span><span class="card-venue">'+(e.time?"<span class=\"card-venue\">"+esc(e.time)+"</span><span class=\"card-dot\"></span>":"")+vHtml+'</span></div>'+
-      '<h3 class="card-title">'+esc(e.title)+'</h3>'+(desc?'<p class="card-desc">'+desc+'</p>':"")+
+      '<div class="card-body"><div class="card-meta"><span class="card-cat '+cc+'">'+lb+'</span>'+(e.time?'<span class="card-dot"></span><span class="card-venue">'+esc(e.time)+'</span>':"")+(evVenue?'<span class="card-dot"></span><span class="card-venue">'+esc(evVenue)+'</span>':"")+'</div>'+
+      '<h3 class="card-title">'+esc(e.title)+'</h3>'+infoRow+(desc?'<p class="card-desc" title="'+(descFull.length>180?'Click to read more':'')+'">'+desc+(descFull.length>180?'…':'')+'</p>':"")+
       '<div class="card-ft"><button class="card-cta" onclick="event.stopPropagation();openModal('+oi+')">'+t("details")+' <svg viewBox="0 0 16 16" fill="none"><path d="M1 8h12M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div></div>';
   }).join("");
   requestAnimationFrame(function(){document.querySelectorAll(".card").forEach(function(el,i){setTimeout(function(){el.classList.add("in");},i*60);});});
@@ -725,7 +743,7 @@ function showBuildTime(){
   var ftr=document.querySelector('.ftr-cp');
   if(!ftr)return;
   var html=document.documentElement.innerHTML;
-  var m=html.match(/<!-- build: 2026-07-01T14:33:52Z -->/);
+  var m=html.match(/<!-- build: 2026-07-01T23:01:23Z -->/);
   if(m){
     var dt=new Date(m[1]);
     var now=new Date();
