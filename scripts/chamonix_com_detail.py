@@ -51,7 +51,29 @@ def get_event_urls_from_sitemap(client: httpx.Client, sitemap_url: str) -> list[
         urls = set()
         for loc in soup.find_all("loc"):
             url = loc.get_text(strip=True)
-            if "/agenda/evenements-et-manifestations/" in url:
+            # Only French (www) URLs — skip multilingual subdomain duplicates
+            if not url.startswith("https://www.chamonix.com/") and not url.startswith("http://www.chamonix.com/"):
+                continue
+            # Match event detail URLs (skip category landing pages)
+            if "/agenda/evenements-et-manifestations/" in url or "/animations-et-evenements-" in url:
+                # Skip known non-event paths
+                slug = url.rstrip("/").split("/")[-1]
+                skip_patterns = (
+                    "evenements-et-manifestations",
+                    "temps-forts-grandes-manifestations",
+                    "animations-speciales-enfants",
+                    "les-grands-evenements",
+                    "la-magie-de-noel",
+                    "village-de-noel",
+                    "centenaire-des",
+                    "coupe-du-monde",
+                    "formulaire-proposez",
+                    "evenements-jo-2024",
+                    "evenements-et-manifestations-spread",
+                    "test-formulaire",
+                )
+                if not slug or slug in skip_patterns:
+                    continue
                 urls.add(url)
         return sorted(urls)
     except Exception as e:
@@ -85,7 +107,7 @@ def _fallback_listing_urls(client: httpx.Client) -> list[str]:
     for a in soup.find_all("a", href=True):
         h = a["href"]
         # Event detail URLs contain these patterns
-        if "/agenda/evenements-et-manifestations/" in h or re.search(r"/evenements/[a-z]", h):
+        if "/agenda/evenements-et-manifestations/" in h or "/animations-et-evenements-" in h or re.search(r"/evenements/[a-z]", h):
             if h.startswith("/"):
                 h = "https://www.chamonix.com" + h
             urls.add(h)
@@ -286,11 +308,26 @@ def main():
 
     storage = get_storage()
     existing = storage.get_events(source_id="chamonix_com")
-    print(f"Existing chamonix_com events: {len(existing)}")
+    print(f"Existing chamonix_com events in events table: {len(existing)}")
 
     if not existing:
-        print("No chamonix_com events to enrich — run chamonix_com scraper first")
-        return 0
+        # Fall back to review_items — chamonix_com events may be queued there.
+        # Include all statuses since some were 'approved' but never inserted.
+        import json
+        cur = storage.conn.execute(
+            "SELECT event_snapshot FROM review_items WHERE source_id=?",
+            ("chamonix_com",),
+        )
+        rows = cur.fetchall()
+        if rows:
+            existing = [json.loads(r[0]) for r in rows]
+            # Force the snapshot to pending so enrich + publish flow works
+            for ev in existing:
+                ev["status"] = "pending_review"
+            print(f"Loaded {len(existing)} chamonix_com events from review queue")
+        else:
+            print("No chamonix_com events to enrich — run chamonix_com scraper first")
+            return 0
 
     # Discover event URLs
     headers = {"User-Agent": USER_AGENT}
