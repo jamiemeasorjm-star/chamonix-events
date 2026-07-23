@@ -313,8 +313,36 @@ class Storage:
             "title_en", "title_fr", "description_en", "description_fr",
             "venue_name_en", "venue_name_fr",
         )
+        # Preserve existing translation fields (T51 fix — scrapers use
+        # INSERT OR REPLACE which would otherwise wipe translated content).
+        existing_ids = set()
+        if rows:
+            ids = [r.get("id", "") for r in rows if r.get("id")]
+            if ids:
+                placeholders = ",".join("?" for _ in ids)
+                for (eid,) in self.conn.execute(
+                    f"SELECT id FROM events WHERE id IN ({placeholders})",
+                    ids,
+                ):
+                    existing_ids.add(eid)
         with self.conn:
             for r in rows:
+                eid = r.get("id", "")
+                if eid in existing_ids:
+                    # Fetch existing translations and merge
+                    existing = self.conn.execute(
+                        "SELECT title_en, title_fr, description_en, description_fr, venue_name_en, venue_name_fr "
+                        "FROM events WHERE id = ?", (eid,)
+                    ).fetchone()
+                    if existing:
+                        for i, field in enumerate(["title_en", "title_fr", "description_en", "description_fr", "venue_name_en", "venue_name_fr"]):
+                            if existing[i] and not r.get(field):
+                                r["title_en" if field == "title_en" else
+                                  "title_fr" if field == "title_fr" else
+                                  "description_en" if field == "description_en" else
+                                  "description_fr" if field == "description_fr" else
+                                  "venue_name_en" if field == "venue_name_en" else
+                                  "venue_name_fr"] = existing[i]
                 vals = _event_to_row(r)
                 self.conn.execute(
                     f"INSERT OR REPLACE INTO events ({','.join(cols)}) VALUES ({','.join('?' * len(cols))})",
@@ -403,17 +431,37 @@ class Storage:
         placeholders = ",".join("?" * len(cols))
 
         with self.conn:
+            # 0. Preserve existing translations before delete (T51)
+            existing_translations = {}
+            cur = self.conn.execute(
+                "SELECT id, title_en, title_fr, description_en, description_fr, "
+                "venue_name_en, venue_name_fr FROM events WHERE source_id = ?",
+                (source_id,),
+            )
+            for row in cur.fetchall():
+                existing_translations[row[0]] = row[1:]
+
             # 1. Drop all existing published rows for this source.
             self.conn.execute("DELETE FROM events WHERE source_id = ?", (source_id,))
 
-            # 2. Insert the passing events. Also clean up any stale review_items
-            # rows for these events (they're above threshold now, no review
-            # needed). Only touches status='open' rows; decided (approved/
-            # rejected) rows are preserved.
+            # 1b. Merge preserved translations into passing events
+            for r in passing:
+                eid = r.get("id")
+                if eid and eid in existing_translations:
+                    xt = existing_translations[eid]
+                    for i, field in enumerate(["title_en", "title_fr", "description_en", "description_fr", "venue_name_en", "venue_name_fr"]):
+                        if xt[i] and not r.get(field):
+                            r[field] = xt[i]
+
+            # 2. Insert the passing events, forcing published status.
+            #    Also clean up any stale review_items rows for these events
+            #    (they're above threshold now, no review needed). Only touches
+            #    status='open' rows; decided (approved/rejected) rows are preserved.
             for r in passing:
                 ev_id = r.get("id") or _slug_id(
                     r.get("title", ""), r.get("start_date", "")
                 )
+                r["status"] = "published"  # force published for threshold-passing events
                 self.conn.execute(
                     """
                     DELETE FROM review_items

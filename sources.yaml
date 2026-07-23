@@ -38,6 +38,7 @@ sources:
     base_url: https://www.chamonix.com/evenements/evenements-et-manifestations
     trust_level: high
     ingestion_cadence_hours: 24
+    min_publish_confidence: 0.2
     active: true
 
   - id: vox_pdf
@@ -54,8 +55,8 @@ sources:
     base_url: https://www.allocine.fr/seance/salle_gen_csalle=P1406.html
     trust_level: medium
     ingestion_cadence_hours: 24
-    active: false
-    notes: "Disabled by T09 until T02 + T12 land."
+    active: true
+    notes: "T02+T12 complete — enriched detail data for cinema films."
 
   - id: chamonix_nightlife
     name: Nightlife venues
@@ -63,8 +64,9 @@ sources:
     base_url: null
     trust_level: low
     ingestion_cadence_hours: 168
+    min_publish_confidence: 0.4
     active: true
-    notes: "T30 — scraped venues (conf 0.7 → auto-publish) + curated recurring (conf 0.55 → review queue)."
+    notes: "T30 — scraped venues (conf 0.7 → auto-publish) + curated recurring (conf 0.55 → publish with min_publish_confidence=0.4 override)."
 
   - id: manual_submission
     name: User submissions

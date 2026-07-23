@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
-OPENROUTER_MODEL = "deepseek/deepseek-v4-flash"
+OPENROUTER_MODEL = "openai/gpt-4o-mini"
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 API_KEY = os.environ.get("OPENROUTER_API_KEY") or ""
 if not API_KEY:
@@ -103,6 +103,8 @@ def batch_translate(texts: list[str], label: str = "") -> list[str]:
     """
     results: list[str] = []
     total = len(texts)
+    if total == 0:
+        return results
     batch_size = BATCH_SIZE
 
     # Build batches: list of (batch_idx, seq_in_batch, text)
@@ -271,24 +273,48 @@ def main():
     if to_translate:
         print(f"\nTranslating {len(to_translate)} events...")
         en_titles = batch_translate([t[1] for t in to_translate], "title")
+
+        # Save titles immediately (progressive save)
+        if not dry_run and en_titles:
+            with storage.conn:
+                for (e, _, _, _), title_en in zip(to_translate, en_titles):
+                    if title_en and title_en != e.get("title", ""):
+                        eid = e["id"]
+                        storage.conn.execute(
+                            "UPDATE events SET title_en = ?, updated_at = ? WHERE id = ?",
+                            [title_en, now, eid],
+                        )
+            print(f"  Saved {sum(1 for t in en_titles if t)} title translations")
+
         en_descs = batch_translate([t[2] for t in to_translate], "description")
+
+        # Save descriptions immediately
+        if not dry_run and en_descs:
+            with storage.conn:
+                for (e, _, _, _), desc_en in zip(to_translate, en_descs):
+                    if desc_en and desc_en != e.get("description", ""):
+                        eid = e["id"]
+                        storage.conn.execute(
+                            "UPDATE events SET description_en = ?, updated_at = ? WHERE id = ?",
+                            [desc_en, now, eid],
+                        )
+            print(f"  Saved {sum(1 for d in en_descs if d)} description translations")
+
         en_venues = batch_translate([t[3] for t in to_translate], "venue_name")
 
-        if not dry_run:
+        # Save venue names immediately
+        if not dry_run and en_venues:
             with storage.conn:
-                for (e, _, _, _), title_en, desc_en, venue_en in zip(to_translate, en_titles, en_descs, en_venues):
-                    eid = e["id"]
-                    updates = []
-                    params = []
-                    for field, val in [("title_en", title_en), ("description_en", desc_en), ("venue_name_en", venue_en)]:
-                        if val and val != e.get(field.replace("_en", ""), ""):
-                            updates.append(f"{field} = ?")
-                            params.append(val)
-                    if updates:
-                        sql = f"UPDATE events SET {', '.join(updates)}, updated_at = ? WHERE id = ?"
-                        storage.conn.execute(sql, params + [now, eid])
-            stats["events"] = len(to_translate)
-            print(f"  Written {len(to_translate)} events to SQLite")
+                for (e, _, _, _), venue_en in zip(to_translate, en_venues):
+                    if venue_en and venue_en != e.get("venue_name", ""):
+                        eid = e["id"]
+                        storage.conn.execute(
+                            "UPDATE events SET venue_name_en = ?, updated_at = ? WHERE id = ?",
+                            [venue_en, now, eid],
+                        )
+            print(f"  Saved {sum(1 for v in en_venues if v)} venue name translations")
+
+        stats["events"] = len(to_translate)
     else:
         print("\nNo events need translation")
 
