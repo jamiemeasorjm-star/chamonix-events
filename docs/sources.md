@@ -1,6 +1,6 @@
 # Sources — Chamonix Events Calendar
 
-*Last updated: 2026-05-26*
+*Last updated: 2026-07-23*
 
 ---
 
@@ -14,79 +14,76 @@
 | Type | Drupal 9, server-rendered HTML |
 | Status | Active — listing + detail scraping |
 | Scraper | `scripts/chamonix_net.py` |
-| Events | 12 listing, full detail pages |
-| Detail fields | Description, dates, times, venue, address, phone, website, image |
-| Schedule | Every 6h (cron: `chamonix-scraper`) |
-| Notes | Detail pages have custom CSS classes (`.event-datetimes`, `.event-venue`, `.event-location`, `.event-contact`). No JSON-LD or API available. |
+| Schedule | Every 6h (part of `chamonix-refresh.sh`) |
+| Confidence baseline | 1.0 (high trust) |
 
-### 🟡 chamonix.com (Secondary — Tier 1, partial)
+### ✅ chamonix.com (Secondary — Tier 1)
 
 | Field | Value |
 |-------|-------|
 | URL | `https://www.chamonix.com/evenements/evenements-et-manifestations` |
 | Type | Drupal, JS-rendered content |
-| Status | Listing only — detail pages broken (JS-rendered) |
+| Status | Active — listing only. Detail pages JS-rendered (broken for httpx). |
 | Scraper | `scripts/chamonix_com.py` |
-| Events | 20 titles + URLs from listing page |
-| Detail fields | All empty — descriptions, times, venues not extractable via httpx |
-| Schedule | Manual only (no cron) |
-| Notes | Detail content loaded by JavaScript. No API (tested: `?_format=json` → 406). Kept for listing breadth. Playwright deferred. |
+| Schedule | Every 24h (part of `chamonix-refresh.sh`) |
+| Confidence baseline | 1.0 (high trust) |
 
----
-
-## Planned Sources
-
-### P2 — Nightlife Venues (deferred — no scrapeable event data)
-
-### ✅ P3 — Cinema (AlloCiné — Le Vox)
+### ✅ Le Vox cinema (Tier 1)
 
 | Field | Value |
 |-------|-------|
-| URL | `https://www.allocine.fr/seance/salle_gen_csalle=P1406.html` |
-| Type | AlloCiné — server-rendered HTML |
-| Status | Active — 7 cinema events with titles, showtimes |
-| Scraper | `scripts/allocine_vox.py` |
-| Events | 7 films at Le Vox (3 screens) |
-| Schedule | Daily at 08:00 (cron: `chamonix-cinema`) |
-| Notes | Schedules change weekly. Some images lazy-loaded by JS.`
+| URL | `https://cinemavox-chamonix.com/fichier/programme.pdf` |
+| Type | PDF parsed weekly. Posters enriched via TMDB + AlloCiné |
+| Status | Active |
+| Scraper | `scripts/vox_pdf.py` |
+| Schedule | Every 168h (weekly, part of `chamonix-refresh.sh`) |
+| Confidence baseline | 1.0 (high trust) |
 
+### 🟡 manual_submission (Tier 3 — review only)
 
+| Field | Value |
+|-------|-------|
+| URL | `POST /api/submit` (via `submit.html` form) |
+| Type | Community submissions |
+| Status | Active — always routed to review queue |
+| Backend | `http_server.py` → `insert_review_item()` |
+| Confidence cap | 0.55 (below 0.6 threshold → always reviewed) |
 
-**Chamonix Centre:**
+### Disabled / Planned Sources
 
+| Source | Status | Notes |
+|--------|--------|-------|
+| `allocine_vox` | 🔴 Disabled | `active: false` in sources.yaml. Syntax error (T02) deferred. |
+| `nightlife` | 🔴 Disabled | `active: false`. 222 legacy events rejected. Would be review-only. |
+| Cultural venues | 📋 Planned | Museums, libraries (T35). |
+| Hotel calendars | 📋 Planned | P4 — not started. |
 
-### P3 — Cultural Venues
+### Ingestion Pipeline
 
-- Cinéma Vox, Cinébus, Musée Alpin (closed until Q2 2026), Musée des Cristaux, Glaciorium, Temple de la Nature, Musée de l'Alpinisme, Musée Montagnard, Bibliothèque municipale, Bibliothèque des Pèlerins
+```
+Source → Fetch → Parse → Normalize → Validate → Score (T14) → 
+  Dedupe (T11) → [confidence ≥ 0.6?] → Yes: publish / No: review queue (T26)
+```
 
-### P4 — Hotel Event Calendars
+- **Storage:** SQLite (canonical). JSON files are build artefacts.
+- **Dedup:** Single algorithm in `scripts/dedup.py` — keyed on `(normalized_title, start_date)`.
+- **Confidence:** `source_trust × parse_quality × completeness` (T14).
+- **Threshold:** Global `min_publish_confidence: 0.6` (per-source overrides in `sources.yaml`).
+- **Review queue:** `review_items` table. Managed via CLI (`review_cli.py`) or API (`POST /api/review/<id>/approve|reject`).
 
-- Alpina Eclectic Hotel, Lykke Hôtel & Spa, RockyPop, Le Prieuré, Hôtel Mont Blanc, Heliopic Hotel & Spa, Refuge des Aiglons, Bigsky, Excelsior Chamonix Hôtel & Spa, Park Hôtel Suisse, Hôtel de l'Arve, Le Morgane, Le Faucigny
+### Scraper Health (current)
 
----
+| Source | Published | Confidence | Status |
+|--------|-----------|------------|--------|
+| chamonix_com | 67 | ≥0.61 (Tier 1) | Healthy |
+| chamonix_net | 7 | ≥0.61 (Tier 1) | Healthy |
+| allocine_vox | 8 | ≥0.61 (legacy) | Disabled — no new scrapes |
+| cinema | 14 films | — | Parsed weekly from PDF |
+| Venues | 26 (23 with coords) | — | Seeded + geocoded |
 
-## Ingestion Pipeline
+### Missing features (for v1.1)
 
-Source -> Fetch -> Parse -> Normalize -> Validate -> Dedupe -> Merge -> Export JSON
-
-| Step | Details |
-|------|---------|
-| Frequency | P0: every 6h (cron), P2-P4: TBD |
-| Cron | chamonix-scraper — runs --no-detail for speed |
-| Merge | chamonix.net is primary. chamonix.com events kept at unique URLs. Dedup by title+date+commune. |
-| Output | data/events.json (overwritten each run) |
-| Frontend | Serves events.json via static HTTP server on port 8080 |
-
-## Scraper Health
-
-| Scraper | Events | Descriptions | Images | Times | Venues | Status |
-|---------|--------|-------------|--------|-------|--------|--------|
-| chamonix_net.py | 12 | 12 | 12 | 8 | 12 | Healthy |
-| chamonix_com.py | 20 | 0 | 19 | 0 | 0 | Listing only |
-
-## Missing features
-
-- Playwright scraper for chamonix.com detail pages (deferred)
-- RSS/iCal export
-- Individual venue website scrapers
-- Multi-language support (FR/EN)
+- RSS / iCal export
+- Individual venue website scrapers (hotels)
+- Cultural venue sources (museums)
+- Admin dashboard (T38 — `/admin/` live on http_server)

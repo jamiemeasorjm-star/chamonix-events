@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-"""Build pipeline: merge events.json + cinema_events.json → index.html"""
+"""Build pipeline: merge events.json + cinema_events.json → index.html + event detail pages + sitemap"""
+import html
 import json, os, re, sys
+import unicodedata
 from datetime import datetime, timezone
 
 # T03: import atomic write helpers from the project package
@@ -10,6 +12,7 @@ from scripts.storage import get_storage  # T10: SQLite canonical source
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(SCRIPT_DIR, "data")
+EVENTS_DIR = os.path.join(SCRIPT_DIR, "events")  # T41: individual event pages
 INDEX_HTML = os.path.join(SCRIPT_DIR, "index.html")
 INDEX_TEMPLATE = os.path.join(SCRIPT_DIR, "index.html.template")
 # T27: review queue page (operator UI on top of /api/review/*).
@@ -18,6 +21,9 @@ REVIEW_TEMPLATE = os.path.join(SCRIPT_DIR, "review.html.template")
 # T28: about page (sources, methodology, threshold policy).
 ABOUT_HTML = os.path.join(SCRIPT_DIR, "about.html")
 ABOUT_TEMPLATE = os.path.join(SCRIPT_DIR, "about.html.template")
+# T32: manual event submission page.
+SUBMIT_HTML = os.path.join(SCRIPT_DIR, "submit.html")
+SUBMIT_TEMPLATE = os.path.join(SCRIPT_DIR, "submit.html.template")
 EVENTS_JSON = os.path.join(DATA_DIR, "events.json")
 CINEMA_JSON = os.path.join(DATA_DIR, "cinema_events.json")
 VENUES_JSON = os.path.join(DATA_DIR, "venues.json")
@@ -90,7 +96,7 @@ def load_events():
     # T10: read from SQLite (canonical). JSON files are now build artefacts
     # produced by this same script at the end of a build.
     storage = get_storage()
-    events = storage.get_events(status=None)  # include everything; cinema filter below
+    events = storage.get_events(status="published")  # only published events
     # Filter out cinema-category events — they're duplicates of cinema_events.json
     # and belong only in the dedicated cinema section
     events = [e for e in events if e.get("category", "").lower() != "cinema"]
@@ -275,6 +281,13 @@ def generate_html(events, venues, cinema=None, has_coorded_venues=True):
         with open(INDEX_HTML) as f:
             html = f.read()
 
+    # T24: apply per-language field fallbacks before JSON emission
+    from scripts.storage import localized
+    events = [localized(e) for e in events]
+    venues = [localized(v) for v in venues]
+    if cinema:
+        cinema = [localized(c) for c in cinema]
+
     # Inject EVENTS (marker replacement) — cinema excluded from main EVENTS
     events_json = json.dumps(events, ensure_ascii=False)
     if '<!-- EVENTS_DATA -->' in html:
@@ -372,6 +385,292 @@ def render_about_page() -> bool:
     except OSError as exc:
         print(f"  [t28] failed to write about.html: {exc}", file=sys.stderr)
         return False
+
+
+def _render_static(name: str, label: str, template_name: str, output_name: str) -> bool:
+    """Generic static page renderer — copies template to output with atomic write.
+
+    Used for pages that have no data placeholders (privacy, terms, etc.).
+    """
+    template_path = os.path.join(SCRIPT_DIR, template_name)
+    output_path = os.path.join(SCRIPT_DIR, output_name)
+    if not os.path.exists(template_path):
+        print(f"  [{name}] {template_path} not found — skipping {output_name}")
+        return False
+    try:
+        with open(template_path, "r", encoding="utf-8") as f:
+            html = f.read()
+        write_atomic_text(output_path, html)
+        print(f"  [{name}] wrote {output_name}")
+        return True
+    except OSError as exc:
+        print(f"  [{name}] failed to write {output_name}: {exc}", file=sys.stderr)
+        return False
+
+
+def render_submit_page() -> bool:
+    """T32: write submit.html from submit.html.template.
+
+    Static content-only page (manual event submission form).
+    Same atomic-write discipline as the other static pages.
+    """
+    if not os.path.exists(SUBMIT_TEMPLATE):
+        print(f"  [t32] {SUBMIT_TEMPLATE} not found — skipping submit.html")
+        return False
+    try:
+        with open(SUBMIT_TEMPLATE, "r", encoding="utf-8") as f:
+            html = f.read()
+        write_atomic_text(SUBMIT_HTML, html)
+        print(f"  [t32] wrote {SUBMIT_HTML}")
+        return True
+    except OSError as exc:
+        print(f"  [t32] failed to write submit.html: {exc}", file=sys.stderr)
+        return False
+
+
+# ----- T41: individual event pages, sitemap, robots --------------------------
+
+EVENT_TEMPLATE = os.path.join(SCRIPT_DIR, "event.html.template")
+SITEMAP_XML = os.path.join(SCRIPT_DIR, "sitemap.xml")
+ROBOTS_TXT = os.path.join(SCRIPT_DIR, "robots.txt")
+SITE_URL = "https://events.chamonix.app"  # base for canonical/OG URLs
+
+
+def slugify(text: str) -> str:
+    """Convert text to a URL-safe slug (lowercase ASCII, hyphens only).
+
+    Handles French accented chars (é→e, è→e, ç→c, etc.) and strips
+    non-alphanumeric characters. Used for event detail page filenames.
+    """
+    text = text.lower().strip()
+    # Normalize unicode (NFD decomposes é → e + combining accent)
+    text = unicodedata.normalize("NFD", text)
+    # Strip combining diacritical marks
+    text = re.sub(r"[\u0300-\u036f]", "", text)
+    # Replace non-alphanumeric with hyphens
+    text = re.sub(r"[^a-z0-9]+", "-", text)
+    # Strip leading/trailing hyphens
+    text = text.strip("-")
+    # Collapse multiple hyphens
+    text = re.sub(r"-+", "-", text)
+    # Remove trailing date pattern if present (e.g. "-2026-07-24")
+    text = re.sub(r"-\d{4}-\d{2}-\d{2}$", "", text)
+    return text[:80] or "event"
+
+
+def _meta_desc(desc: str, maxlen: int = 200) -> str:
+    """First meaningful sentence or truncated text for meta description."""
+    desc = (desc or "").strip()
+    if not desc:
+        return "Event in Chamonix, France"
+    # Try first sentence
+    sentences = re.split(r"[.!?\n]+", desc)
+    for s in sentences:
+        s = s.strip()
+        if len(s) > 20:
+            if len(s) <= maxlen:
+                return html.escape(s)
+            return html.escape(s[:maxlen].rsplit(" ", 1)[0] + "…")
+    return html.escape(desc[:maxlen])
+
+
+def _format_date_range(start: str, end: str | None) -> str:
+    """Human-readable date range like 'Jul 2 → Sep 30, 2026'."""
+    from datetime import datetime as dt
+    fmt = "%b %d, %Y"
+    s = dt.fromisoformat(start).strftime(fmt) if start else ""
+    e = dt.fromisoformat(end).strftime(fmt) if end else ""
+    if s and e and start != end:
+        return f"{s} → {e}"
+    return s or e or ""
+
+
+def generate_event_pages(events: list[dict]) -> int:
+    """T41: generate /events/<slug>.html for each published event.
+
+    Reads event.html.template, fills in per-event placeholders, writes
+    atomically. Returns count of pages written.
+
+    Each page includes:
+      - Full event title, date, time, venue, commune, price, website
+      - OG / Twitter Card meta tags for social sharing
+      - Schema.org/Event JSON-LD structured data
+      - "Add to Calendar" (iCal) link (will work once T42 is done)
+      - Back-to-events navigation
+    """
+    if not os.path.exists(EVENT_TEMPLATE):
+        print(f"  [t41] {EVENT_TEMPLATE} not found — skipping event pages")
+        return 0
+
+    with open(EVENT_TEMPLATE, "r", encoding="utf-8") as f:
+        tmpl = f.read()
+
+    os.makedirs(EVENTS_DIR, exist_ok=True)
+    count = 0
+
+    for e in events:
+        # Use event id as base for deterministic slug (already unique)
+        slug = slugify(e.get("id", e.get("title", "event")))
+        # Remove trailing date pattern from id-based slug
+        slug = re.sub(r"-\d{4}-\d{2}-\d{2}$", "", slug)
+
+        title = e.get("title", "Event")
+        title_en = e.get("title_en") or e.get("title") or ""
+        desc_html = (e.get("description") or "").replace("\n", "<br>")
+        desc_plain = _meta_desc(e.get("description", ""))
+        category = e.get("category", "other").capitalize()
+        date_str = _format_date_range(e.get("start_date", ""), e.get("end_date"))
+        time_str = e.get("time") or "All day"
+        venue_name = e.get("venue_name") or e.get("venue") or "Chamonix"
+        commune = e.get("commune", "Chamonix")
+        price = e.get("price")
+        website = e.get("website") or e.get("source_url", "")
+        source_url = e.get("source_url", "")
+
+        # OG / Twitter Card tags
+        og_title = html.escape(title)
+        og_desc = html.escape(desc_plain)
+        og_url = f"{SITE_URL}/events/{slug}.html"
+        og_tags = (
+            f'<meta property="og:type" content="website">\n'
+            f'<meta property="og:url" content="{og_url}">\n'
+            f'<meta property="og:title" content="{og_title} — Chamonix Events">\n'
+            f'<meta property="og:description" content="{og_desc}">\n'
+            f'<meta property="og:site_name" content="Chamonix Events">'
+        )
+        twitter_tags = (
+            f'<meta name="twitter:card" content="summary_large_image">\n'
+            f'<meta name="twitter:title" content="{og_title} — Chamonix Events">\n'
+            f'<meta name="twitter:description" content="{og_desc}">'
+        )
+        if e.get("image_url") and not e["image_url"].startswith("data:"):
+            og_tags += f'\n<meta property="og:image" content="{html.escape(e["image_url"])}">'
+            twitter_tags += f'\n<meta name="twitter:image" content="{html.escape(e["image_url"])}">'
+
+        # Schema.org JSON-LD
+        json_ld = {
+            "@context": "https://schema.org",
+            "@type": "Event",
+            "name": title,
+            "description": e.get("description", ""),
+            "startDate": e.get("start_date", ""),
+            "url": og_url,
+            "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+            "eventStatus": "https://schema.org/EventScheduled",
+            "location": {
+                "@type": "Place",
+                "name": venue_name,
+                "address": {"@type": "PostalAddress", "addressLocality": commune},
+            },
+        }
+        if e.get("end_date") and e["end_date"] != e.get("start_date"):
+            json_ld["endDate"] = e["end_date"]
+        if e.get("image_url") and not e["image_url"].startswith("data:"):
+            json_ld["image"] = e["image_url"]
+        json_ld_str = json.dumps(json_ld, ensure_ascii=False).replace("</script>", "<\\/script>")
+
+        # Price meta
+        price_block = ""
+        if price:
+            price_block = (
+                f'<div class="meta-item"><div class="meta-label">Price</div>'
+                f'<div class="meta-value">{html.escape(str(price))}</div></div>'
+            )
+        website_block = ""
+        if website:
+            website_block = (
+                f'<div class="meta-item"><div class="meta-label">Website</div>'
+                f'<div class="meta-value"><a class="venue-link" href="{html.escape(website)}" '
+                f'target="_blank" rel="noopener">{html.escape(website[:40])}…</a></div></div>'
+            )
+
+        # Bilingual title subtitle
+        title_en_html = ""
+        if title_en and title_en != title:
+            title_en_html = (
+                f'<p style="font-size:.85rem;color:var(--text3);font-family:var(--ff-sans);'
+                f'font-weight:400;margin-top:4px">{html.escape(title_en)}</p>'
+            )
+
+        page = tmpl
+        page = page.replace("__EVENT_TITLE__", html.escape(title))
+        page = page.replace("__EVENT_TITLE_EN__", title_en_html)
+        page = page.replace("__EVENT_DESC_PLAIN__", desc_plain)
+        page = page.replace("__EVENT_CATEGORY__", category)
+        page = page.replace("__EVENT_DATE__", html.escape(date_str))
+        page = page.replace("__EVENT_TIME__", html.escape(time_str))
+        page = page.replace("__EVENT_VENUE__", html.escape(venue_name))
+        page = page.replace("__EVENT_COMMUNE__", html.escape(commune))
+        page = page.replace("__EVENT_DESCRIPTION__", desc_html)
+        page = page.replace("__EVENT_SOURCE_URL__", html.escape(source_url))
+        page = page.replace("__EVENT_PRICE__", price_block)
+        page = page.replace("__EVENT_WEBSITE__", website_block)
+        page = page.replace("__OG_TAGS__", og_tags)
+        page = page.replace("__TWITTER_TAGS__", twitter_tags)
+        page = page.replace("__JSON_LD__", f'<script type="application/ld+json">{json_ld_str}</script>')
+        # iCal link (placeholder — works once T42 adds the endpoint)
+        page = page.replace("__ICAL_LINK__", f'/api/events.ics?event={slug}')
+
+        fpath = os.path.join(EVENTS_DIR, f"{slug}.html")
+        write_atomic_text(fpath, page)
+        count += 1
+
+    print(f"  [t41] wrote {count} event pages to events/")
+    return count
+
+
+def generate_sitemap(events: list[dict], cinema: list[dict]) -> None:
+    """T41: generate sitemap.xml listing all published event detail pages + static pages.
+
+    Produces a valid sitemap with lastmod dates and change frequencies.
+    Static pages (index, about, submit, review) are included at weekly cadence.
+    Event pages use monthly cadence.
+    """
+    now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+    urls = []
+    # Static pages
+    for static_url, prio in [("", "1.0"), ("/about.html", "0.7"), ("/submit.html", "0.5"), ("/review.html", "0.3"), ("/privacy.html", "0.3")]:
+        urls.append(f"""  <url>
+    <loc>{SITE_URL}{static_url}</loc>
+    <lastmod>{now_iso}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>{prio}</priority>
+  </url>""")
+
+    # Event pages
+    seen_slugs = set()
+    for e in events:
+        slug = slugify(e.get("id", e.get("title", "event")))
+        slug = re.sub(r"-\d{4}-\d{2}-\d{2}$", "", slug)
+        if slug in seen_slugs:
+            continue
+        seen_slugs.add(slug)
+        lastmod = (e.get("updated_at") or e.get("created_at") or now_iso)[:10]
+        urls.append(f"""  <url>
+    <loc>{SITE_URL}/events/{slug}.html</loc>
+    <lastmod>{lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>""")
+
+    xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{chr(10).join(urls)}
+</urlset>"""
+    write_atomic_text(SITEMAP_XML, xml)
+    print(f"  [t41] wrote sitemap.xml ({len(seen_slugs)} event URLs)")
+
+
+def generate_robots() -> None:
+    """T41: generate robots.txt allowing all crawlers, pointing to sitemap."""
+    robots = f"""User-agent: *
+Allow: /
+
+Sitemap: {SITE_URL}/sitemap.xml
+"""
+    write_atomic_text(ROBOTS_TXT, robots)
+    print("  [t41] wrote robots.txt")
 
 
 def main():
@@ -481,6 +780,16 @@ def main():
     # Computed venue counts go into the HTML only.
     # This avoids overwriting the 26-venue reference file on every build.
 
+    # T41: inject _slug field so JS can link to event detail pages
+    for e in merged:
+        slug = slugify(e.get("id", e.get("title", "event")))
+        slug = re.sub(r"-\d{4}-\d{2}-\d{2}$", "", slug)
+        e["_slug"] = slug
+    for e in cinema:
+        slug = slugify(e.get("id", e.get("title", "event")))
+        slug = re.sub(r"-\d{4}-\d{2}-\d{2}$", "", slug)
+        e["_slug"] = slug
+
     # Generate HTML — pass cinema separately for dedicated section
     # T21: pass has_coorded_venues so the map toggle hides when no
     # venues have usable coords (per the plan: "hide map if no pins").
@@ -499,6 +808,12 @@ def main():
     # T28: about page (sources, methodology, threshold policy).
     # Static content-only, no placeholders.
     render_about_page()
+
+    # T32: manual event submission page.
+    render_submit_page()
+
+    # T46: privacy policy page.
+    _render_static("privacy", "Privacy Policy", "privacy.html.template", "privacy.html")
 
     # T19: keep a versioned copy so operators can roll back without
     # re-running the pipeline. Pruned to BUILDS_KEEP by snapshot_build.
@@ -521,6 +836,11 @@ def main():
         LASTRUN_JSON,
         {"built_at": datetime.now(timezone.utc).isoformat(), "events": len(merged), "cinema": len(cinema)},
     )
+
+    # T41: generate individual event pages, sitemap, and robots.txt
+    generate_event_pages(merged)
+    generate_sitemap(merged, cinema)
+    generate_robots()
 
 
 if __name__ == "__main__":

@@ -126,7 +126,7 @@ def parse_detail_page(url: str, client: httpx.Client) -> dict:
     title_el = soup.select_one("h1") or soup.select_one("h2.post-title a span")
     title = title_el.get_text(strip=True) if title_el else ""
 
-    desc_el = soup.select_one(".node__content") or soup.select_one(".field--name-body")
+    desc_el = soup.select_one(".node__content .field--name-body")
     description = desc_el.get_text(strip=True) if desc_el else ""
 
     cat_el = soup.select_one(".post-categories a")
@@ -148,8 +148,15 @@ def parse_detail_page(url: str, client: httpx.Client) -> dict:
 
     time_el = soup.select_one(".event-times")
     if time_el:
-        time_str = time_el.get_text(strip=True)
-        time_str = re.sub(r"^\d{1,2}:\d{2}", "", time_str).strip()
+        # Extract the actual start time from the .start-time span
+        start_time_el = time_el.select_one(".start-time")
+        comment_el = time_el.select_one(".times-comment .field__item")
+        parts = []
+        if start_time_el:
+            parts.append(start_time_el.get_text(strip=True))
+        if comment_el:
+            parts.append(comment_el.get_text(strip=True))
+        time_str = " ".join(parts) if parts else None
 
     start_date, end_date = parse_date_from_card(date_text or date_only)
 
@@ -278,6 +285,10 @@ def normalize(raw: dict, source_url: str) -> Event:
         source_url=source_url,
         image_url=raw.get("image_url"),
         price=raw.get("price"),
+        venue_name=raw.get("venue_name"),
+        address=raw.get("address"),
+        contact_phone=raw.get("contact_phone"),
+        website=raw.get("website"),
         status="published",
         confidence=CONFIDENCE,  # T14: placeholder; real score computed below
     )

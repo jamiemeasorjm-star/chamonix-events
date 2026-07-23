@@ -34,6 +34,40 @@ if sys_path not in sys.path:
 from scripts.dedup import dedupe_events  # T11
 
 
+# T24: per-language field reader with fallback
+LOCALE_FIELDS = {"title", "description", "venue_name", "name"}  # fields that have _en/_fr variants
+CANONICAL_LOCALE = "fr"  # canonical ingestion language
+
+
+def localized(val: dict, locale: str = CANONICAL_LOCALE) -> dict:
+    """Return a copy of `val` with per-language fields populated for `locale`.
+
+    Copies the canonical FR value into the locale-appropriate field (e.g.
+    title_fr). If the locale is not FR, falls back to FR if the locale
+    field is empty.
+
+    The returned dict always has:
+      - `title`, `description`, `venue_name` = the canonical FR values
+      - `title_{locale}`, `description_{locale}`, `venue_name_{locale}` = locale-appropriate
+    """
+    v = dict(val)
+    loc = locale or CANONICAL_LOCALE
+    for f in LOCALE_FIELDS:
+        base = v.get(f, "") or ""
+        loc_field = f"{f}_{loc}"
+        fr_field = f"{f}_fr"
+        en_field = f"{f}_en"
+        # Ensure FR field is populated
+        if loc == CANONICAL_LOCALE or not v.get(fr_field):
+            v[fr_field] = base
+        # Ensure EN field is populated (copy from FR as fallback)
+        if not v.get(en_field):
+            v[en_field] = base
+        # Set locale-specific field with fallback chain
+        v[loc_field] = v.get(loc_field) or v.get(fr_field) or base
+    return v
+
+
 # ----- DB path resolution ---------------------------------------------------
 
 def resolve_db_path() -> Path:
@@ -138,6 +172,26 @@ CREATE INDEX IF NOT EXISTS idx_events_start_date ON events(start_date);
 CREATE INDEX IF NOT EXISTS idx_events_status     ON events(status);
 """
 
+# T24: per-language content fields (idempotent column additions)
+T24_COLUMNS: dict[str, list[tuple[str, str]]] = {
+    "events": [
+        ("title_en", "TEXT"),
+        ("title_fr", "TEXT"),
+        ("description_en", "TEXT"),
+        ("description_fr", "TEXT"),
+        ("venue_name_en", "TEXT"),
+        ("venue_name_fr", "TEXT"),
+    ],
+    "cinema_events": [
+        ("title_en", "TEXT"),
+        ("title_fr", "TEXT"),
+    ],
+    "venues": [
+        ("name_en", "TEXT"),
+        ("name_fr", "TEXT"),
+    ],
+}
+
 
 # ----- Storage class --------------------------------------------------------
 
@@ -173,6 +227,10 @@ class Storage:
         self._add_column_if_missing("venues", "postal_code", "TEXT")
         # categories stored as JSON-encoded list (e.g., '["bar","live_music"]')
         self._add_column_if_missing("venues", "categories", "TEXT")
+        # T24: per-language content fields
+        for table, cols in T24_COLUMNS.items():
+            for col, decl in cols:
+                self._add_column_if_missing(table, col, decl)
 
     def _add_column_if_missing(self, table: str, column: str, decl: str) -> None:
         """SQLite helper: add a column only if it isn't already there.
@@ -252,6 +310,8 @@ class Storage:
             "time", "venue_id", "category", "commune", "source_url", "image_url",
             "price", "venue_name", "address", "contact_phone", "website",
             "status", "confidence", "created_at", "updated_at",
+            "title_en", "title_fr", "description_en", "description_fr",
+            "venue_name_en", "venue_name_fr",
         )
         with self.conn:
             for r in rows:
@@ -266,10 +326,11 @@ class Storage:
             "id", "title", "duration", "language", "start_date", "end_date",
             "showtimes_json", "image_url", "description", "source_url",
             "status", "confidence", "created_at", "updated_at",
+            "title_en", "title_fr",
         )
         with self.conn:
             for r in rows:
-                vals = _cinema_to_row(r)
+                vals = list(_cinema_to_row(r))
                 self.conn.execute(
                     f"INSERT OR REPLACE INTO cinema_events ({','.join(cols)}) VALUES ({','.join('?' * len(cols))})",
                     vals,
@@ -336,6 +397,8 @@ class Storage:
             "time", "venue_id", "category", "commune", "source_url", "image_url",
             "price", "venue_name", "address", "contact_phone", "website",
             "status", "confidence", "created_at", "updated_at",
+            "title_en", "title_fr", "description_en", "description_fr",
+            "venue_name_en", "venue_name_fr",
         )
         placeholders = ",".join("?" * len(cols))
 
@@ -412,6 +475,8 @@ class Storage:
                 "time", "venue_id", "category", "commune", "source_url", "image_url",
                 "price", "venue_name", "address", "contact_phone", "website",
                 "status", "confidence", "created_at", "updated_at",
+                "title_en", "title_fr", "description_en", "description_fr",
+                "venue_name_en", "venue_name_fr",
             )
             for r in events:
                 vals = list(_event_to_row(r, default_source_id=source_id))
@@ -430,10 +495,14 @@ class Storage:
                 "id", "title", "duration", "language", "start_date", "end_date",
                 "showtimes_json", "image_url", "description", "source_url",
                 "status", "confidence", "created_at", "updated_at",
+                "title_en", "title_fr",
             )
+            updated_at_idx = cols.index("updated_at")
+            created_at_idx = cols.index("created_at")
             for r in cinema_events:
                 vals = list(_cinema_to_row(r))
-                vals[-1] = now
+                vals[created_at_idx] = vals[created_at_idx] or now
+                vals[updated_at_idx] = now
                 self.conn.execute(
                     f"INSERT INTO cinema_events ({','.join(cols)}) VALUES ({','.join('?' * len(cols))})",
                     vals,
@@ -730,12 +799,24 @@ class Storage:
         reviewer: str = "operator",
         note: str | None = None,
     ) -> bool:
-        """Mark an open review item as approved. Returns True on state change.
+        """Mark an open review item as approved.
+
+        Also publishes the event snapshot to the events table so the
+        operator's approval is reflected on the live site immediately.
 
         No-op (returns False) if the item is missing or already decided.
         """
         now = datetime.now(timezone.utc).isoformat()
         with self.conn:
+            # Fetch the review item row first so we have the snapshot.
+            row = self.conn.execute(
+                "SELECT * FROM review_items WHERE id = ? AND status = 'open'",
+                (rid,),
+            ).fetchone()
+            if not row:
+                return False
+
+            # Mark as approved.
             cur = self.conn.execute(
                 """
                 UPDATE review_items
@@ -745,7 +826,54 @@ class Storage:
                 """,
                 (reviewer, now, note, rid),
             )
-        return cur.rowcount > 0
+            if cur.rowcount == 0:
+                return False
+
+            # Publish the event snapshot to the events table.
+            try:
+                snap_raw = row["event_snapshot"]
+            except KeyError:
+                snap_raw = None
+            if snap_raw:
+                try:
+                    snap = json.loads(snap_raw)
+                except (json.JSONDecodeError, TypeError):
+                    snap = {}
+                if snap:
+                    # Bump confidence above publish threshold so the event
+                    # survives the next scraper run (upsert_events deletes
+                    # all events for a source then re-inserts only those
+                    # at or above threshold).
+                    source_id = snap.get("source_id", "")
+                    threshold = 0.6  # default; overridden from sources.yaml
+                    try:
+                        from scripts.sources import get_min_confidence
+                        threshold = get_min_confidence(source_id)
+                    except (ImportError, RuntimeError, Exception):
+                        pass  # fall back to 0.6 default
+                    current_conf = float(snap.get("confidence", 0.0) or 0.0)
+                    if current_conf < threshold:
+                        snap["confidence"] = round(threshold + 0.01, 3)
+                    # Force published status — the snapshot may have
+                    # 'pending_review' if it came from a curated source.
+                    snap["status"] = "published"
+
+                    vals = list(_event_to_row(snap))
+                    cols = (
+                        "id", "source_id", "title", "description", "start_date",
+                        "end_date", "time", "venue_id", "category", "commune",
+                        "source_url", "image_url", "price", "venue_name", "address",
+                        "contact_phone", "website",
+                        "status", "confidence", "created_at", "updated_at",
+                        "title_en", "title_fr", "description_en", "description_fr",
+                        "venue_name_en", "venue_name_fr",
+                    )
+                    self.conn.execute(
+                        f"INSERT OR IGNORE INTO events "
+                        f"({','.join(cols)}) VALUES ({','.join('?' * len(cols))})",
+                        vals,
+                    )
+        return True
 
     def reject_review_item(
         self,
@@ -768,6 +896,139 @@ class Storage:
                 (reviewer, now, note, rid),
             )
         return cur.rowcount > 0
+
+    def auto_triage(self) -> dict[str, int]:
+        """T43: auto-approve high-confidence items, auto-reject stale low-confidence ones.
+
+        Rules:
+          - Approve all open items with confidence >= 0.7 (far above 0.6 threshold)
+          - Reject all open items older than 60 days with confidence < 0.4 (stale noise)
+
+        Returns a dict like {'approved': 3, 'rejected': 5, 'errors': 0}.
+        """
+        from datetime import datetime, timezone, timedelta
+
+        now = datetime.now(timezone.utc)
+        cutoff = (now - timedelta(days=60)).isoformat()
+        result: dict[str, int] = {"approved": 0, "rejected": 0, "errors": 0}
+
+        with self.conn:
+            # Auto-approve: high confidence items
+            high_conf_rows = self.conn.execute(
+                "SELECT id, event_snapshot FROM review_items "
+                "WHERE status = 'open' AND confidence >= 0.7",
+            ).fetchall()
+            for row in high_conf_rows:
+                rid = row["id"]
+                try:
+                    snap_raw = row["event_snapshot"]
+                    if snap_raw:
+                        snap = json.loads(snap_raw)
+                        if snap:
+                            source_id = snap.get("source_id", "")
+                            threshold = 0.6
+                            try:
+                                from scripts.sources import get_min_confidence
+                                threshold = get_min_confidence(source_id)
+                            except Exception:
+                                pass
+                            current_conf = float(snap.get("confidence", 0.0) or 0.0)
+                            if current_conf < threshold:
+                                snap["confidence"] = round(threshold + 0.01, 3)
+                            snap["status"] = "published"
+                            vals = list(_event_to_row(snap))
+                            cols = (
+                                "id", "source_id", "title", "description",
+                                "start_date", "end_date", "time", "venue_id",
+                                "category", "commune", "source_url", "image_url",
+                                "price", "venue_name", "address", "contact_phone",
+                                "website", "status", "confidence", "created_at",
+                                "updated_at", "title_en", "title_fr",
+                                "description_en", "description_fr",
+                                "venue_name_en", "venue_name_fr",
+                            )
+                            self.conn.execute(
+                                f"INSERT OR IGNORE INTO events "
+                                f"({','.join(cols)}) VALUES ({','.join('?' * len(cols))})",
+                                vals,
+                            )
+                    self.conn.execute(
+                        "UPDATE review_items SET status = 'approved', "
+                        "reviewed_by = 'auto-triage', reviewed_at = ?, "
+                        "notes = COALESCE(notes, 'auto-approved: confidence >= 0.7') "
+                        "WHERE id = ? AND status = 'open'",
+                        (now.isoformat(), rid),
+                    )
+                    result["approved"] += 1
+                except Exception as exc:
+                    print(f"  [auto_triage] error approving {rid}: {exc}", file=sys.stderr)
+                    result["errors"] += 1
+
+            # Auto-reject: stale low confidence items
+            old_low_rows = self.conn.execute(
+                "SELECT id FROM review_items "
+                "WHERE status = 'open' AND confidence < 0.4 "
+                "AND created_at < ?",
+                (cutoff,),
+            ).fetchall()
+            for row in old_low_rows:
+                try:
+                    self.conn.execute(
+                        "UPDATE review_items SET status = 'rejected', "
+                        "reviewed_by = 'auto-triage', reviewed_at = ?, "
+                        "notes = COALESCE(notes, 'auto-rejected: stale (>60d) + low confidence (<0.4)') "
+                        "WHERE id = ? AND status = 'open'",
+                        (now.isoformat(), row["id"]),
+                    )
+                    result["rejected"] += 1
+                except Exception as exc:
+                    print(f"  [auto_triage] error rejecting {row['id']}: {exc}", file=sys.stderr)
+                    result["errors"] += 1
+
+        return result
+
+    def review_confidence_histogram(self) -> dict:
+        """T43: confidence distribution across open review items.
+
+        Returns buckets: {'0.0-0.2': N, '0.2-0.4': N, ..., '0.8-1.0': N}
+        plus summary stats.
+        """
+        rows = self.conn.execute(
+            "SELECT confidence FROM review_items WHERE status = 'open'"
+        ).fetchall()
+        if not rows:
+            return {"buckets": {}, "total": 0, "mean": 0, "min": 0, "max": 0}
+
+        buckets = {
+            "0.0-0.2": 0, "0.2-0.4": 0, "0.4-0.6": 0,
+            "0.6-0.8": 0, "0.8-1.0": 0,
+        }
+        total = 0.0
+        min_c = 1.0
+        max_c = 0.0
+        for r in rows:
+            c = float(r["confidence"] or 0.0)
+            total += c
+            min_c = min(min_c, c)
+            max_c = max(max_c, c)
+            if c < 0.2:
+                buckets["0.0-0.2"] += 1
+            elif c < 0.4:
+                buckets["0.2-0.4"] += 1
+            elif c < 0.6:
+                buckets["0.4-0.6"] += 1
+            elif c < 0.8:
+                buckets["0.6-0.8"] += 1
+            else:
+                buckets["0.8-1.0"] += 1
+
+        return {
+            "buckets": buckets,
+            "total": len(rows),
+            "mean": round(total / len(rows), 3),
+            "min": round(min_c, 3),
+            "max": round(max_c, 3),
+        }
 
     def close(self) -> None:
         self.conn.close()
@@ -799,6 +1060,13 @@ def _event_to_row(r: dict, default_source_id: str | None = None) -> tuple:
         r.get("confidence", 1.0),
         r.get("created_at") or datetime.now(timezone.utc).isoformat(),
         r.get("updated_at") or datetime.now(timezone.utc).isoformat(),
+        # T24: per-language content fields
+        r.get("title_en"),
+        r.get("title_fr"),
+        r.get("description_en"),
+        r.get("description_fr"),
+        r.get("venue_name_en"),
+        r.get("venue_name_fr"),
     )
 
 
@@ -821,6 +1089,9 @@ def _cinema_to_row(r: dict) -> tuple:
         r.get("confidence", 1.0),
         r.get("created_at") or datetime.now(timezone.utc).isoformat(),
         r.get("updated_at") or datetime.now(timezone.utc).isoformat(),
+        # T24: per-language content fields
+        r.get("title_en"),
+        r.get("title_fr"),
     )
 
 

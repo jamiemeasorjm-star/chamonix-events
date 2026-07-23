@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>About — Chamonix Events</title>
+<title data-i18n="about_title">About — Chamonix Events</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://www.themoviedb.org">
 <link rel="preconnect" href="https://www.themoviedb.org">
@@ -23,6 +23,10 @@ body{padding-bottom:80px}
 .nav-links a{font-size:.78rem;color:var(--text2);text-decoration:none;transition:color .2s;letter-spacing:.05em}
 .nav-links a:hover{color:var(--text)}
 .nav-links a.active{color:var(--gold)}
+.nav-links .lang-select{font-family:var(--ff-sans);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:rgba(11,10,8,.6);backdrop-filter:blur(8px);color:var(--text2);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;transition:all .3s;min-width:50px;text-align:center}
+.nav-links .lang-select:hover{border-color:var(--text3);color:var(--text)}
+.nav-links .lang-select:focus{border-color:var(--gold-d)}
+.nav-links .lang-select option{background:var(--bg);color:var(--text);font-size:.75rem}
 
 .wrap{max-width:920px;margin:0 auto;padding:48px 24px}
 
@@ -107,38 +111,42 @@ body{padding-bottom:80px}
   <div class="nav-inner">
     <a class="nav-brand" href="/">Chamonix <span class="accent">Events</span></a>
     <ul class="nav-links">
-      <li><a href="/">Events</a></li>
-      <li><a href="/about.html" class="active">About</a></li>
-      <li><a href="/review.html">Review queue</a></li>
+      <li><a href="/" data-i18n="nav_events">Events</a></li>
+      <li><a href="/about.html" class="active" data-i18n="about_nav">About</a></li>
+      <li><a href="/review.html" data-i18n="about_review_link">Review queue</a></li>
       <li><a href="/healthz" target="_blank">Health</a></li>
+      <li><select id="locale-sel" class="lang-select">
+        <option value="en">EN</option>
+        <option value="fr">FR</option>
+      </select></li>
     </ul>
   </div>
 </nav>
 
 <div class="wrap">
 
-<a class="back" href="/">Back to events</a>
+<a class="back" href="/" data-i18n="about_back">Back to events</a>
 
 <header class="hero">
-  <h1>About this site</h1>
-  <p class="lead">A local guide to <em>events</em> in the Chamonix valley — what's on tonight, this weekend, and next week. Built from public sources, curated by a single operator.</p>
+  <h1 data-i18n="about_title_h1">About this site</h1>
+  <p class="lead" data-i18n="about_lead">A local guide to <em>events</em> in the Chamonix valley — what's on tonight, this weekend, and next week. Built from public sources, curated by a single operator.</p>
 </header>
 
 <section class="sec">
   <div class="sec-h">
     <span class="num">01</span>
-    <h2>What this is</h2>
+    <h2 data-i18n="about_what_title">What this is</h2>
   </div>
-  <p>This is a focused, opinionated guide to events in Chamonix, Les Houches, Argentière, and nearby communes. The site is built from public data sources, refreshed automatically several times a day, and curated by a single operator (Jamie) — not by AI or by a content team.</p>
-  <p>The goal is to be <em>useful for one decision</em>: "what should I do tonight?" The site shows cinema, concerts, exhibitions, family events, markets, sport, and theatre. It does not show generic tourism content, hotel offers, or restaurant menus.</p>
+  <p data-i18n="about_what_p1">This is a focused, opinionated guide to events in Chamonix, Les Houches, Argentière, and nearby communes. The site is built from public data sources, refreshed automatically several times a day, and curated by a single operator (Jamie) — not by AI or by a content team.</p>
+  <p data-i18n="about_what_p2">The goal is to be <em>useful for one decision</em>: "what should I do tonight?" The site shows cinema, concerts, exhibitions, family events, markets, sport, and theatre. It does not show generic tourism content, hotel offers, or restaurant menus.</p>
 </section>
 
 <section class="sec">
   <div class="sec-h">
     <span class="num">02</span>
-    <h2>Data sources</h2>
+    <h2 data-i18n="about_sources_title">Data sources</h2>
   </div>
-  <p>Events come from these public sources. Each source has a trust level, a refresh cadence, and a confidence baseline. The system only publishes events that pass the per-source confidence threshold; everything else goes to the <a href="/review.html" class="pill warn">review queue</a>.</p>
+  <p data-i18n="about_sources_p">Events come from these public sources. Each source has a trust level, a refresh cadence, and a confidence baseline. The system only publishes events that pass the per-source confidence threshold; everything else goes to the <a href="/review.html" class="pill warn">review queue</a>.</p>
 
   <div class="src-grid">
     <div class="src">
@@ -147,14 +155,10 @@ body{padding-bottom:80px}
           <div class="src-name">Chamonix.net</div>
           <div class="src-id">chamonix_net</div>
         </div>
-        <span class="src-badge t-high">high</span>
+        <span class="src-badge t-high" data-i18n="about_trust_high">high</span>
       </div>
-      <p style="font-size:.82rem;color:var(--text2);margin-top:8px">Official tourism site, English-language listings. Updated every 6 hours.</p>
-      <div class="src-meta">
-        <span>refresh every 6h</span>
-        <span class="dot"></span>
-        <span>events</span>
-      </div>
+      <p style="font-size:.82rem;color:var(--text2);margin-top:8px" data-i18n="about_src_net_desc">Official tourism site, English-language listings. Updated every 6 hours.</p>
+      <div class="src-meta"><span data-i18n="about_refresh_6h">refresh every 6h</span><span class="dot"></span><span data-i18n="about_type_events">events</span></div>
     </div>
 
     <div class="src">
@@ -163,14 +167,10 @@ body{padding-bottom:80px}
           <div class="src-name">Chamonix.com</div>
           <div class="src-id">chamonix_com</div>
         </div>
-        <span class="src-badge t-high">high</span>
+        <span class="src-badge t-high" data-i18n="about_trust_high">high</span>
       </div>
-      <p style="font-size:.82rem;color:var(--text2);margin-top:8px">Official tourism site, French-language listings. Updated every 24 hours.</p>
-      <div class="src-meta">
-        <span>refresh every 24h</span>
-        <span class="dot"></span>
-        <span>events</span>
-      </div>
+      <p style="font-size:.82rem;color:var(--text2);margin-top:8px" data-i18n="about_src_com_desc">Official tourism site, French-language listings. Updated every 24 hours.</p>
+      <div class="src-meta"><span data-i18n="about_refresh_24h">refresh every 24h</span><span class="dot"></span><span data-i18n="about_type_events">events</span></div>
     </div>
 
     <div class="src">
@@ -179,14 +179,10 @@ body{padding-bottom:80px}
           <div class="src-name">Le Vox cinema PDF</div>
           <div class="src-id">vox_pdf</div>
         </div>
-        <span class="src-badge t-high">high</span>
+        <span class="src-badge t-high" data-i18n="about_trust_high">high</span>
       </div>
-      <p style="font-size:.82rem;color:var(--text2);margin-top:8px">Weekly cinema schedule from <em>Cinema Vox Chamonix</em>. PDF parsed every 7 days. Posters enriched via TMDB + AlloCine.</p>
-      <div class="src-meta">
-        <span>refresh every 7d</span>
-        <span class="dot"></span>
-        <span>cinema</span>
-      </div>
+      <p style="font-size:.82rem;color:var(--text2);margin-top:8px" data-i18n="about_src_vox_desc">Weekly cinema schedule from <em>Cinema Vox Chamonix</em>. PDF parsed every 7 days. Posters enriched via TMDB + AlloCine.</p>
+      <div class="src-meta"><span data-i18n="about_refresh_7d">refresh every 7d</span><span class="dot"></span><span data-i18n="about_type_cinema">cinema</span></div>
     </div>
 
     <div class="src">
@@ -195,14 +191,10 @@ body{padding-bottom:80px}
           <div class="src-name">Manual submissions</div>
           <div class="src-id">manual_submission</div>
         </div>
-        <span class="src-badge t-low">low</span>
+        <span class="src-badge t-low" data-i18n="about_trust_low">low</span>
       </div>
-      <p style="font-size:.82rem;color:var(--text2);margin-top:8px">Events submitted by organisers or visitors. Always review-only (never auto-published).</p>
-      <div class="src-meta">
-        <span>on demand</span>
-        <span class="dot"></span>
-        <span>events</span>
-      </div>
+      <p style="font-size:.82rem;color:var(--text2);margin-top:8px" data-i18n="about_src_manual_desc">Events submitted by organisers or visitors. Always review-only (never auto-published).</p>
+      <div class="src-meta"><span data-i18n="about_refresh_ondemand">on demand</span><span class="dot"></span><span data-i18n="about_type_events">events</span></div>
     </div>
   </div>
 </section>
@@ -210,68 +202,68 @@ body{padding-bottom:80px}
 <section class="sec">
   <div class="sec-h">
     <span class="num">03</span>
-    <h2>Confidence & review</h2>
+    <h2 data-i18n="about_confidence_title">Confidence & review</h2>
   </div>
-  <p>Every event gets a confidence score from <code>trust × parse_quality × completeness</code>. Events below the publish threshold (default 0.4) are routed to a review queue instead of being shown on the site. The threshold is per-source and configurable in <code>sources.yaml</code>.</p>
+  <p data-i18n="about_confidence_p">Every event gets a confidence score from <code>trust × parse_quality × completeness</code>. Events below the publish threshold (default 0.4) are routed to a review queue instead of being shown on the site. The threshold is per-source and configurable in <code>sources.yaml</code>.</p>
 
   <div class="ladder">
-    <h3>How confidence works</h3>
+    <h3 data-i18n="about_confidence_how">How confidence works</h3>
     <div class="ladder-row">
       <div class="range">0.0 – 0.4</div>
       <div class="ladder-bar" style="background:var(--bad);width:80px"></div>
-      <div class="desc"><em>Queued for review</em> — sparse data, parser issues, or low source trust. Operator decides whether to publish.</div>
+      <div class="desc"><em data-i18n="about_conf_low_title">Queued for review</em> <span data-i18n="about_conf_low_desc">— sparse data, parser issues, or low source trust. Operator decides whether to publish.</span></div>
     </div>
     <div class="ladder-row">
       <div class="range">0.4 – 0.6</div>
       <div class="ladder-bar" style="background:var(--warn);width:120px"></div>
-      <div class="desc"><em>Published</em> — partial data. Standard publish threshold.</div>
+      <div class="desc"><em data-i18n="about_conf_med_title">Published</em> <span data-i18n="about_conf_med_desc">— partial data. Standard publish threshold.</span></div>
     </div>
     <div class="ladder-row">
       <div class="range">0.6 – 1.0</div>
       <div class="ladder-bar" style="background:var(--ok);width:160px"></div>
-      <div class="desc"><em>Published</em> — full data, well-parsed. Aspirational target as data quality improves.</div>
+      <div class="desc"><em data-i18n="about_conf_high_title">Published</em> <span data-i18n="about_conf_high_desc">— full data, well-parsed. Aspirational target as data quality improves.</span></div>
     </div>
   </div>
 
-  <p style="margin-top:18px">The <a href="/review.html" class="pill warn">review queue</a> lets the operator approve or reject queued items. Approved items are remembered; rejected items are kept for the audit trail. The queue is currently <span class="pill">open</span>.</p>
+  <p style="margin-top:18px" data-i18n="about_conf_footer">The <a href="/review.html" class="pill warn">review queue</a> lets the operator approve or reject queued items. Approved items are remembered; rejected items are kept for the audit trail. The queue is currently <span class="pill">open</span>.</p>
 </section>
 
 <section class="sec">
   <div class="sec-h">
     <span class="num">04</span>
-    <h2>Methodology</h2>
+    <h2 data-i18n="about_method_title">Methodology</h2>
   </div>
-  <p>The pipeline runs every 6 hours on the host (cron-driven). Each run:</p>
+  <p data-i18n="about_method_p">The pipeline runs every 6 hours on the host (cron-driven). Each run:</p>
   <ul>
-    <li>Scrapes <code>chamonix.net</code> (events listing)</li>
-    <li>Scrapes <code>chamonix.com</code> (events listing)</li>
-    <li>Parses the cinema PDF and enriches posters via TMDB + AlloCine</li>
-    <li>De-duplicates events across sources (same title + same date → keep the highest-confidence one)</li>
-    <li>Routes below-threshold events to the review queue</li>
-    <li>Renders the static HTML page you see</li>
+    <li data-i18n="about_method_l1">Scrapes <code>chamonix.net</code> (events listing)</li>
+    <li data-i18n="about_method_l2">Scrapes <code>chamonix.com</code> (events listing)</li>
+    <li data-i18n="about_method_l3">Parses the cinema PDF and enriches posters via TMDB + AlloCine</li>
+    <li data-i18n="about_method_l4">De-duplicates events across sources (same title + same date → keep the highest-confidence one)</li>
+    <li data-i18n="about_method_l5">Routes below-threshold events to the review queue</li>
+    <li data-i18n="about_method_l6">Renders the static HTML page you see</li>
   </ul>
-  <p>The system is built to be predictable: <em>the same input produces the same output</em>. No AI-driven scraping, no live translation, no per-user ranking.</p>
+  <p data-i18n="about_method_footer">The system is built to be predictable: <em>the same input produces the same output</em>. No AI-driven scraping, no live translation, no per-user ranking.</p>
 </section>
 
 <section class="sec">
   <div class="sec-h">
     <span class="num">05</span>
-    <h2>Contact</h2>
+    <h2 data-i18n="about_contact_title">Contact</h2>
   </div>
-  <p>Submit a missing event, report incorrect data, or suggest a source. The operator (Jamie) is reachable via:</p>
+  <p data-i18n="about_contact_p">Submit a missing event, report incorrect data, or suggest a source. The operator (Jamie) is reachable via:</p>
 
   <div class="contact-card">
     <div class="contact-row">
-      <span class="label">Email</span>
-      <span class="val"><a href="mailto:hello@chamonix-events.example">hello@chamonix-events.example</a> <span class="pill" style="margin-left:8px">placeholder</span></span>
+      <span class="label" data-i18n="about_contact_email">Email</span>
+      <span class="val"><a href="mailto:hello@chamonix-events.example">hello@chamonix-events.example</a> <span class="pill" style="margin-left:8px" data-i18n="about_placeholder">placeholder</span></span>
     </div>
     <div class="contact-row">
-      <span class="label">Telegram</span>
-      <span class="val"><a href="https://t.me/chamonix_events" target="_blank" rel="noopener">@chamonix_events</a> <span class="pill" style="margin-left:8px">placeholder</span></span>
+      <span class="label" data-i18n="about_contact_telegram">Telegram</span>
+      <span class="val"><a href="https://t.me/chamonix_events" target="_blank" rel="noopener">@chamonix_events</a> <span class="pill" style="margin-left:8px" data-i18n="about_placeholder">placeholder</span></span>
     </div>
     <div class="contact-row">
-      <span class="label">Submit form</span>
-      <span class="val">Coming with T32 — manual submissions route to the review queue</span>
+      <span class="label" data-i18n="about_contact_submit">Submit form</span>
+      <span class="val"><a href="/submit.html" style="color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-d);transition:border-color .2s">Submit an event for review</a> → goes to the <a href="/review.html" style="color:var(--text2);text-decoration:none;border-bottom:1px solid var(--border)">review queue</a> for approval</span>
     </div>
   </div>
 </section>
@@ -279,30 +271,50 @@ body{padding-bottom:80px}
 <section class="sec">
   <div class="sec-h">
     <span class="num">06</span>
-    <h2>What this site is not</h2>
+    <h2 data-i18n="about_not_title">What this site is not</h2>
   </div>
-  <p>For transparency, here is what this site does <em>not</em> do, so expectations stay realistic:</p>
+  <p data-i18n="about_not_p">For transparency, here is what this site does <em>not</em> do, so expectations stay realistic:</p>
   <ul>
-    <li>It is not a hotel or restaurant guide.</li>
-    <li>It does not show real-time event capacity or ticket availability.</li>
-    <li>It does not auto-translate every event — some entries appear in the source language.</li>
-    <li>It does not run on a managed cloud — it runs on a single VPS, supervised.</li>
-    <li>It does not track you, log your visits, or serve ads.</li>
+    <li data-i18n="about_not_l1">It is not a hotel or restaurant guide.</li>
+    <li data-i18n="about_not_l2">It does not show real-time event capacity or ticket availability.</li>
+    <li data-i18n="about_not_l3">It does not auto-translate every event — some entries appear in the source language.</li>
+    <li data-i18n="about_not_l4">It does not run on a managed cloud — it runs on a single VPS, supervised.</li>
+    <li data-i18n="about_not_l5">It does not track you, log your visits, or serve ads.</li>
   </ul>
 </section>
 
 <footer class="foot">
   <div class="left">
-    <span>Chamonix Events · operator-curated, single-VPS</span>
+    <span data-i18n="about_footer_text">Chamonix Events · operator-curated, single-VPS</span>
   </div>
   <div class="right">
-    <a href="/">Events</a>
-    <a href="/review.html">Review queue</a>
+    <a href="/" data-i18n="nav_events">Events</a>
+    <a href="/review.html" data-i18n="about_review_link">Review queue</a>
     <a href="/healthz" target="_blank">Health</a>
   </div>
 </footer>
 
 </div>
+
+<script>
+// T20-G: i18n for about page
+var LOCALE_KEY='chx-locale';
+var LOCALE=localStorage.getItem(LOCALE_KEY)||(navigator.language&&navigator.language.startsWith('en')?'en':'fr');
+var I18N={"en":{"about_title":"About — Chamonix Events","nav_events":"Events","about_nav":"About","about_review_link":"Review queue","about_back":"Back to events","about_title_h1":"About this site","about_lead":"A local guide to <em>events</em> in the Chamonix valley — what\u2019s on tonight, this weekend, and next week. Built from public sources, curated by a single operator.","about_what_title":"What this is","about_what_p1":"This is a focused, opinionated guide to events in Chamonix, Les Houches, Argenti\u00e8re, and nearby communes. The site is built from public data sources, refreshed automatically several times a day, and curated by a single operator (Jamie) \u2014 not by AI or by a content team.","about_what_p2":"The goal is to be <em>useful for one decision<\/em>: \u201cwhat should I do tonight?\u201d The site shows cinema, concerts, exhibitions, family events, markets, sport, and theatre. It does not show generic tourism content, hotel offers, or restaurant menus.","about_sources_title":"Data sources","about_sources_p":"Events come from these public sources. Each source has a trust level, a refresh cadence, and a confidence baseline. The system only publishes events that pass the per-source confidence threshold; everything else goes to the <a href=\"\/review.html\" class=\"pill warn\">review queue<\/a>.","about_trust_high":"high","about_trust_low":"low","about_refresh_6h":"refresh every 6h","about_refresh_24h":"refresh every 24h","about_refresh_7d":"refresh every 7d","about_refresh_ondemand":"on demand","about_type_events":"events","about_type_cinema":"cinema","about_src_net_desc":"Official tourism site, English-language listings. Updated every 6 hours.","about_src_com_desc":"Official tourism site, French-language listings. Updated every 24 hours.","about_src_vox_desc":"Weekly cinema schedule from <em>Cinema Vox Chamonix<\/em>. PDF parsed every 7 days. Posters enriched via TMDB + AlloCine.","about_src_manual_desc":"Events submitted by organisers or visitors. Always review-only (never auto-published).","about_confidence_title":"Confidence & review","about_confidence_p":"Every event gets a confidence score from <code>trust \u00d7 parse_quality \u00d7 completeness<\/code>. Events below the publish threshold (default 0.4) are routed to a review queue instead of being shown on the site. The threshold is per-source and configurable in <code>sources.yaml<\/code>.","about_confidence_how":"How confidence works","about_conf_low_title":"Queued for review","about_conf_low_desc":"\u2014 sparse data, parser issues, or low source trust. Operator decides whether to publish.","about_conf_med_title":"Published","about_conf_med_desc":"\u2014 partial data. Standard publish threshold.","about_conf_high_title":"Published","about_conf_high_desc":"\u2014 full data, well-parsed. Aspirational target as data quality improves.","about_conf_footer":"The <a href=\"\/review.html\" class=\"pill warn\">review queue<\/a> lets the operator approve or reject queued items. Approved items are remembered; rejected items are kept for the audit trail. The queue is currently <span class=\"pill\">open<\/span>.","about_method_title":"Methodology","about_method_p":"The pipeline runs every 6 hours on the host (cron-driven). Each run:","about_method_l1":"Scrapes <code>chamonix.net<\/code> (events listing)","about_method_l2":"Scrapes <code>chamonix.com<\/code> (events listing)","about_method_l3":"Parses the cinema PDF and enriches posters via TMDB + AlloCine","about_method_l4":"De-duplicates events across sources (same title + same date \u2192 keep the highest-confidence one)","about_method_l5":"Routes below-threshold events to the review queue","about_method_l6":"Renders the static HTML page you see","about_method_footer":"The system is built to be predictable: <em>the same input produces the same output<\/em>. No AI-driven scraping, no live translation, no per-user ranking.","about_contact_title":"Contact","about_contact_p":"Submit a missing event, report incorrect data, or suggest a source. The operator (Jamie) is reachable via:","about_contact_email":"Email","about_contact_telegram":"Telegram","about_contact_submit":"Submit form","about_contact_submit_val":"Coming with T32 \u2014 manual submissions route to the review queue","about_placeholder":"placeholder","about_not_title":"What this site is not","about_not_p":"For transparency, here is what this site does <em>not<\/em> do, so expectations stay realistic:","about_not_l1":"It is not a hotel or restaurant guide.","about_not_l2":"It does not show real-time event capacity or ticket availability.","about_not_l3":"It does not auto-translate every event \u2014 some entries appear in the source language.","about_not_l4":"It does not run on a managed cloud \u2014 it runs on a single VPS, supervised.","about_not_l5":"It does not track you, log your visits, or serve ads.","about_footer_text":"Chamonix Events \u00b7 operator-curated, single-VPS"},
+"fr":{"about_title":"\u00c0 propos \u2014 Chamonix Events","nav_events":"\u00c9v\u00e9nements","about_nav":"\u00c0 propos","about_review_link":"File d\u2019attente","about_back":"Retour aux \u00e9v\u00e9nements","about_title_h1":"\u00c0 propos de ce site","about_lead":"Un guide local des <em>\u00e9v\u00e9nements<\/em> dans la vall\u00e9e de Chamonix \u2014 ce qui se passe ce soir, ce week-end et la semaine prochaine. Construit \u00e0 partir de sources publiques, cur\u00e9 par un seul op\u00e9rateur.","about_what_title":"Ce que c\u2019est","about_what_p1":"Ceci est un guide cibl\u00e9 et subjectif des \u00e9v\u00e9nements \u00e0 Chamonix, Les Houches, Argenti\u00e8re et les communes voisines. Le site est construit \u00e0 partir de sources de donn\u00e9es publiques, actualis\u00e9es automatiquement plusieurs fois par jour, et cur\u00e9 par un seul op\u00e9rateur (Jamie) \u2014 pas par IA ni par une \u00e9quipe de contenu.","about_what_p2":"L\u2019objectif est d\u2019\u00eatre <em>utile pour une d\u00e9cision<\/em> : \u00ab que faire ce soir ? \u00bb Le site pr\u00e9sente les cin\u00e9mas, concerts, expositions, \u00e9v\u00e9nements familiaux, march\u00e9s, sports et th\u00e9\u00e2tre. Il ne montre pas de contenu touristique g\u00e9n\u00e9rique, d\u2019offres d\u2019h\u00f4tels ou de menus de restaurants.","about_sources_title":"Sources de donn\u00e9es","about_sources_p":"Les \u00e9v\u00e9nements proviennent de ces sources publiques. Chaque source a un niveau de confiance, une cadence d\u2019actualisation et un seuil de confiance de base. Le syst\u00e8me ne publie que les \u00e9v\u00e9nements qui d\u00e9passent le seuil de confiance par source ; tout le reste va dans la <a href=\"\/review.html\" class=\"pill warn\">file d\u2019attente<\/a>.","about_trust_high":"\u00e9lev\u00e9e","about_trust_low":"faible","about_refresh_6h":"act. toutes les 6h","about_refresh_24h":"act. toutes les 24h","about_refresh_7d":"act. tous les 7j","about_refresh_ondemand":"\u00e0 la demande","about_type_events":"\u00e9v\u00e9nements","about_type_cinema":"cin\u00e9ma","about_src_net_desc":"Site touristique officiel, listes en anglais. Actualis\u00e9 toutes les 6 heures.","about_src_com_desc":"Site touristique officiel, listes en fran\u00e7ais. Actualis\u00e9 toutes les 24 heures.","about_src_vox_desc":"Programme hebdomadaire du <em>Cin\u00e9ma Vox Chamonix<\/em>. PDF pars\u00e9 tous les 7 jours. Affiches enrichies via TMDB + AlloCine.","about_src_manual_desc":"\u00c9v\u00e9nements soumis par les organisateurs ou visiteurs. Toujours en r\u00e9vision (jamais auto-publi\u00e9s).","about_confidence_title":"Confiance & r\u00e9vision","about_confidence_p":"Chaque \u00e9v\u00e9nement re\u00e7oit un score de confiance calcul\u00e9 par <code>confiance \u00d7 qualit\u00e9_parse \u00d7 compl\u00e9tude<\/code>. Les \u00e9v\u00e9nements sous le seuil de publication (0.4 par d\u00e9faut) sont dirig\u00e9s vers la file d\u2019attente au lieu d\u2019\u00eatre affich\u00e9s sur le site. Le seuil est configurable par source dans <code>sources.yaml<\/code>.","about_confidence_how":"Comment fonctionne la confiance","about_conf_low_title":"En attente de r\u00e9vision","about_conf_low_desc":"\u2014 donn\u00e9es partielles, probl\u00e8mes d\u2019analyse ou faible confiance en la source. L\u2019op\u00e9rateur d\u00e9cide de publier ou non.","about_conf_med_title":"Publi\u00e9","about_conf_med_desc":"\u2014 donn\u00e9es partielles. Seuil de publication standard.","about_conf_high_title":"Publi\u00e9","about_conf_high_desc":"\u2014 donn\u00e9es compl\u00e8tes, bien analys\u00e9es. Objectif \u00e0 atteindre \u00e0 mesure que la qualit\u00e9 des donn\u00e9es s\u2019am\u00e9liore.","about_conf_footer":"La <a href=\"\/review.html\" class=\"pill warn\">file d\u2019attente<\/a> permet \u00e0 l\u2019op\u00e9rateur d\u2019approuver ou de rejeter les \u00e9l\u00e9ments en attente. Les \u00e9l\u00e9ments approuv\u00e9s sont m\u00e9moris\u00e9s ; les rejet\u00e9s sont conserv\u00e9s pour la piste d\u2019audit. La file d\u2019attente est actuellement <span class=\"pill\">ouverte<\/span>.","about_method_title":"M\u00e9thodologie","about_method_p":"Le pipeline s\u2019ex\u00e9cute toutes les 6 heures sur l\u2019h\u00f4te (pilot\u00e9 par cron). Chaque ex\u00e9cution :","about_method_l1":"Scrape <code>chamonix.net<\/code> (liste des \u00e9v\u00e9nements)","about_method_l2":"Scrape <code>chamonix.com<\/code> (liste des \u00e9v\u00e9nements)","about_method_l3":"Parse le PDF du cin\u00e9ma et enrichit les affiches via TMDB + AlloCine","about_method_l4":"D\u00e9doublonne les \u00e9v\u00e9nements entre sources (m\u00eame titre + m\u00eame date \u2192 garde le plus fiable)","about_method_l5":"Dirige les \u00e9v\u00e9nements sous le seuil vers la file d\u2019attente","about_method_l6":"G\u00e9n\u00e8re la page HTML statique que vous voyez","about_method_footer":"Le syst\u00e8me est con\u00e7u pour \u00eatre pr\u00e9visible : <em>les m\u00eames entr\u00e9es produisent les m\u00eames sorties<\/em>. Pas de scraping par IA, pas de traduction en direct, pas de classement par utilisateur.","about_contact_title":"Contact","about_contact_p":"Signalez un \u00e9v\u00e9nement manquant, des donn\u00e9es incorrectes ou sugg\u00e9rez une source. L\u2019op\u00e9rateur (Jamie) est joignable via :","about_contact_email":"Email","about_contact_telegram":"Telegram","about_contact_submit":"Formulaire de soumission","about_contact_submit_val":"\u00c0 venir avec T32 \u2014 les soumissions manuelles iront dans la file d\u2019attente","about_placeholder":"provisoire","about_not_title":"Ce que ce site n\u2019est pas","about_not_p":"Par souci de transparence, voici ce que ce site ne fait <em>pas<\/em>, pour que les attentes restent r\u00e9alistes :","about_not_l1":"Ce n\u2019est pas un guide d\u2019h\u00f4tels ou de restaurants.","about_not_l2":"Il n\u2019affiche pas la capacit\u00e9 en temps r\u00e9el ni la disponibilit\u00e9 des billets.","about_not_l3":"Il ne traduit pas automatiquement chaque \u00e9v\u00e9nement \u2014 certaines entr\u00e9es apparaissent dans la langue source.","about_not_l4":"Il ne tourne pas sur un cloud g\u00e9r\u00e9 \u2014 il fonctionne sur un seul VPS, supervis\u00e9.","about_not_l5":"Il ne vous suit pas, ne journalise pas vos visites et n\u2019affiche pas de publicit\u00e9s.","about_footer_text":"Chamonix Events \u00b7 cur\u00e9 par un op\u00e9rateur, sur un seul VPS"}};
+function t(k){var l=I18N[LOCALE]||I18N['en'];return l[k]||k;}
+function applyLocale(){
+  document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');el.innerHTML=t(k);});
+  document.documentElement.lang=LOCALE;
+}
+document.getElementById('locale-sel').value=LOCALE;
+document.getElementById('locale-sel').addEventListener('change',function(){
+  LOCALE=this.value;
+  localStorage.setItem(LOCALE_KEY,LOCALE);
+  applyLocale();
+});
+applyLocale();
+</script>
 
 </body>
 </html>

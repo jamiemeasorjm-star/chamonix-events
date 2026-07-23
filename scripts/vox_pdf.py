@@ -44,11 +44,34 @@ DESC_CACHE = {}
 POSTER_SEARCH_API = "https://www.allocine.fr/recherche/?q="
 
 def lookup(key):
-    """Find poster URL for a film title. Checks cache first, then tries AlloCine search."""
+    """Find poster URL for a film title. Checks cache first, then
+    local data/posters/ directory, then AlloCine search."""
     norm_key = key.strip().upper()
-    # Check cache
+    # Check memory cache
     if norm_key in POSTER_CACHE:
         return POSTER_CACHE[norm_key], DESC_CACHE.get(norm_key, "")
+    # T36: check local posters directory first
+    import hashlib
+    here = os.path.dirname(os.path.abspath(__file__))
+    poster_dir = os.path.join(here, "..", "data", "posters")
+    slug = hashlib.sha256(key.encode("utf-8")).hexdigest()[:16]
+    for ext in (".jpg", ".jpeg", ".png", ".webp"):
+        local_path = os.path.join(poster_dir, f"{slug}{ext}")
+        if os.path.exists(local_path):
+            src = f"/data/posters/{slug}{ext}"
+            POSTER_CACHE[norm_key] = src
+            print(f"  POSTER LOCAL: {local_path}")
+            return src, ""
+    # Also try a human-readable slug
+    from scripts.storage import _slug
+    readable = _slug(key)
+    for ext in (".jpg", ".jpeg", ".png", ".webp"):
+        local_path = os.path.join(poster_dir, f"{readable}{ext}")
+        if os.path.exists(local_path):
+            src = f"/data/posters/{readable}{ext}"
+            POSTER_CACHE[norm_key] = src
+            print(f"  POSTER LOCAL: {local_path}")
+            return src, ""
     # Try to find via AlloCine search
     import httpx
     from bs4 import BeautifulSoup
@@ -157,13 +180,45 @@ def parse_pdf(pdf_path):
             continue
         content_items.append((y, xc, text))
 
+    # T39: detect pure-metadata lines so they don't get concatenated into the wrong film
+    _SECTION_MARKER_RE = re.compile(
+        r'^\s*(?:(?:Summer|Little)?\s*film\s+festival)\s*$',
+        re.IGNORECASE,
+    )
+    _PREFIX_METADATA_RE = re.compile(
+        r'^\s*int\.?\s*[—\-]?\s*\d+\s*ans\s*$',
+        re.IGNORECASE,
+    )
+
     # Group items by film block
     # A film block starts with a title line (xc < 170) that has a duration
     # Showtimes are on lines with xc >= 170
     films = []
     current_film = None
     title_lines = []
+    title_lines_has_marker = False   # T39: any title_lines entry has a section marker suffix
     current_block_showtimes = []
+
+    def _flush_title_as_new_film():
+        """T39: flush title_lines + pending showtimes as a new film (no duration)."""
+        nonlocal title_lines, title_lines_has_marker, current_block_showtimes
+        if not title_lines:
+            return
+        new_film = {
+            "title": re.sub(r'\s+', ' ', ' '.join(title_lines)).strip(),
+            "duration": "",
+            "showtimes": {i: [] for i in range(7)},
+        }
+        films.append(new_film)
+        if current_block_showtimes:
+            for s_col, s_times in current_block_showtimes:
+                if s_col in new_film["showtimes"]:
+                    for t in s_times:
+                        if t not in new_film["showtimes"][s_col]:
+                            new_film["showtimes"][s_col].append(t)
+            current_block_showtimes = []
+        title_lines = []
+        title_lines_has_marker = False
 
     for y, xc, text in content_items:
         is_title = xc < 170
@@ -171,15 +226,19 @@ def parse_pdf(pdf_path):
         if is_title:
             has_dur = bool(re.search(r'\d+[Hh]\d+', text))
 
-            # If the previous film has pending showtimes and a new title arrives,
-            # flush the current film (if any) before starting a new one
             if has_dur:
+                # T39: a section marker in title_lines means a separate festival film —
+                # flush it before creating this duration-based film.
+                if title_lines and title_lines_has_marker:
+                    _flush_title_as_new_film()
+
                 # Parse this title line
                 dur_m = re.search(r'(\d+)[Hh](\d+)', text)
                 dur = f"{dur_m.group(1)}h{dur_m.group(2)}" if dur_m else ""
                 title_part = re.sub(r'\s*\d+[Hh]\d+.*$', '', text).strip()
                 full_title = re.sub(r'\s+', ' ', ' '.join(title_lines + [title_part])).strip()
                 title_lines = []
+                title_lines_has_marker = False
 
                 current_film = {
                     "title": full_title,
@@ -207,20 +266,42 @@ def parse_pdf(pdf_path):
                         if ts not in current_film["showtimes"][0]:
                             current_film["showtimes"][0].append(ts)
             else:
-                # Multi-line title continuation — clear current film 
-                # so showtimes go to pending buffer instead of previous film
-                if current_film:
-                    # Flush any pending showtimes to current_film first
-                    if current_block_showtimes:
-                        for s_col, s_times in current_block_showtimes:
-                            if s_col in current_film['showtimes']:
-                                for t in s_times:
-                                    if t not in current_film['showtimes'][s_col]:
-                                        current_film['showtimes'][s_col].append(t)
-                        current_block_showtimes = []
-                    # Now set current_film to None so future showtimes buffer
+                # TITLE line without duration
+                if _SECTION_MARKER_RE.match(text):
+                    # T39: section marker like "Summer film festival" / "Little film festival"
+                    # is suffix metadata — append to the immediately preceding film/title.
+                    if current_film is not None:
+                        current_film['title'] = re.sub(
+                            r'\s+', ' ',
+                            (current_film['title'] + ' ' + text).strip(),
+                        )
+                    elif title_lines:
+                        title_lines[-1] = title_lines[-1] + ' ' + text.strip()
+                        title_lines_has_marker = True
+                    # else: orphan section marker — discard
+                elif _PREFIX_METADATA_RE.match(text):
+                    # T39: standalone "int. —12 ans" is prefix metadata — keep with the
+                    # next real title so it becomes part of that film's title.
+                    title_lines.append(text.strip())
                     current_film = None
-                title_lines.append(text.strip())
+                else:
+                    # Multi-line title continuation or a new film title without duration.
+                    # T39: if a section marker is present in the buffered title_lines, the
+                    # buffered title is a complete festival film — flush it before starting a new one.
+                    if title_lines and title_lines_has_marker:
+                        _flush_title_as_new_film()
+                    if current_film:
+                        # Flush any pending showtimes to current_film first
+                        if current_block_showtimes:
+                            for s_col, s_times in current_block_showtimes:
+                                if s_col in current_film['showtimes']:
+                                    for t in s_times:
+                                        if t not in current_film['showtimes'][s_col]:
+                                            current_film['showtimes'][s_col].append(t)
+                            current_block_showtimes = []
+                        # Now set current_film to None so future showtimes buffer
+                        current_film = None
+                    title_lines.append(text.strip())
         else:
             # Showtime text
             ci = col_for_x(xc)
@@ -242,6 +323,10 @@ def parse_pdf(pdf_path):
                 # Pending showtimes for a film that hasn't been created yet
                 # (multi-line title situation — title_lines accumulated, but no has_dur line yet)
                 current_block_showtimes.append((ci, ts_list))
+
+    # T39: end-of-content flush — any pending title_lines becomes a new film (no duration)
+    if title_lines:
+        _flush_title_as_new_film()
 
     # Flush last film's pending showtimes
     if current_film and current_block_showtimes:

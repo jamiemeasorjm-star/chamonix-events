@@ -1,0 +1,39 @@
+# Chamonix Cultural Venues — Event List (T35)
+#
+# Semi-manual source: events at cultural venues not reliably covered by
+# the chamonix_net / chamonix_com scrapers. Each row is one event.
+#
+# Fields: title,start_date,end_date,time,category,venue_name,commune,description,source_url
+# ISO dates (YYYY-MM-DD), empty fields are ""
+
+# Musée des Cristaux — Crystal and mineral museum
+Exposition: Trésor Minéral,2026-07-24,,10:00-18:00,exhibition,Musée des Cristaux,Chamonix,Exposition permanente de cristaux et minéraux du massif du Mont-Blanc,https://www.chamonix.com/musee-des-cristaux
+
+# Glaciorium — Glacier discovery center
+Glaciorium: Le mystère des glaciers,2026-07-24,,10:00-18:00,exhibition,Glaciorium,Chamonix,Centre d'interprétation sur les glaciers et le changement climatique,https://www.chamonix.com/glaciorium
+
+# Temple de la Nature — Nature interpretation center
+Temple de la Nature: Biodiversité alpine,2026-07-24,,10:00-19:00,exhibition,Temple de la Nature,Chamonix,Espace ludique et pédagogique sur la biodiversité alpine,https://www.chamonix.com/temple-de-la-nature
+
+# Maison des Artistes — local artists gallery
+Maison des Artistes: Art contemporain local,2026-07-24,,14:00-19:00,exhibition,Maison des Artistes,Chamonix,Galerie d'art contemporain des artistes de la vallée,https://www.maisondesartistes.com
+
+# Bibliothèque municipale — library events
+Atelier lecture enfants,2026-07-26,,15:00-16:30,family,Bibliothèque municipale,Chamonix,Atelier de lecture pour enfants âgés de 4 à 8 ans,https://www.chamonix.com/bibliotheque
+
+Conférence: Histoire de l'alpinisme,2026-07-28,,18:00-19:30,theatre,Musée Montagnard,Chamonix,Conférence sur les grands noms de l'alpinisme chamoniard,https://www.chamonix.com/musee-montagnard
+
+# Espace Michel Croz — cultural center
+Festival du Film de Montagne,2026-07-25,2026-07-27,14:00-22:00,cinema,Espace Michel Croz,Chamonix,Projections de films de montagne et rencontres avec des réalisateurs,https://www.chamonix.com/espace-michel-croz
+
+# Observatoire du Mont-Blanc
+Visite guidée: Observatoire du Mont-Blanc,2026-07-25,,10:00-12:00,exhibition,Observatoire du Mont-Blanc,Chamonix,Visite guidée de l'observatoire avec vue panoramique,https://www.chamonix.com/observatoire
+
+# Lac des Gaillands — outdoor climbing area (cultural event)
+Initiation escalade: Découverte du lac des Gaillands,2026-07-27,,09:00-12:00,sport,Lac des Gaillands,Chamonix,Initiation à l'escalade sur le site historique du lac des Gaillands encadrée par des moniteurs,https://www.chamonix.com/les-gaillands
+
+# Maison de Village d'Argentiere
+Marché artisanal d'été,2026-07-26,,09:00-17:00,market,Maison de Village d'Argentiere,Argentière,Marché artisanal avec produits locaux et créations d'artisans de la vallée,https://www.chamonix.com/argentiere
+
+# Musée Alpin (reopening)
+Réouverture: Musée Alpin,2026-08-01,,10:00-18:00,exhibition,Musée Alpin,Chamonix,Réouverture du Musée Alpin rénové avec nouvelle scénographie sur l'histoire de l'alpinisme,https://www.chamonix.com/musee-alpin

@@ -2,14 +2,31 @@
 <title>Chamonix Events</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0b0a08;--surface:#141210;--card:#1a1815;--border:rgba(255,255,255,0.06);--border-a:rgba(200,164,92,0.25);--text:#ede8e0;--text2:#9a948c;--text3:#6b6660;--gold:#c8a45c;--gold-h:#d4b46a;--gold-d:rgba(200,164,92,0.15);--ff-serif:'Playfair Display',Georgia,serif;--ff-sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--rs:8px;--rm:12px;--rl:16px;--ease:cubic-bezier(0.22,1,0.36,1)}
+/* T20-A: Design tokens — organized into logical groups */
+:root{
+  /* Background & surface hierarchy */
+  --bg:#0b0a08;--surface:#141210;--card:#1a1815;
+  /* Borders */
+  --border:rgba(255,255,255,0.06);--border-a:rgba(200,164,92,0.25);
+  /* Text hierarchy */
+  --text:#ede8e0;--text2:#9a948c;--text3:#6b6660;
+  /* Accent (gold) */
+  --gold:#c8a45c;--gold-h:#d4b46a;--gold-d:rgba(200,164,92,0.15);
+  /* Typography */
+  --ff-serif:'Playfair Display',Georgia,serif;--ff-sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  /* Spacing scale */
+  --rs:8px;--rm:12px;--rl:16px;--rxl:24px;--r2xl:32px;
+  /* Elevation shadows */
+  --sh-sm:0 2px 8px rgba(0,0,0,0.3);--sh-md:0 4px 20px rgba(0,0,0,0.4);--sh-lg:0 8px 40px rgba(0,0,0,0.5);
+  /* Motion */
+  --ease:cubic-bezier(0.22,1,0.36,1);--dur-f:0.3s;--dur-m:0.5s;--dur-s:0.8s;
+}
 html{font-size:16px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
 body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
 ::selection{background:var(--gold-d);color:var(--text)}
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 24px;transition:all .4s var(--ease)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 24px;transition:all var(--dur-m) var(--ease)}
 .nav.scrolled{background:rgba(11,10,8,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:12px 24px;border-bottom:1px solid var(--border)}
 .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
 .nav-links{display:flex;align-items:center;gap:24px;list-style:none}
@@ -21,12 +38,12 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 20%,rgba(200,164,92,.1) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 80%,rgba(200,164,92,.05) 0%,transparent 50%),linear-gradient(180deg,var(--bg) 0%,#0e0d0a 40%,#13100c 60%,transparent 100%);z-index:0}
 .hero-gd{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:60px 60px;z-index:0;opacity:.3;-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.4) 0%,rgba(0,0,0,.4) 50%,transparent 100%);mask-image:linear-gradient(180deg,black 0%,black 50%,transparent 100%)}
 .hero-c{position:relative;z-index:1;max-width:1200px;margin:0 auto;width:100%}
-.hero-label{display:inline-block;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-d);padding:3px 10px;border-radius:100px;margin-bottom:16px;opacity:0;animation:fadeU .8s var(--ease) .3s forwards}
-.hero-title{font-family:var(--ff-serif);font-size:clamp(2.4rem,8vw,5.5rem);font-weight:500;line-height:.95;letter-spacing:-.03em;color:var(--text);margin-bottom:10px;opacity:0;animation:fadeU .8s var(--ease) .5s forwards}
-.hero-sub{font-size:clamp(.95rem,2vw,1.15rem);color:var(--text2);max-width:480px;line-height:1.6;margin-bottom:0;opacity:0;animation:fadeU .8s var(--ease) .7s forwards}
+.hero-label{display:inline-block;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-d);padding:3px 10px;border-radius:100px;margin-bottom:16px;opacity:0;animation:fadeU var(--dur-s) var(--ease) .3s forwards}
+.hero-title{font-family:var(--ff-serif);font-size:clamp(2.4rem,8vw,5.5rem);font-weight:500;line-height:.95;letter-spacing:-.03em;color:var(--text);margin-bottom:10px;opacity:0;animation:fadeU var(--dur-s) var(--ease) .5s forwards}
+.hero-sub{font-size:clamp(.95rem,2vw,1.15rem);color:var(--text2);max-width:480px;line-height:1.6;margin-bottom:0;opacity:0;animation:fadeU var(--dur-s) var(--ease) .7s forwards}
 
 /* T20-A: dynamic counters in hero */
-.hero-stats{display:flex;align-items:center;gap:14px;margin-top:24px;font-size:.78rem;color:var(--text3);opacity:0;animation:fadeU .8s var(--ease) .9s forwards;flex-wrap:wrap}
+.hero-stats{display:flex;align-items:center;gap:14px;margin-top:24px;font-size:.78rem;color:var(--text3);opacity:0;animation:fadeU var(--dur-s) var(--ease) .9s forwards;flex-wrap:wrap}
 .hero-stat{display:inline-flex;align-items:baseline;gap:6px}
 .hero-stat b{font-family:var(--ff-serif);font-size:1.4rem;font-weight:500;color:var(--gold);line-height:1;letter-spacing:-.02em}
 .hero-stat span{letter-spacing:.05em;text-transform:uppercase;font-size:.7rem}
@@ -45,7 +62,7 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 .td-cat{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500}
 .td-time,.td-venue{font-size:.65rem;color:var(--text3)}
 .td-title{font-family:var(--ff-serif);font-size:.95rem;font-weight:500;color:var(--text);line-height:1.25}
-.hero-scroll{position:absolute;bottom:24px;left:0;right:0;margin:0 auto;width:fit-content;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:fadeU .8s var(--ease) 1.2s forwards}
+.hero-scroll{position:absolute;bottom:24px;left:0;right:0;margin:0 auto;width:fit-content;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:fadeU var(--dur-s) var(--ease) 1.2s forwards}
 .hero-scroll-l{width:1px;height:40px;background:linear-gradient(180deg,var(--text3) 0%,transparent 100%);animation:sP 2s ease-in-out infinite}
 .hero-scroll-t{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3)}
 @keyframes fadeU{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
@@ -70,29 +87,45 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 .filt.on{background:var(--gold);border-color:var(--gold);color:var(--bg)}
 .filt.date{border-style:dashed;font-size:.7rem;padding:8px 14px;min-width:110px;color-scheme:dark}
 .filt.map-toggle{color:var(--gold);border-color:var(--gold-d)}.filt.map-toggle.on{background:var(--gold);color:var(--text);border-color:#fff;border-style:solid}
+.filt#density-toggle{color:var(--text3);border-color:var(--border);font-size:.7rem}.filt#density-toggle.on{color:var(--text);border-color:var(--text3)}
+.filt.clear-btn{color:var(--text3);border-color:var(--border);font-size:.7rem}.filt.clear-btn:hover{border-color:var(--text3);color:var(--text2)}
 .cnt{width:100%;font-size:.8rem;color:var(--text3);margin-top:8px;margin-bottom:24px}
 .cnt b{color:var(--text2);font-weight:500}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px}
+/* T20-B: density toggle — detailed card mode */
+.grid.detailed{grid-template-columns:repeat(auto-fill,minmax(420px,1fr))}
+.grid.detailed .card-desc{-webkit-line-clamp:4}
+.grid.detailed .card-info{display:flex}
 .grid.hidden{display:none}
 /* Map */
 .map-container{width:100%;height:480px;border-radius:var(--rm);overflow:hidden;border:1px solid var(--border);display:none}
 .map-container.show{display:block}
 .map-container .leaflet-container{background:var(--bg)!important;font-family:var(--ff-sans)!important}
-.map-container .leaflet-popup-content-wrapper{background:var(--card)!important;color:var(--text)!important;border-radius:var(--rs)!important;box-shadow:0 4px 20px rgba(0,0,0,.5)!important;border:1px solid var(--border)!important}
+.map-container .leaflet-popup-content-wrapper{background:var(--card)!important;color:var(--text)!important;border-radius:var(--rs)!important;box-shadow:var(--sh-md)!important;border:1px solid var(--border)!important}
 .map-container .leaflet-popup-tip{background:var(--card)!important;border:1px solid var(--border)!important}
 .map-container .leaflet-popup-content{margin:10px 14px!important;font-size:.75rem!important;line-height:1.4!important;min-width:180px}
 .map-container .leaflet-popup-content strong{font-family:var(--ff-serif);font-size:.85rem;display:block;margin-bottom:4px}
 .map-container .leaflet-popup-content .popup-cat{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
 .map-container .leaflet-popup-content .popup-date{font-size:.65rem;color:var(--text3);margin-top:4px}
 .map-container .leaflet-popup-close-button{color:var(--text3)!important}
-.card{position:relative;background:var(--card);border-radius:var(--rl);overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:all .5s var(--ease);opacity:0;transform:translateY(30px)}
+.card{position:relative;background:var(--card);border-radius:var(--rl);overflow:hidden;border:1px solid var(--border);transition:all var(--dur-m) var(--ease);opacity:0;transform:translateY(30px)}
 .card.in{opacity:1;transform:translateY(0)}
-.card:hover{border-color:var(--border-a);box-shadow:0 8px 40px rgba(0,0,0,.4);transform:translateY(-4px)}
+.card:hover{border-color:var(--border-a);box-shadow:var(--sh-lg);transform:translateY(-4px)}
 .card:active{transform:translateY(-2px)}
+.card-link{display:block;color:inherit;text-decoration:none}
+.card-link:hover{color:inherit}
 .card-img{position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;background:var(--surface)}
-.card-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.card-img img{width:100%;height:100%;object-fit:cover;transition:transform var(--dur-s) var(--ease)}
 .card:hover .card-img img{transform:scale(1.05)}
 .card-img-f{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--surface) 0%,var(--card) 100%);font-family:var(--ff-serif);font-size:2rem;color:var(--text3)}
+/* T20-B: category-themed image fallback gradients */
+.card-img-f.cC{background:linear-gradient(135deg,#2a3040 0%,var(--card) 100%)}
+.card-img-f.cE{background:linear-gradient(135deg,#3a2a20 0%,var(--card) 100%)}
+.card-img-f.cF{background:linear-gradient(135deg,#1a2a1a 0%,var(--card) 100%)}
+.card-img-f.cM{background:linear-gradient(135deg,#2a2a1a 0%,var(--card) 100%)}
+.card-img-f.cP{background:linear-gradient(135deg,#2a1a2a 0%,var(--card) 100%)}
+.card-img-f.cS{background:linear-gradient(135deg,#1a2a2a 0%,var(--card) 100%)}
+.card-img-f.cT{background:linear-gradient(135deg,#2a1a20 0%,var(--card) 100%)}
 .card-img-o{position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(11,10,8,.4) 100%);pointer-events:none;z-index:1}
 .card-date{position:absolute;top:16px;left:16px;background:rgba(11,10,8,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08);border-radius:var(--rs);padding:6px 14px;text-align:center;min-width:52px;z-index:2}
 .card-date .dy{font-family:var(--ff-serif);font-size:1.4rem;line-height:1;font-weight:400}
@@ -106,7 +139,13 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 .card-dot{width:3px;height:3px;border-radius:50%;background:var(--text3);flex-shrink:0}
 .card-venue{font-size:.7rem;color:var(--text3)}
 .card-title{font-family:var(--ff-serif);font-size:1.15rem;font-weight:400;line-height:1.25;margin-bottom:12px}
+/* T20-D: bilingual subtitle — shows the other language title */
+.card-title-sub{display:block;font-family:var(--ff-sans);font-size:.68rem;font-weight:400;color:var(--text3);margin-top:2px;line-height:1.3}
 .card-desc{font-size:.8rem;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:16px}
+/* T20-B: inline expand for long descriptions */
+.card-desc.exp{display:block;-webkit-line-clamp:unset;overflow:visible}
+.card-desc-toggle{display:inline-block;font-size:.65rem;color:var(--gold);cursor:pointer;background:none;border:none;font-family:var(--ff-sans);padding:0;margin:0 0 16px 0;letter-spacing:.05em;transition:color .2s}
+.card-desc-toggle:hover{color:var(--gold-h)}
 /* T25: card info row (time / venue / price) — only renders when fields exist */
 .card-info{display:flex;flex-wrap:wrap;gap:6px 14px;margin:-4px 0 12px 0;font-size:.72rem;color:var(--text3);line-height:1.4}
 .card-info-item{display:inline-flex;align-items:center;gap:5px}
@@ -124,7 +163,7 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 .mt-b:hover{border-color:var(--text3);color:var(--text)}
 .sec-v{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .ven-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
-.ven-card{background:var(--card);border-radius:var(--rm);border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:all .4s var(--ease)}
+.ven-card{background:var(--card);border-radius:var(--rm);border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:all var(--dur-m) var(--ease)}
 .ven-card:hover{border-color:var(--border-a);transform:translateY(-3px);box-shadow:0 6px 30px rgba(0,0,0,.3)}
 .ven-card-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--surface)}
 .ven-card-img-f{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--surface) 0%,var(--card) 100%);font-size:2.5rem;color:var(--text3)}
@@ -149,7 +188,9 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 .ven-feat{display:flex;align-items:center;gap:10px;font-size:.8rem;color:var(--text2)}
 .ven-feat-icon{width:32px;height:32px;background:var(--gold-d);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ven-feat-icon svg{width:14px;height:14px;color:var(--gold);fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.btt{position:fixed;bottom:32px;right:32px;z-index:50;width:40px;height:40px;border-radius:50%;background:rgba(200,164,92,.12);border:1px solid var(--gold-d);color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(12px);transition:all .4s var(--ease);backdrop-filter:blur(8px)}
+.btt{position:fixed;bottom:32px;right:32px;z-index:50;width:40px;height:40px;border-radius:50%;background:rgba(200,164,92,.12);border:1px solid var(--gold-d);color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(12px);transition:all var(--dur-m) var(--ease);backdrop-filter:blur(8px)}
+/* T20-E: mobile bottom tab bar */
+.mobile-nav{display:none}@media(max-width:768px){.mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(11,10,8,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:6px 0 env(safe-area-inset-bottom,6px);justify-content:space-around;align-items:center}.mobile-nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 12px;background:none;border:none;color:var(--text3);font-family:var(--ff-sans);font-size:.55rem;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:color .2s;min-width:56px}.mobile-nav-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.mobile-nav-btn:hover{color:var(--text2)}.mobile-nav-btn.on{color:var(--gold)}.mobile-nav-btn.on svg{stroke:var(--gold)}body{padding-bottom:56px}}
 .btt.show{opacity:1;visibility:visible;transform:translateY(0)}
 .btt:hover{background:var(--gold-d);border-color:var(--gold)}
 .btt svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
@@ -160,11 +201,11 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 .ftr-lk a{font-size:.75rem;color:var(--text3);text-decoration:none;transition:color .2s}
 .ftr-lk a:hover{color:var(--text2)}
 .ftr-cp{width:100%;text-align:center;font-size:.65rem;color:var(--text3);margin-top:24px}
-.fade-in{opacity:0;transform:translateY(40px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.fade-in{opacity:0;transform:translateY(40px);transition:opacity var(--dur-s) var(--ease),transform var(--dur-s) var(--ease)}
 .fade-in.in{opacity:1;transform:translateY(0)}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:200;opacity:0;visibility:hidden;transition:all .4s var(--ease);display:flex;align-items:flex-end;justify-content:center}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:200;opacity:0;visibility:hidden;transition:all var(--dur-m) var(--ease);display:flex;align-items:flex-end;justify-content:center}
 .modal-overlay.open{opacity:1;visibility:visible}
-.modal{background:var(--bg);border-radius:var(--rl) var(--rl) 0 0;max-width:640px;width:100%;max-height:85vh;overflow-y:auto;transform:translateY(100%);transition:transform .5s var(--ease);position:relative}
+.modal{background:var(--bg);border-radius:var(--rl) var(--rl) 0 0;max-width:640px;width:100%;max-height:85vh;overflow-y:auto;transform:translateY(100%);transition:transform var(--dur-m) var(--ease);position:relative}
 .modal-overlay.open .modal{transform:translateY(0)}
 .modal-close{position:absolute;top:16px;right:16px;z-index:10;width:36px;height:36px;background:rgba(11,10,8,.7);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s}
 .modal-close:hover{background:rgba(11,10,8,.9)}
@@ -198,42 +239,49 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 ::-webkit-scrollbar-thumb:hover{background:var(--text3)}
-@media(max-width:768px){.hero{min-height:60vh;padding:80px 20px 40px}.grid{grid-template-columns:1fr;gap:20px}.ven-grid{grid-template-columns:1fr;gap:16px}.ven-spotlight{grid-template-columns:1fr;gap:32px}.ven-features{grid-template-columns:1fr}.sec{padding:60px 20px}.filts{gap:6px}.filt{font-size:.7rem;padding:6px 14px}.filt.date{min-width:90px}.flt-row .srch-w{max-width:100%}.sec-h{margin-bottom:32px}.ven-spotlight{padding:60px 20px}.nav-links{display:none}.hamburger{display:flex}.nav-links.open{display:flex;position:fixed;top:56px;left:0;right:0;flex-direction:column;background:rgba(11,10,8,.95);backdrop-filter:blur(20px);padding:20px 24px 24px;gap:16px;border-bottom:1px solid var(--border)}.btt{bottom:20px;right:20px;width:36px;height:36px}.modal{max-height:90vh}.modal-body{padding:20px}.modal-info{gap:10px}.modal-actions{flex-direction:column}.modal-actions a,.modal-actions button{width:100%;justify-content:center}.map-container{height:360px}}
+@media(max-width:768px){.hero{min-height:60vh;padding:80px 20px 40px}.grid{grid-template-columns:1fr;gap:20px}.ven-grid{grid-template-columns:1fr;gap:16px}.ven-spotlight{grid-template-columns:1fr;gap:32px}.ven-features{grid-template-columns:1fr}.sec{padding:60px 20px}.filts{gap:6px}.filt{font-size:.7rem;padding:6px 14px}.filt.date{min-width:90px}.flt-row .srch-w{max-width:100%}.sec-h{margin-bottom:32px}.ven-spotlight{padding:60px 20px}.card-body{padding:16px}.card{padding:0}.card-img{aspect-ratio:16/9}.nav-links{display:none}.hamburger{display:flex}.nav-links.open{display:flex;position:fixed;top:56px;left:0;right:0;flex-direction:column;background:rgba(11,10,8,.95);backdrop-filter:blur(20px);padding:20px 24px 24px;gap:16px;border-bottom:1px solid var(--border)}.btt{bottom:20px;right:20px;width:36px;height:36px}.modal{max-height:90vh}.modal-body{padding:20px}.modal-info{gap:10px}.modal-actions{flex-direction:column}.modal-actions a,.modal-actions button{width:100%;justify-content:center}.map-container{height:360px}}
 @media(max-width:480px){.hero{min-height:50vh;padding:70px 16px 40px}.modal-title{font-size:1.2rem}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
 .preloader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:var(--bg);transition:opacity .6s var(--ease),visibility .6s var(--ease)}.preloader.hidden{opacity:0;visibility:hidden;pointer-events:none}.preloader-inner{text-align:center}.preloader-bar{width:120px;height:2px;background:var(--border);border-radius:2px;overflow:hidden}.preloader-bar-fill{height:100%;width:40%;background:var(--gold);border-radius:2px;animation:preloadBar 1.2s var(--ease) infinite}@keyframes preloadBar{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
-.lang-sel{position:absolute;top:20px;right:0;z-index:10}.lang-select{font-family:var(--ff-sans);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:rgba(11,10,8,.6);backdrop-filter:blur(8px);color:var(--text2);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;transition:all .3s;min-width:60px;text-align:center}.lang-select:hover{border-color:var(--text3);color:var(--text)}.lang-select:focus{border-color:var(--gold-d)}.lang-select option{background:var(--bg);color:var(--text);font-size:.75rem}@media(max-width:768px){.lang-sel{top:12px;right:0}.lang-select{font-size:.6rem;padding:4px 8px;min-width:50px}}.light,:root.light{--bg:#f8f6f2;--surface:#f0ece6;--card:#ffffff;--border:rgba(0,0,0,0.08);--border-a:rgba(200,164,92,0.3);--text:#1a1815;--text2:#6b6660;--text3:#9a948c}.light .nav.scrolled{background:rgba(248,246,242,.92);border-bottom-color:rgba(0,0,0,.06)}.light .filt.on{color:var(--bg)}.light .card-date{background:rgba(248,246,242,.9);border-color:rgba(0,0,0,.06)}.light .modal-overlay{background:rgba(0,0,0,.3)}.light .hero-title{color:var(--gold)}.light .filt.map-toggle{color:var(--gold);border-color:var(--border-a)}.light .filt.map-toggle.on{color:var(--text);background:var(--gold);border-color:var(--gold)}.light .filt.date{color-scheme:light}.lang-row{display:flex;align-items:center;gap:6px}.theme-btn{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:rgba(11,10,8,.6);backdrop-filter:blur(8px);color:var(--text2);cursor:pointer;transition:all .3s;padding:0}.theme-btn:hover{border-color:var(--text3);color:var(--gold)}.theme-btn svg{transition:transform .4s cubic-bezier(.22,1,.36,1)}.light .theme-btn{background:rgba(248,246,242,.6)}.light .theme-btn:hover{color:#e8a020}@media(max-width:768px){.theme-btn{width:24px;height:24px}.theme-btn svg{width:12px;height:12px}}
+.lang-sel{position:absolute;top:20px;right:0;z-index:10}.lang-select{font-family:var(--ff-sans);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:rgba(11,10,8,.6);backdrop-filter:blur(8px);color:var(--text2);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;transition:all .3s;min-width:60px;text-align:center}.lang-select:hover{border-color:var(--text3);color:var(--text)}.lang-select:focus{border-color:var(--gold-d)}.lang-select option{background:var(--bg);color:var(--text);font-size:.75rem}@media(max-width:768px){.lang-sel{top:12px;right:0}.lang-select{font-size:.6rem;padding:4px 8px;min-width:50px}}.light,:root.light{--bg:#f8f6f2;--surface:#f0ece6;--card:#ffffff;--border:rgba(0,0,0,0.08);--border-a:rgba(200,164,92,0.3);--text:#1a1815;--text2:#6b6660;--text3:#9a948c}.light .nav.scrolled{background:rgba(248,246,242,.92);border-bottom-color:rgba(0,0,0,.06)}.light .filt.on{color:var(--bg)}.light .card-date{background:rgba(248,246,242,.9);border-color:rgba(0,0,0,.06)}.light .modal-overlay{background:rgba(0,0,0,.3)}.light .hero-title{color:var(--gold)}.light .filt.map-toggle{color:var(--gold);border-color:var(--border-a)}.light .filt.map-toggle.on{color:var(--text);background:var(--gold);border-color:var(--gold)}.light .filt.date{color-scheme:light}.lang-row{display:flex;align-items:center;gap:6px}.theme-btn{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:rgba(11,10,8,.6);backdrop-filter:blur(8px);color:var(--text2);cursor:pointer;transition:all .3s;padding:0}.theme-btn:hover{border-color:var(--text3);color:var(--gold)}.theme-btn svg{transition:transform .4s cubic-bezier(.22,1,.36,1)}.light .theme-btn{background:rgba(248,246,242,.6)}.light .theme-btn:hover{color:#e8a020}.light .mobile-nav{background:rgba(248,246,242,.92);border-top-color:rgba(0,0,0,.06)}@media(max-width:768px){.theme-btn{width:24px;height:24px}.theme-btn svg{width:12px;height:12px}}
 .cinema-days{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;margin-bottom:24px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .cinema-days::-webkit-scrollbar{display:none}
 .cinema-day{flex-shrink:0;font-family:var(--ff-sans);font-size:.7rem;padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;transition:all .3s;text-align:center;min-width:56px}
 .cinema-day:hover{border-color:var(--text3);color:var(--text)}
 .cinema-day.on{background:var(--gold);border-color:var(--gold);color:var(--bg);font-weight:500}
 .cinema-day .dow{font-size:.55rem;text-transform:uppercase;letter-spacing:.05em;opacity:.7;display:block;margin-top:2px}
-.cinema-row{display:grid;grid-template-columns:72px 1fr;gap:16px;padding:20px 16px;border-bottom:1px solid var(--border);transition:background .3s;border-radius:8px;cursor:default}
-.cinema-row:hover{background:var(--surface)}  
-.cinema-row:last-child{border-bottom:none}
-.cinema-row-poster{width:72px;height:108px;border-radius:6px;overflow:hidden;background:var(--surface);flex-shrink:0}
-.cinema-row-poster img{width:100%;height:100%;object-fit:cover}
-.cinema-row-poster .no-img{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--text3);font-family:var(--ff-serif)}
-.cinema-row-info{display:flex;flex-direction:column;gap:8px}
-.cinema-row-title{font-family:var(--ff-serif);font-size:1rem;font-weight:400;color:var(--text);line-height:1.2}
-.cinema-row-meta{display:flex;align-items:center;gap:10px;font-size:.65rem;color:var(--text3);flex-wrap:wrap}
-.cinema-row-meta .lang{display:inline-flex;align-items:center;gap:3px;padding:1px 6px;border-radius:3px;border:1px solid var(--border);text-transform:uppercase;letter-spacing:.05em;font-weight:500}
-.cinema-row-meta .lang.vo{color:var(--gold);border-color:var(--gold-d)}
-.cinema-row-times{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
-.cinema-row-times .time-btn{font-family:var(--ff-sans);font-size:.75rem;font-weight:500;padding:6px 16px;border-radius:6px;border:1px solid var(--border-a);background:transparent;color:var(--text2);cursor:pointer;transition:all .25s}
-.cinema-row-times .time-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--bg)}
-.cinema-row-times .time-btn.past{opacity:.35;cursor:default}
-.cinema-row-times .time-btn.past:hover{background:transparent;border-color:var(--border-a);color:var(--text3)}
-.cinema-row-times .time-btn.now{background:var(--gold-d);border-color:var(--gold);color:var(--gold)}
-@media(max-width:768px){.cinema-row{grid-template-columns:56px 1fr;gap:12px;padding:16px 12px}.cinema-row-poster{width:56px;height:84px}.cinema-row-title{font-size:.9rem}}
+/* T20-C: cinema poster grid — replaces flat list */
+.cinema-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-top:16px}
+.cinema-card{position:relative;background:var(--card);border:1px solid var(--border);border-radius:var(--rm);overflow:hidden;transition:all var(--dur-f) var(--ease);cursor:pointer}
+.cinema-card:hover{border-color:var(--border-a);transform:translateY(-3px);box-shadow:var(--sh-md)}
+.cinema-card-poster{width:100%;aspect-ratio:2/3;overflow:hidden;background:var(--surface)}
+.cinema-card-poster img{width:100%;height:100%;object-fit:cover;transition:transform var(--dur-s) var(--ease)}
+.cinema-card:hover .cinema-card-poster img{transform:scale(1.05)}
+.cinema-card-poster .no-img{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--text3);font-family:var(--ff-serif)}
+.cinema-card-body{padding:12px 14px 14px}
+.cinema-card-title{font-family:var(--ff-serif);font-size:.85rem;font-weight:400;color:var(--text);line-height:1.2;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cinema-card-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.cinema-card-meta .lang{font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;padding:1px 6px;border-radius:3px;border:1px solid var(--border);color:var(--text3)}
+.cinema-card-meta .lang.vo{color:var(--gold);border-color:var(--gold-d)}
+.cinema-card-times{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+.cinema-card-times .time-btn{font-family:var(--ff-sans);font-size:.65rem;font-weight:500;padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;transition:all .2s}
+.cinema-card-times .time-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--bg)}
+.cinema-card-times .time-btn.past{opacity:.3;cursor:default}
+.cinema-card-times .time-btn.past:hover{background:transparent;border-color:var(--border);color:var(--text3)}
+.cinema-card-times .time-btn.now{background:var(--gold-d);border-color:var(--gold);color:var(--gold);font-weight:600}
+.cinema-empty{text-align:center;padding:60px 20px;grid-column:1/-1}
+.cinema-empty .mt-i{font-size:2rem;color:var(--text3);margin-bottom:16px;opacity:.4}
+.cinema-empty .mt-t{font-family:var(--ff-serif);font-size:1.1rem;color:var(--text2);margin-bottom:16px}
+.cinema-empty .mt-b{display:inline-block;padding:8px 20px;border:1px solid var(--border);border-radius:100px;font-size:.7rem;color:var(--text2);background:transparent;cursor:pointer;transition:all .3s}
+.cinema-empty .mt-b:hover{border-color:var(--text3);color:var(--text)}
+@media(max-width:768px){.cinema-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}.cinema-card-title{font-size:.78rem}}@media(max-width:480px){.cinema-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
 </style></head><body>
 <div class="preloader" id="preloader"><div class="preloader-inner"><div class="preloader-bar"><div class="preloader-bar-fill"></div></div></div></div>
 <nav class="nav" id="nav"><div class="nav-inner">
 <a href="#" class="nav-brand"><svg viewBox="0 0 24 12" width="28" height="14"><polyline points="0,12 6,2 12,7 18,0 24,6" fill="none" stroke="#ede8e0" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-<ul class="nav-links" id="nav-links"><li><a href="#events" class="nav-lnk" data-i18n="nav_events">Événements</a></li><li><a href="#venues" class="nav-lnk" data-i18n="nav_venues">Lieux</a></li><li><a href="#" class="nav-lnk" id="nav-cinema" data-i18n="nav_cinema">Cinéma</a></li></ul>
+<ul class="nav-links" id="nav-links"><li><a href="#events" class="nav-lnk" data-i18n="nav_events">Événements</a></li><li><a href="#venues" class="nav-lnk" data-i18n="nav_venues">Lieux</a></li><li><a href="#" class="nav-lnk" id="nav-cinema" data-i18n="nav_cinema">Cinéma</a></li><li><a href="/submit.html" class="nav-lnk" data-i18n="nav_submit">Soumettre</a></li></ul>
 </div></nav>
 <section class="hero"><div class="hero-bg"></div><div class="hero-gd"></div><div class="hero-c">
 <div class="lang-sel"><div class="lang-row"><button class="theme-btn" id="theme-btn" aria-label="Toggle theme"><svg class="theme-sun" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button><select id="locale-sel" class="lang-select">
@@ -266,7 +314,7 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 <div class="quick-filts"><button class="qfilt" data-q="week" data-i18n="q_week">Cette semaine</button><button class="qfilt" data-q="weekend" data-i18n="q_weekend">Ce week-end</button><button class="qfilt" data-q="month" data-i18n="q_month">Ce mois</button></div></div>
 <div class="filts fade-in" id="filters">
 <button class="filt on" data-cat="" data-i18n="filter_all">Tout</button>
-<button class="filt cC" data-cat="Cinema" data-i18n="filter_cinema">Cinéma</button>
+<!-- T24: Cinema lives in its own section; removed misleading chip from event filters (audit §18) -->
 <button class="filt cE" data-cat="concert" data-i18n="filter_concert">Concert</button>
 <button class="filt cE" data-cat="exhibition" data-i18n="filter_exhibition">Exposition</button>
 <button class="filt cF" data-cat="family" data-i18n="filter_family">Famille</button>
@@ -276,22 +324,25 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 <button class="filt cT" data-cat="theatre" data-i18n="filter_theatre">Théâtre</button>
 <input type="date" id="date-from" class="filt date" data-i18n="date_from" placeholder="Du">
 <input type="date" id="date-to" class="filt date" data-i18n="date_to" placeholder="Au">
+<button class="filt clear-btn" id="clear-filters" data-i18n="filter_clear">Réinitialiser</button>
+<button class="filt" id="density-toggle" data-i18n="density_btn">Compact</button>
 <button class="filt map-toggle" id="map-toggle" data-view="grid" data-i18n="map_btn">Carte</button>
 </div>
-<div class="cnt fade-in"><b id="ev-count">0</b> <span id="ev-found-text">événements trouvés</span> evenements trouves</div>
+<div class="cnt fade-in"><b id="ev-count">0</b> <span id="ev-found-text">events found</span></div>
 <div class="grid" id="ev-grid"></div>
 <div class="map-container" id="map-container"></div>
 </section>
 
 <section class="cinema-sec" id="cinema" style="display:none">
-<div id="stale-warning" style="display:none;background:rgba(200,164,92,.1);border:1px solid rgba(200,164,92,.25);padding:8px 16px;margin:0 24px;border-radius:8px;font-size:.7rem;color:var(--gold);text-align:center">⚠ Some screenings may not be up to date</div>
+<div id="stale-warning" class="stale-warning" data-i18n="stale_warning" style="display:none">⚠ Some screenings may not be up to date</div>
 <div class="sec" style="padding-top:20px">
 <div class="cinema-days" id="cinema-days"></div>
-<div class="cinema-list" id="cinema-list"></div>
+<div class="cinema-grid" id="cinema-grid"></div>
 <div class="cinema-empty" id="cinema-empty" style="display:none">
 <div class="mt-i">—</div>
 <div class="mt-t" data-i18n="cinema_no_films">Aucune séance ce jour</div>
-</div>
+<button class="mt-b" onclick="nextCinemaDay()" data-i18n="cinema_next_day">Voir le prochain jour</button>
+</div></div></section>
 </div>
 </section>
 
@@ -304,7 +355,7 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 <div class="ven-feat"><div class="ven-feat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>Son Dolby 7.1</div>
 <div class="ven-feat"><div class="ven-feat-icon"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>Ambiance historique</div></div></div></div>
 <div class="sec fade-in" style="padding-top:0"><h2 class="sec-t" style="margin-bottom:32px" data-i18n="venue_section">Tous les lieux</h2><div class="ven-grid" id="ven-grid"></div></div></section>
-<button class="btt" id="btt" aria-label="Retour en haut"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
+<button class="btt" id="btt" aria-label="Back to top" data-i18n="btt_label"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
 <div class="modal-overlay" id="modal"><div class="modal"><button class="modal-close" id="modal-close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
 <img class="modal-img" id="modal-img" src="" alt=""><div class="modal-body">
 <div class="modal-meta"><span class="modal-cat" id="modal-cat"></span><span class="modal-dot"></span><span class="modal-venue" id="modal-venue"></span></div>
@@ -312,15 +363,31 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 <p class="modal-desc" id="modal-desc"></p><p class="modal-address" id="modal-address"></p><div class="modal-showtimes" id="modal-showtimes"></div>
 <div class="modal-actions"><a class="modal-source" id="modal-source" href="#" target="_blank" rel="noopener">Voir la source <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
 <button class="modal-share" id="modal-share"><span data-i18n="modal_share">Partager</span> <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button></div></div></div></div>
-<footer class="ftr"><div class="ftr-in"><div class="ftr-br">Chamonix Events</div><div class="ftr-lk"><a href="https://www.chamonix.net/english/events">chamonix.net</a><a href="https://www.allocine.fr/seance/salle_gen_csalle=P1406.html">AlloCine</a></div></div><div class="ftr-cp">Evenements collectes depuis chamonix.net, chamonix.com et AlloCine</div></footer>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
+<footer class="ftr"><div class="ftr-in"><div class="ftr-br">Chamonix Events</div><div class="ftr-lk"><a href="https://www.chamonix.net/english/events">chamonix.net</a><a href="https://www.allocine.fr/seance/salle_gen_csalle=P1406.html">AlloCine</a><a href="/api/events.ics">📅 iCal</a><a href="/privacy.html">Privacy</a></div></div><div class="ftr-cp">Evenements collectes depuis chamonix.net, chamonix.com et AlloCine</div></footer>
+<!-- T20-E: mobile bottom tab bar -->
+<nav class="mobile-nav" id="mobile-nav">
+  <button class="mobile-nav-btn on" data-section="events" onclick="toggleMobileSection('events')">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <span data-i18n="nav_events">Événements</span>
+  </button>
+  <button class="mobile-nav-btn" data-section="venues" onclick="toggleMobileSection('venues')">
+    <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    <span data-i18n="nav_venues">Lieux</span>
+  </button>
+  <button class="mobile-nav-btn" data-section="cinema" onclick="toggleMobileSection('cinema')">
+    <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    <span data-i18n="nav_cinema">Cinéma</span>
+  </button>
+</nav>
 <script>
 // i18n
+/* T20-D: detect browser language on first visit */
 var LOCALE_KEY='chx-locale';
-var LOCALE=localStorage.getItem(LOCALE_KEY)||'fr';
-var I18N={"en":{"name":"English","hero_label":"Chamonix Valley","hero_sub":"Discover the finest events, concerts and nightlife in the valley.","nav_events":"Events","nav_venues":"Venues","scroll":"Scroll","sec_label":"Program","sec_title":"All events","search_placeholder":"Search...","q_week":"This week","q_weekend":"This weekend","q_month":"This month","filter_all":"All","filter_cinema":"Cinema","filter_concert":"Concert","filter_exhibition":"Exhibition","filter_family":"Family","filter_market":"Market","filter_other":"Other","filter_sport":"Sport","filter_theatre":"Theatre","date_from":"From","date_to":"To","map_btn":"Map","grid_btn":"Grid","events_found":"events found","today":"Today","tomorrow":"Tomorrow","details":"Details","empty_title":"No events found","empty_desc":"Try broadening or changing your filters.","empty_btn":"Clear filters","venue_badge":"Featured Venue","venue_section":"All venues","venue_count_one":"event","venue_count_other":"events","modal_source":"View source","modal_share":"Share","copied":"Copied!","ftr_text":"Events collected from chamonix.net and AlloCiné","m0":"Jan","m1":"Feb","m2":"Mar","m3":"Apr","m4":"May","m5":"Jun","m6":"Jul","m7":"Aug","m8":"Sep","m9":"Oct","m10":"Nov","m11":"Dec","d0":"Sun","d1":"Mon","d2":"Tue","d3":"Wed","d4":"Thu","d5":"Fri","d6":"Sat","vCinema":"Cinema","vconcert":"Bar / Concert","vexhibition":"Exhibition","vtheatre":"Theatre","vsport":"Sports","vmarket":"Market","vfamily":"Family","v_":"Venue","nav_cinema":"Cinema","cinema_no_films":"No screenings today"},"fr":{"name":"Français","hero_label":"Vallée de Chamonix","hero_sub":"Découvrez les plus beaux événements, concerts et soirées de la vallée.","nav_events":"Événements","nav_venues":"Lieux","scroll":"Défiler","sec_label":"Programmation","sec_title":"Tous les événements","search_placeholder":"Rechercher...","q_week":"Cette semaine","q_weekend":"Ce week-end","q_month":"Ce mois","filter_all":"Tout","filter_cinema":"Cinéma","filter_concert":"Concert","filter_exhibition":"Exposition","filter_family":"Famille","filter_market":"Marché","filter_other":"Autre","filter_sport":"Sport","filter_theatre":"Théâtre","date_from":"Du","date_to":"Au","map_btn":"Carte","grid_btn":"Grille","events_found":"événements trouvés","today":"Aujourd’hui","tomorrow":"Demain","details":"Détails","empty_title":"Aucun événement trouvé","empty_desc":"Essayez d’élargir ou de changer les filtres.","empty_btn":"Effacer les filtres","venue_badge":"Lieu vedette","venue_section":"Tous les lieux","venue_count_one":"événement","venue_count_other":"événements","modal_source":"Voir la source","modal_share":"Partager","copied":"Copié !","ftr_text":"Événements collectés depuis chamonix.net et AlloCiné","m0":"Jan","m1":"Fév","m2":"Mar","m3":"Avr","m4":"Mai","m5":"Juin","m6":"Juil","m7":"Aoû","m8":"Sep","m9":"Oct","m10":"Nov","m11":"Déc","d0":"Dim","d1":"Lun","d2":"Mar","d3":"Mer","d4":"Jeu","d5":"Ven","d6":"Sam","vCinema":"Cinéma","vconcert":"Bar / Concert","vexhibition":"Exposition","vtheatre":"Théâtre","vsport":"Sport","vmarket":"Marché","vfamily":"Famille","v_":"Lieu","nav_cinema":"Cinéma","cinema_no_films":"Aucune séance ce jour"},"es":{"name":"Español","hero_label":"Valle de Chamonix","hero_sub":"Descubre los mejores eventos, conciertos y vida nocturna del valle.","nav_events":"Eventos","nav_venues":"Lugares","scroll":"Desplazar","sec_label":"Programa","sec_title":"Todos los eventos","search_placeholder":"Buscar...","q_week":"Esta semana","q_weekend":"Este fin de semana","q_month":"Este mes","filter_all":"Todo","filter_cinema":"Cine","filter_concert":"Concierto","filter_exhibition":"Exposición","filter_family":"Familiar","filter_market":"Mercado","filter_other":"Otro","filter_sport":"Deporte","filter_theatre":"Teatro","date_from":"Desde","date_to":"Hasta","map_btn":"Mapa","grid_btn":"Cuadrícula","events_found":"eventos encontrados","today":"Hoy","tomorrow":"Mañana","details":"Detalles","empty_title":"No se encontraron eventos","empty_desc":"Intenta ampliar o cambiar los filtros.","empty_btn":"Limpiar filtros","venue_badge":"Lugar Destacado","venue_section":"Todos los lugares","venue_count_one":"evento","venue_count_other":"eventos","modal_source":"Ver fuente","modal_share":"Compartir","copied":"¡Copiado!","ftr_text":"Eventos recopilados de chamonix.net y AlloCiné","m0":"Ene","m1":"Feb","m2":"Mar","m3":"Abr","m4":"May","m5":"Jun","m6":"Jul","m7":"Ago","m8":"Sep","m9":"Oct","m10":"Nov","m11":"Dic","d0":"Dom","d1":"Lun","d2":"Mar","d3":"Mié","d4":"Jue","d5":"Vie","d6":"Sáb","vCinema":"Cine","vconcert":"Bar / Concierto","vexhibition":"Exposición","vtheatre":"Teatro","vsport":"Deporte","vmarket":"Mercado","vfamily":"Familiar","v_":"Lugar","nav_cinema":"Cine","cinema_no_films":"Sin funciones hoy"},"sv":{"name":"Svenska","hero_label":"Chamonixdalen","hero_sub":"Upptäck dalens bästa evenemang, konserter och nattliv.","nav_events":"Evenemang","nav_venues":"Ställen","scroll":"Rulla","sec_label":"Program","sec_title":"Alla evenemang","search_placeholder":"Sök...","q_week":"Denna vecka","q_weekend":"Denna helg","q_month":"Denna månad","filter_all":"Alla","filter_cinema":"Bio","filter_concert":"Konsert","filter_exhibition":"Utställning","filter_family":"Familj","filter_market":"Marknad","filter_other":"Annat","filter_sport":"Sport","filter_theatre":"Teater","date_from":"Från","date_to":"Till","map_btn":"Karta","grid_btn":"Rutnät","events_found":"evenemang hittades","today":"Idag","tomorrow":"Imorgon","details":"Detaljer","empty_title":"Inga evenemang hittades","empty_desc":"Försök vidga eller ändra dina filter.","empty_btn":"Rensa filter","venue_badge":"Utvalt Ställe","venue_section":"Alla ställen","venue_count_one":"evenemang","venue_count_other":"evenemang","modal_source":"Visa källa","modal_share":"Dela","copied":"Kopierat!","ftr_text":"Evenemang samlade från chamonix.net och AlloCiné","m0":"Jan","m1":"Feb","m2":"Mar","m3":"Apr","m4":"Maj","m5":"Jun","m6":"Jul","m7":"Aug","m8":"Sep","m9":"Okt","m10":"Nov","m11":"Dec","d0":"Sön","d1":"Mån","d2":"Tis","d3":"Ons","d4":"Tor","d5":"Fre","d6":"Lör","vCinema":"Bio","vconcert":"Bar / Konsert","vexhibition":"Utställning","vtheatre":"Teater","vsport":"Sport","vmarket":"Marknad","vfamily":"Familj","v_":"Ställe","nav_cinema":"Bio","cinema_no_films":"Inga visningar idag"},"hu":{"name":"Magyar","hero_label":"Chamonix-völgy","hero_sub":"Fedezze fel a völgy legjobb eseményeit, koncertjeit és éjszakai életét.","nav_events":"Események","nav_venues":"Helyszínek","nav_cinema":"Mozi","scroll":"Görgetés","sec_label":"Program","sec_title":"Összes esemény","search_placeholder":"Keresés...","q_week":"Ezen a héten","q_weekend":"Ezen a hétvégén","q_month":"Ebben a hónapban","filter_all":"Mind","filter_cinema":"Mozi","filter_concert":"Koncert","filter_exhibition":"Kiállítás","filter_family":"Család","filter_market":"Piaci","filter_other":"Egyéb","filter_sport":"Sport","filter_theatre":"Színház","date_from":"Ettől","date_to":"Eddig","map_btn":"Térkép","grid_btn":"Rács","events_found":"esemény található","today":"Ma","tomorrow":"Holnap","details":"Részletek","empty_title":"Nincs találat","empty_desc":"Próbálja bővíteni vagy módosítani a szűrőket.","empty_btn":"Szűrők törlése","venue_badge":"Kiemelt Helyszín","venue_section":"Összes helyszín","venue_count_one":"esemény","venue_count_other":"esemény","modal_source":"Forrás megtekintése","modal_share":"Megosztás","copied":"Másolva!","ftr_text":"Események összegyűjtve a chamonix.net és AlloCiné forrásból","m0":"Jan","m1":"Feb","m2":"Márc","m3":"Ápr","m4":"Máj","m5":"Jún","m6":"Júl","m7":"Aug","m8":"Szept","m9":"Okt","m10":"Nov","m11":"Dec","d0":"Vas","d1":"Hét","d2":"Kedd","d3":"Sze","d4":"Csü","d5":"Pén","d6":"Szo","vCinema":"Mozi","vconcert":"Bár / Koncert","vexhibition":"Kiállítás","vtheatre":"Színház","vsport":"Sport","vmarket":"Piaci","vfamily":"Családi","v_":"Helyszín","cinema_no_films":"Ma nincs vetítés"}};
+var LOCALE=localStorage.getItem(LOCALE_KEY)||(navigator.language&&navigator.language.startsWith('en')?'en':'fr');
+var I18N={"en":{"name":"English","hero_label":"Chamonix Valley","hero_sub":"Discover the finest events, concerts and nightlife in the valley.","nav_events":"Events","nav_venues":"Venues","scroll":"Scroll","sec_label":"Program","sec_title":"All events","search_placeholder":"Search...","q_week":"This week","q_weekend":"This weekend","q_month":"This month","filter_all":"All","filter_cinema":"Cinema","filter_concert":"Concert","filter_exhibition":"Exhibition","filter_family":"Family","filter_market":"Market","filter_other":"Other","filter_sport":"Sport","filter_theatre":"Theatre","filter_clear":"Clear","density_btn":"Compact","date_from":"From","date_to":"To","map_btn":"Map","grid_btn":"Grid","events_found":"events found","today":"Today","tomorrow":"Tomorrow","details":"Details","empty_title":"No events found","empty_desc":"Try broadening or changing your filters.","empty_btn":"Clear filters","venue_badge":"Featured Venue","venue_section":"All venues","venue_count_one":"event","venue_count_other":"events","modal_source":"View source","modal_share":"Share","copied":"Copied!","ftr_text":"Events collected from chamonix.net and AlloCiné","m0":"Jan","m1":"Feb","m2":"Mar","m3":"Apr","m4":"May","m5":"Jun","m6":"Jul","m7":"Aug","m8":"Sep","m9":"Oct","m10":"Nov","m11":"Dec","d0":"Sun","d1":"Mon","d2":"Tue","d3":"Wed","d4":"Thu","d5":"Fri","d6":"Sat","vCinema":"Cinema","vconcert":"Bar / Concert","vexhibition":"Exhibition","vtheatre":"Theatre","vsport":"Sports","vmarket":"Market","vfamily":"Family","v_":"Venue","nav_cinema":"Cinema","nav_submit":"Submit","cinema_no_films":"No screenings today","cinema_next_day":"Next day","hero_stat_week":"events this week","hero_stat_today":"today","hero_stat_weekend":"this weekend","today_label":"Today","today_title":"What to do today","stale_warning":"Some screenings may not be up to date","btt_label":"Back to top"},"fr":{"name":"Français","hero_label":"Vallée de Chamonix","hero_sub":"Découvrez les plus beaux événements, concerts et soirées de la vallée.","nav_events":"Événements","nav_venues":"Lieux","scroll":"Défiler","sec_label":"Programmation","sec_title":"Tous les événements","search_placeholder":"Rechercher...","q_week":"Cette semaine","q_weekend":"Ce week-end","q_month":"Ce mois","filter_all":"Tout","filter_cinema":"Cinéma","filter_concert":"Concert","filter_exhibition":"Exposition","filter_family":"Famille","filter_market":"Marché","filter_other":"Autre","filter_sport":"Sport","filter_theatre":"Théâtre","filter_clear":"Réinitialiser","density_btn":"Compact","date_from":"Du","date_to":"Au","map_btn":"Carte","grid_btn":"Grille","events_found":"événements trouvés","today":"Aujourd’hui","tomorrow":"Demain","details":"Détails","empty_title":"Aucun événement trouvé","empty_desc":"Essayez d’élargir ou de changer les filtres.","empty_btn":"Effacer les filtres","venue_badge":"Lieu vedette","venue_section":"Tous les lieux","venue_count_one":"événement","venue_count_other":"événements","modal_source":"Voir la source","modal_share":"Partager","copied":"Copié !","ftr_text":"Événements collectés depuis chamonix.net et AlloCiné","m0":"Jan","m1":"Fév","m2":"Mar","m3":"Avr","m4":"Mai","m5":"Juin","m6":"Juil","m7":"Aoû","m8":"Sep","m9":"Oct","m10":"Nov","m11":"Déc","d0":"Dim","d1":"Lun","d2":"Mar","d3":"Mer","d4":"Jeu","d5":"Ven","d6":"Sam","vCinema":"Cinéma","vconcert":"Bar / Concert","vexhibition":"Exposition","vtheatre":"Théâtre","vsport":"Sport","vmarket":"Marché","vfamily":"Famille","v_":"Lieu","nav_cinema":"Cinéma","nav_submit":"Soumettre","cinema_no_films":"Aucune séance ce jour","cinema_next_day":"Jour suivant","hero_stat_week":"événements cette semaine","hero_stat_today":"aujourd'hui","hero_stat_weekend":"ce week-end","today_label":"Aujourd'hui","today_title":"Que faire aujourd'hui","stale_warning":"Certaines séances ne sont peut-être pas à jour","btt_label":"Retour en haut"},"es":{"name":"Español","hero_label":"Valle de Chamonix","hero_sub":"Descubre los mejores eventos, conciertos y vida nocturna del valle.","nav_events":"Eventos","nav_venues":"Lugares","scroll":"Desplazar","sec_label":"Programa","sec_title":"Todos los eventos","search_placeholder":"Buscar...","q_week":"Esta semana","q_weekend":"Este fin de semana","q_month":"Este mes","filter_all":"Todo","filter_cinema":"Cine","filter_concert":"Concierto","filter_exhibition":"Exposición","filter_family":"Familiar","filter_market":"Mercado","filter_other":"Otro","filter_sport":"Deporte","filter_theatre":"Teatro","filter_clear":"Limpiar","density_btn":"Compacto","date_from":"Desde","date_to":"Hasta","map_btn":"Mapa","grid_btn":"Cuadrícula","events_found":"eventos encontrados","today":"Hoy","tomorrow":"Mañana","details":"Detalles","empty_title":"No se encontraron eventos","empty_desc":"Intenta ampliar o cambiar los filtros.","empty_btn":"Limpiar filtros","venue_badge":"Lugar Destacado","venue_section":"Todos los lugares","venue_count_one":"evento","venue_count_other":"eventos","modal_source":"Ver fuente","modal_share":"Compartir","copied":"¡Copiado!","ftr_text":"Eventos recopilados de chamonix.net y AlloCiné","m0":"Ene","m1":"Feb","m2":"Mar","m3":"Abr","m4":"May","m5":"Jun","m6":"Jul","m7":"Ago","m8":"Sep","m9":"Oct","m10":"Nov","m11":"Dic","d0":"Dom","d1":"Lun","d2":"Mar","d3":"Mié","d4":"Jue","d5":"Vie","d6":"Sáb","vCinema":"Cine","vconcert":"Bar / Concierto","vexhibition":"Exposición","vtheatre":"Teatro","vsport":"Deporte","vmarket":"Mercado","vfamily":"Familiar","v_":"Lugar","nav_cinema":"Cine","nav_submit":"Enviar","cinema_no_films":"Sin funciones hoy","cinema_next_day":"Siguiente día","hero_stat_week":"eventos esta semana","hero_stat_today":"hoy","hero_stat_weekend":"este fin de semana","today_label":"Hoy","today_title":"Qué hacer hoy","stale_warning":"Es posible que algunas funciones no estén actualizadas","btt_label":"Volver arriba"},"sv":{"name":"Svenska","hero_label":"Chamonixdalen","hero_sub":"Upptäck dalens bästa evenemang, konserter och nattliv.","nav_events":"Evenemang","nav_venues":"Ställen","scroll":"Rulla","sec_label":"Program","sec_title":"Alla evenemang","search_placeholder":"Sök...","q_week":"Denna vecka","q_weekend":"Denna helg","q_month":"Denna månad","filter_all":"Alla","filter_cinema":"Bio","filter_concert":"Konsert","filter_exhibition":"Utställning","filter_family":"Familj","filter_market":"Marknad","filter_other":"Annat","filter_sport":"Sport","filter_theatre":"Teater","filter_clear":"Rensa","density_btn":"Kompakt","date_from":"Från","date_to":"Till","map_btn":"Karta","grid_btn":"Rutnät","events_found":"evenemang hittades","today":"Idag","tomorrow":"Imorgon","details":"Detaljer","empty_title":"Inga evenemang hittades","empty_desc":"Försök vidga eller ändra dina filter.","empty_btn":"Rensa filter","venue_badge":"Utvalt Ställe","venue_section":"Alla ställen","venue_count_one":"evenemang","venue_count_other":"evenemang","modal_source":"Visa källa","modal_share":"Dela","copied":"Kopierat!","ftr_text":"Evenemang samlade från chamonix.net och AlloCiné","m0":"Jan","m1":"Feb","m2":"Mar","m3":"Apr","m4":"Maj","m5":"Jun","m6":"Jul","m7":"Aug","m8":"Sep","m9":"Okt","m10":"Nov","m11":"Dec","d0":"Sön","d1":"Mån","d2":"Tis","d3":"Ons","d4":"Tor","d5":"Fre","d6":"Lör","vCinema":"Bio","vconcert":"Bar / Konsert","vexhibition":"Utställning","vtheatre":"Teater","vsport":"Sport","vmarket":"Marknad","vfamily":"Familj","v_":"Ställe","nav_cinema":"Bio","nav_submit":"Skicka","cinema_no_films":"Inga visningar idag","cinema_next_day":"Nästa dag","hero_stat_week":"evenemang denna vecka","hero_stat_today":"idag","hero_stat_weekend":"denna helg","today_label":"Idag","today_title":"Vad göra idag","stale_warning":"Vissa visningar kanske inte är uppdaterade","btt_label":"Tillbaka till toppen"},"hu":{"name":"Magyar","hero_label":"Chamonix-völgy","hero_sub":"Fedezze fel a völgy legjobb eseményeit, koncertjeit és éjszakai életét.","nav_events":"Események","nav_venues":"Helyszínek","nav_cinema":"Mozi","nav_submit":"Beküldés","scroll":"Görgetés","sec_label":"Program","sec_title":"Összes esemény","search_placeholder":"Keresés...","q_week":"Ezen a héten","q_weekend":"Ezen a hétvégén","q_month":"Ebben a hónapban","filter_all":"Mind","filter_cinema":"Mozi","filter_concert":"Koncert","filter_exhibition":"Kiállítás","filter_family":"Család","filter_market":"Piaci","filter_other":"Egyéb","filter_sport":"Sport","filter_theatre":"Színház","filter_clear":"Törlés","density_btn":"Tömör","date_from":"Ettől","date_to":"Eddig","map_btn":"Térkép","grid_btn":"Rács","events_found":"esemény található","today":"Ma","tomorrow":"Holnap","details":"Részletek","empty_title":"Nincs találat","empty_desc":"Próbálja bővíteni vagy módosítani a szűrőket.","empty_btn":"Szűrők törlése","venue_badge":"Kiemelt Helyszín","venue_section":"Összes helyszín","venue_count_one":"esemény","venue_count_other":"esemény","modal_source":"Forrás megtekintése","modal_share":"Megosztás","copied":"Másolva!","ftr_text":"Események összegyűjtve a chamonix.net és AlloCiné forrásból","m0":"Jan","m1":"Feb","m2":"Márc","m3":"Ápr","m4":"Máj","m5":"Jún","m6":"Júl","m7":"Aug","m8":"Szept","m9":"Okt","m10":"Nov","m11":"Dec","d0":"Vas","d1":"Hét","d2":"Kedd","d3":"Sze","d4":"Csü","d5":"Pén","d6":"Szo","vCinema":"Mozi","vconcert":"Bár / Koncert","vexhibition":"Kiállítás","vtheatre":"Színház","vsport":"Sport","vmarket":"Piaci","vfamily":"Családi","v_":"Helyszín","cinema_no_films":"Ma nincs vetítés","cinema_next_day":"Következő nap","hero_stat_week":"esemény ezen a héten","hero_stat_today":"ma","hero_stat_weekend":"ezen a hétvégén","today_label":"Ma","today_title":"Mit csinálj ma","stale_warning":"Előfordulhat, hogy egyes vetítések nem naprakészek","btt_label":"Vissza a tetejére"}};
 function t(k){var l=I18N[LOCALE]||I18N['fr'];return l[k]||k;}
+// T24: localized event/cinema field reader
+function _l(e,f){return e[f+'_'+LOCALE]||e[f];}
 function cycleLocale(l){if(l){LOCALE=l}else{var a=['en','fr','es','hu','sv'];var i=a.indexOf(LOCALE);LOCALE=a[(i+1)%a.length]}localStorage.setItem(LOCALE_KEY,LOCALE);if(document.getElementById('locale-sel'))document.getElementById('locale-sel').value=LOCALE;applyLocale();renderVenues();render()}
 function applyLocale(){
 document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(k==='search_placeholder'||k==='date_from'||k==='date_to')el.placeholder=t(k);else el.textContent=t(k);});
@@ -333,6 +400,7 @@ document.documentElement.lang=LOCALE;
 
 <!-- EVENTS_DATA -->
 <!-- VENUES_DATA -->
+<!-- CINEMA_DATA -->
 var CAT_COLORS = {"Cinema": "cC", "concert": "cE", "exhibition": "cE", "family": "cF", "market": "cM", "other": "cP", "sport": "cS", "theatre": "cT"};
 var CAT_LABELS = {"Cinema": "Cinema", "concert": "Concert", "exhibition": "Exposition", "family": "Famille", "market": "Marche", "other": "Autre", "sport": "Sport", "theatre": "Theatre"};
 
@@ -386,7 +454,19 @@ function toggleMap(){
 }
 
 function initMap(){
-  if(typeof L==="undefined")return;
+  // T20-F: defer Leaflet load — load CSS + JS on first map click
+  if(typeof L==="undefined"){
+    if(window._leafletLoading)return;
+    window._leafletLoading=true;
+    // Load CSS
+    var lc=document.createElement("link");lc.rel="stylesheet";lc.href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+    document.head.appendChild(lc);
+    // Load JS
+    var ls=document.createElement("script");ls.src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+    ls.onload=function(){window._leafletLoading=false;initMap();};
+    document.body.appendChild(ls);
+    return;
+  }
   map=L.map("map-container",{zoomControl:false,attributionControl:true}).setView([45.92,6.87],13);
   L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',subdomains:"abcd",maxZoom:19}).addTo(map);
   L.control.zoom({position:"bottomright"}).addTo(map);
@@ -405,7 +485,7 @@ function updateMapMarkers(){
     var coords=getVenueCoords(vname);
     if(!coords)return;
     var fd=fmt(e.start_date);
-    var title=esc(e.title);
+    var title=esc(_l(e,'title'));
     var cat=catLabel(e.category);
     var date=fd?fd.display:"";
     var icon=L.divIcon({className:"",html:'<div style="width:32px;height:32px;background:var(--gold);border:2px solid var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--bg);font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.5)">'+vname[0]+"</div>",iconSize:[32,32],iconAnchor:[16,16]});
@@ -428,7 +508,7 @@ function getFilteredEvents(){
     // Multi-day overlap: keep event if any part of its range is in the window
     if(ed&&ee<todayS&&es<todayS)return false;if(from&&ee<from)return false;if(to&&es>to)return false;
     if(cat&&e.category!==cat)return false;
-    if(q&&!e.title.toLowerCase().includes(q)&&!strip(e.description||"").toLowerCase().includes(q))return false;
+    if(q&&!_l(e,'title').toLowerCase().includes(q)&&!strip(_l(e,'description')||"").toLowerCase().includes(q))return false;
     return true;
   }).sort(function(a,b){return(a.start_date||"").localeCompare(b.start_date||"");});
 }
@@ -450,23 +530,23 @@ function openModal(idx){
   var cc=catColor(e.category),lb=catLabel(e.category);
   var img=e.image_url&&!e.image_url.startsWith("data:")?e.image_url:"";
   var hs=e.showtimes&&Object.keys(e.showtimes).length>0;
-  document.getElementById("modal-img").src=img;document.getElementById("modal-img").alt=esc(e.title);
+  document.getElementById("modal-img").src=img;document.getElementById("modal-img").alt=esc(_l(e,'title'));
   document.getElementById("modal-cat").className="modal-cat "+cc;document.getElementById("modal-cat").textContent=lb;
   document.getElementById("modal-venue").textContent=e.venue||getEventVenue(e)||"";
-  document.getElementById("modal-title").textContent=e.title;
+  document.getElementById("modal-title").textContent=_l(e,'title');
   var info="";var v=e.venue||getEventVenue(e)||"";
   if(dateR)info+='<div class="modal-info-item"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'+esc(dateR)+'</div>';
   if(e.time)info+='<div class="modal-info-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'+esc(e.time)+'</div>';
   info+='<div class="modal-info-item"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>'+lb+'</div>';
   if(v)info+='<div class="modal-info-item"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>'+esc(v)+'</div>';
   document.getElementById("modal-info").innerHTML=info;
-  document.getElementById("modal-desc").textContent=strip(e.description||"").substring(0,500);
+  document.getElementById("modal-desc").textContent=strip(_l(e,'description')||"").substring(0,500);
   document.getElementById("modal-address").textContent=[e.address,e.venue,e.commune].filter(Boolean).join(" - ")||"";
   var stEl=document.getElementById("modal-showtimes");
   if(hs){var h="<h4>Seances</h4><table>";for(var k in e.showtimes){var f=fmt(k);h+="<tr><td>"+(f?f.display:k)+"</td><td>"+e.showtimes[k].join(", ")+"</td></tr>";}h+="</table>";stEl.innerHTML=h;}else{stEl.innerHTML="";}
   document.getElementById("modal-source").href=e.source_url||"#";
   var sb=document.getElementById("modal-share");
-  sb.onclick=function(){var u=window.location.origin+window.location.pathname+"#"+id;if(navigator.share){navigator.share({title:e.title,url:u}).catch(function(){});}else{navigator.clipboard.writeText(u);sb.innerHTML=t("copied");setTimeout(function(){sb.innerHTML='<span data-i18n="modal_share">'+t("modal_share")+'</span> <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>';},2000);}};
+  sb.onclick=function(){var u=window.location.origin+window.location.pathname+"#"+id;if(navigator.share){navigator.share({title:_l(e,'title'),url:u}).catch(function(){});}else{navigator.clipboard.writeText(u);sb.innerHTML=t("copied");setTimeout(function(){sb.innerHTML='<span data-i18n="modal_share">'+t("modal_share")+'</span> <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>';},2000);}};
   document.getElementById("modal").classList.add("open");document.body.style.overflow="hidden";
   var qs=document.querySelector(".modal");if(qs)qs.scrollTop=0;
 }
@@ -483,7 +563,7 @@ function renderVenues(){
     var initial=(vkey||name)[0]||(name[0]||"");
     var img=v.image?'<img class="ven-card-img" src="'+v.image+'" alt="'+name+'" loading="lazy">':'<div class="ven-card-img-f">'+initial+'</div>';
     var cats=v.categories.map(function(c){return'<span class="ven-card-cat">'+(CAT_LABELS[c]||c)+'</span>';}).join("");
-    return '<div class="ven-card" onclick="filterByVenue(\''+esc(vkey)+'\')">'+img+'<div class="ven-card-body"><div class="ven-card-name">'+name+'</div><div class="ven-card-meta"><span class="ven-card-type">'+esc(v.type||"")+'</span><span class="ven-card-loc">'+esc(v.location||"")+'</span</div>'+'<div class="ven-card-count">'+v.count+' '+(v.count>1?t("venue_count_other"):t("venue_count_one"))+'</div><div class="ven-card-cats">'+cats+'</div></div></div>';
+    return '<div class="ven-card" onclick="filterByVenue(\''+esc(vkey)+'\')">'+img+'<div class="ven-card-body"><div class="ven-card-name">'+name+'</div><div class="ven-card-meta"><span class="ven-card-type">'+esc(v.type||"")+'</span><span class="ven-card-loc">'+esc(v.location||"")+'</span></div>'+'<div class="ven-card-count">'+v.count+' '+(v.count>1?t("venue_count_other"):t("venue_count_one"))+'</div><div class="ven-card-cats">'+cats+'</div></div></div>';
   }).join("");
 }
 
@@ -529,16 +609,16 @@ function renderTodaySection(){
     var cc=catColor(e.category);
     var lb=catLabel(e.category);
     var img=e.image_url&&!e.image_url.startsWith("data:")
-      ?"<img src=\""+e.image_url+"\" alt=\""+esc(e.title)+"\" loading=\"lazy\">"
-      :"<div class=\"td-fb\">"+(esc(e.title)[0]||"?")+_td_close("div");
-    var venueHtml=e.venue?"<span class=\"td-venue\">"+esc(e.venue)+_td_close("span"):"";
+      ?"<img src=\""+e.image_url+"\" alt=\""+esc(_l(e,'title'))+"\" loading=\"lazy\">"
+      :"<div class=\"td-fb\">"+(esc(_l(e,'title'))[0]||"?")+_td_close("div");
+    var venueHtml=e.venue_name?"<span class=\"td-venue\">"+esc(e.venue_name)+_td_close("span"):"";
     var timeHtml=time?"<span class=\"td-time\">"+time+_td_close("span"):"";
     var html="<div class=\"td-card\" onclick=\"openModal("+EVENTS.indexOf(e)+")\">"
       +"<div class=\"td-img\">"+img+_td_close("div")
       +"<div class=\"td-body\">"
       +"<div class=\"td-meta\"><span class=\"td-cat "+cc+"\">"+lb+_td_close("span")
       +timeHtml+venueHtml+_td_close("div")
-      +"<div class=\"td-title\">"+esc(e.title)+_td_close("div")
+      +"<div class=\"td-title\">"+esc(_l(e,'title'))+_td_close("div")
       +_td_close("div")+_td_close("div");
     return html;
   }).join("");
@@ -555,25 +635,34 @@ function render(){
   }
   var evIndexMap=filtered.map(function(e){return EVENTS.indexOf(e);});
   grid.innerHTML=evIndexMap.map(function(oi,i){
-    var e=EVENTS[oi];var fd=fmt(e.start_date);var descFull=strip(e.description||"");var desc=descFull.substring(0,180);
+    var e=EVENTS[oi];var fd=fmt(e.start_date);var descFull=strip(_l(e,'description')||"");var desc=descFull.substring(0,180);
+    var descHtml=desc?'<p class="card-desc" id="desc-'+oi+'">'+desc+(descFull.length>180?'…</p><button class="card-desc-toggle" onclick="event.stopPropagation();document.getElementById(\'desc-'+oi+'\').classList.toggle(\'exp\');this.style.display=\'none\'">'+t("details")+' <svg viewBox="0 0 16 16" fill="none"><path d="M1 8h12M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>':'</p>'):"";
     var isT=fd&&fd.iso===todayS,isTm=fd&&fd.iso===tomS;
     var tag=isT?t("today"):isTm?t("tomorrow"):"";
     var dl=fd?fd.dayNum:"",ml=fd?fd.month:"";
     var cc=catColor(e.category),lb=catLabel(e.category);
-    var img=e.image_url&&!e.image_url.startsWith("data:")?'<img src="'+e.image_url+'" alt="'+esc(e.title)+'" loading="lazy" data-fb="'+esc(e.title[0]||"")+'">':'<div class="card-img-f">'+(e.title[0]||"")+'</div>';
+    var img=e.image_url&&!e.image_url.startsWith("data:")?'<img src="'+e.image_url+'" alt="'+esc(_l(e,'title'))+'" loading="lazy" data-fb="'+esc(_l(e,'title')[0]||"")+'">':'<div class="card-img-f '+cc+'">'+(_l(e,'title')[0]||"")+'</div>';
     var evVenue=e.venue||getEventVenue(e)||"";var vHtml=evVenue?'<span class="card-venue">'+esc(evVenue)+'</span>':"";
     // T25: info row — time / venue_name / price, only when present
     var infoItems=[];
     if(e.time)infoItems.push('<span class="card-info-item"><span class="card-info-ic" aria-hidden="true">🕒</span><span class="card-info-tx">'+esc(e.time)+'</span></span>');
-    if(e.venue_name&&esc(e.venue_name)!==evVenue)infoItems.push('<span class="card-info-item"><span class="card-info-ic" aria-hidden="true">📍</span><span class="card-info-tx">'+esc(e.venue_name)+'</span></span>');
+    if(_l(e,'venue_name')&&esc(_l(e,'venue_name'))!==evVenue)infoItems.push('<span class="card-info-item"><span class="card-info-ic" aria-hidden="true">📍</span><span class="card-info-tx">'+esc(_l(e,'venue_name'))+'</span></span>');
     else if(evVenue&&e.time)infoItems.push('<span class="card-info-item"><span class="card-info-ic" aria-hidden="true">📍</span><span class="card-info-tx">'+esc(evVenue)+'</span></span>');
     if(e.price)infoItems.push('<span class="card-info-item"><span class="card-info-tx p">'+esc(e.price)+'</span></span>');
     var infoRow=infoItems.length?'<div class="card-info">'+infoItems.join("")+'</div>':"";
-    return '<div class="card" onclick="openModal('+oi+')" style="transition-delay:'+(i*0.06)+'s">'+
+    // T41: link card to event detail page, keep quick-view modal button
+    var slug=e._slug||"event";
+    var detailUrl="/events/"+slug+".html";
+    return '<div class="card" style="transition-delay:'+(i*0.06)+'s">'+
+      '<a href="'+detailUrl+'" class="card-link">'+
       '<div class="card-img">'+img+'<div class="card-img-o"></div><div class="card-date"><div class="dy">'+dl+'</div><div class="mo">'+ml+'</div></div>'+(tag?'<div class="card-tag">'+tag+'</div>':"")+'</div>'+
       '<div class="card-body"><div class="card-meta"><span class="card-cat '+cc+'">'+lb+'</span>'+(e.time?'<span class="card-dot"></span><span class="card-venue">'+esc(e.time)+'</span>':"")+(evVenue?'<span class="card-dot"></span><span class="card-venue">'+esc(evVenue)+'</span>':"")+'</div>'+
-      '<h3 class="card-title">'+esc(e.title)+'</h3>'+infoRow+(desc?'<p class="card-desc" title="'+(descFull.length>180?'Click to read more':'')+'">'+desc+(descFull.length>180?'…':'')+'</p>':"")+
-      '<div class="card-ft"><button class="card-cta" onclick="event.stopPropagation();openModal('+oi+')">'+t("details")+' <svg viewBox="0 0 16 16" fill="none"><path d="M1 8h12M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div></div>';
+      // T20-1: bilingual subtitle
+      (function(){var t=_l(e,'title');var sub=e.title_fr&&e.title_en&&e.title_fr!==e.title_en?(LOCALE==='fr'?e.title_en:LOCALE==='en'?e.title_fr:''):'';return sub?'<h3 class="card-title">'+esc(t)+'<span class="card-title-sub">'+esc(sub)+'</span></h3>':'<h3 class="card-title">'+esc(t)+'</h3>';})()+
+      descHtml+
+      '</a>'+
+      '<div class="card-ft"><a href="'+detailUrl+'" class="card-cta">'+t("details")+' <svg viewBox="0 0 16 16" fill="none"><path d="M1 8h12M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>'+
+      '<button class="btn btn-secondary" onclick="event.stopPropagation();openModal('+oi+')" style="font-size:.7rem;padding:6px 14px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;font-family:var(--ff-sans)">'+t("modal_share")+'</button></div></div></div>';
   }).join("");
   requestAnimationFrame(function(){document.querySelectorAll(".card").forEach(function(el,i){setTimeout(function(){el.classList.add("in");},i*60);});});
   if(map&&document.getElementById("map-container").classList.contains("show")){updateMapMarkers();}
@@ -584,6 +673,9 @@ function resetFilters(){
   document.querySelector(".filt[data-cat='']").classList.add("on");
   document.getElementById("date-from").value="";document.getElementById("date-to").value="";
   document.getElementById("search").value="";document.querySelectorAll(".qfilt.on").forEach(function(b){b.classList.remove("on");});
+  // Re-apply default 30-day window
+  var d1=new Date(today),d2=new Date(today);d2.setDate(d2.getDate()+30);
+  document.getElementById("date-from").value=d1.toISOString().split("T")[0];document.getElementById("date-to").value=d2.toISOString().split("T")[0];
   render();
 }
 
@@ -595,16 +687,26 @@ function applyTheme(){var t=localStorage.getItem('chx-theme');if(t==='light')doc
 
 function getCinemaFilms(){
   var films={};
-  EVENTS.forEach(function(e,i){
-    if(e.category!=='Cinema'&&e.category!=='cinema')return;
-    if(!e.showtimes||!Object.keys(e.showtimes).length)return;
-    var key=e.title.trim();
+  // Prefer injected CINEMA_EVENTS (separate dataset from vox_pdf.py / cinema_events.json)
+  var src=(typeof CINEMA_EVENTS!=='undefined'&&CINEMA_EVENTS&&CINEMA_EVENTS.length)?CINEMA_EVENTS:[];
+  if(!src.length){
+    // Fallback: legacy path — find cinema events in main EVENTS array
+    src=(typeof EVENTS!=='undefined'?EVENTS:[]).filter(function(e){return e.category==='Cinema'||e.category==='cinema';});
+  }
+  src.forEach(function(e,i){
+    // Normalize showtimes: cinema_events.json has it as a dict; SQLite dump may have showtimes_json string
+    var st=e.showtimes;
+    if(!st&&typeof e.showtimes_json==='string'){try{st=JSON.parse(e.showtimes_json);}catch(_){st={};}}
+    if(!st||!Object.keys(st).length)return;
+    var titleKey=_l(e,'title');
+    var key=(titleKey||e.title||'').trim();
+    if(!key)return;
     if(!films[key]){
-      films[key]={title:e.title,desc:e.description,image:e.image_url||'',venue:e.venue||'',lang:e.language||'Francais',duration:e.duration||'',source_url:e.source_url||'',showtimes:{},index:i};
+      films[key]={title:titleKey||e.title,desc:_l(e,'description')||e.description||'',image:e.image_url||'',venue:e.venue||'Le Vox',lang:e.language||'Francais',duration:e.duration||'',source_url:e.source_url||'',showtimes:{},index:i};
     }
-    for(var d in e.showtimes){
+    for(var d in st){
       if(!films[key].showtimes[d])films[key].showtimes[d]=[];
-      e.showtimes[d].forEach(function(t){
+      (st[d]||[]).forEach(function(t){
         if(films[key].showtimes[d].indexOf(t)<0)films[key].showtimes[d].push(t);
       });
     }
@@ -646,46 +748,51 @@ function renderCinemaDays(films){
   if(!el)return;
   var dates=getCinemaDates(films);
   if(!dates.length){el.innerHTML='';return;}
-  var sel=document.getElementById('cinema-list').dataset.date||dates[0];
+  var sel=document.getElementById('cinema-grid').dataset.date||dates[0];
   el.innerHTML=dates.map(function(d){
     var f=fmtDay(d);
     var cls='cinema-day'+(d===sel?' on':'')+(isToday(d)?' today':'');
     return '<button class="'+cls+'" data-date="'+d+'" onclick="selectCinemaDay(\''+d+'\')">'+f.day+'<span class="dow">'+f.dow+'</span></button>';
   }).join('');
   el.scrollLeft=0;
-  // Scroll to selected
   var selBtn=el.querySelector('.on');
   if(selBtn)selBtn.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
 }
 
 function selectCinemaDay(d){
-  document.getElementById('cinema-list').dataset.date=d;
+  document.getElementById('cinema-grid').dataset.date=d;
   renderCinemaDays(getCinemaFilms());
-  renderCinemaList(d);
+  renderCinemaGrid(d);
 }
 
-function renderCinemaList(date){
-  var el=document.getElementById('cinema-list');
+function nextCinemaDay(){
+  var films=getCinemaFilms();
+  var dates=getCinemaDates(films);
+  if(!dates.length)return;
+  var cur=document.getElementById('cinema-grid').dataset.date;
+  var idx=dates.indexOf(cur);
+  var next=idx>=0&&idx<dates.length-1?dates[idx+1]:dates[0];
+  selectCinemaDay(next);
+}
+
+function renderCinemaGrid(date){
+  var el=document.getElementById('cinema-grid');
   var empty=document.getElementById('cinema-empty');
   if(!el)return;
   var films=getCinemaFilms();
   if(!date){date=films.length?getCinemaDates(films)[0]||'':'';}
   el.dataset.date=date;
-  
   var today=new Date();
   var todayStr=today.toISOString().split('T')[0];
   var nowH=today.getHours(),nowM=today.getMinutes();
   var nowTotal=nowH*60+nowM;
-  
   var dayFilms=films.filter(function(f){return f.showtimes[date]&&f.showtimes[date].length;}).sort(function(a,b){var at=a.showtimes[date]?parseInt(a.showtimes[date][0]):'99:99';var bt=b.showtimes[date]?parseInt(b.showtimes[date][0]):'99:99';return at<bt?-1:at>bt?1:0;});
-  
   if(!dayFilms.length){
     el.innerHTML='';empty.style.display='block';return;
   }
   empty.style.display='none';
-  
   el.innerHTML=dayFilms.map(function(f){
-    var img=f.image?'<img src="'+esc(f.image)+'" alt="'+esc(f.title)+'" loading="lazy">':'<div class="no-img">'+esc(f.title[0]||'')+'</div>';
+    var img=f.image?'<img src="'+esc(f.image)+'" alt="'+esc(_l(f,'title'))+'" loading="lazy">':'<div class="no-img">'+esc(_l(f,'title')[0]||'')+'</div>';
     var isVO=(f.lang&&(f.lang.toLowerCase().indexOf('vo')>=0||f.lang.toLowerCase().indexOf('vost')>=0));
     var langTag=isVO?'<span class="lang vo">VO</span>':'<span class="lang">FR</span>';
     var times=f.showtimes[date].map(function(t){
@@ -697,8 +804,8 @@ function renderCinemaList(date){
       var cls='time-btn'+(isPast?' past':'')+(isNow?' now':'');
       return '<button class="'+cls+'" onclick="event.stopPropagation();">'+cleanT+'</button>';
     }).join('');
-    
-    return '<div class="cinema-row"><div class="cinema-row-poster">'+img+'</div><div class="cinema-row-info"><div class="cinema-row-title">'+esc(f.title)+'</div><div class="cinema-row-meta">'+langTag+'<span>'+esc(f.venue||'Le Vox')+'</span>'+(f.duration?' <span class="card-dot"></span><span>'+esc(f.duration)+'</span>':'')+'</div><div class="cinema-row-times">'+times+'</div></div></div>';
+    var dur=f.duration?' <span>'+esc(f.duration)+'</span>':'';
+    return '<div class="cinema-card"><div class="cinema-card-poster">'+img+'</div><div class="cinema-card-body"><div class="cinema-card-title">'+esc(_l(f,'title'))+'</div><div class="cinema-card-meta">'+langTag+dur+'</div><div class="cinema-card-times">'+times+'</div></div></div>';
   }).join('');
 }
 
@@ -722,8 +829,8 @@ function toggleCinema(show){
     var dates=getCinemaDates(films);
     var todayStr=new Date().toISOString().split('T')[0];
     var targetDate=dates.indexOf(todayStr)>=0?todayStr:dates[0]||todayStr;
-    renderCinemaDays(films);
-    renderCinemaList(targetDate);
+renderCinemaDays(films);
+renderCinemaGrid(targetDate);
     
     // Scroll to cinema
     setTimeout(function(){
@@ -735,6 +842,22 @@ function toggleCinema(show){
     if(venues)venues.style.display='';
     if(map)map.style.display='';
     document.getElementById('nav-cinema')&&(document.getElementById('nav-cinema').style.color='');
+  }
+  // Sync mobile tab bar state
+  document.querySelectorAll('.mobile-nav-btn').forEach(function(b){b.classList.toggle('on',b.dataset.section===(show?'cinema':'events'));});
+}
+
+// T20-E: mobile bottom tab bar navigation
+function toggleMobileSection(section){
+  document.querySelectorAll('.mobile-nav-btn').forEach(function(b){b.classList.toggle('on',b.dataset.section===section);});
+  if(section==='events'){
+    if(document.getElementById('cinema').style.display!=='none')toggleCinema(false);
+    document.getElementById('events').scrollIntoView({behavior:'smooth',block:'start'});
+  }else if(section==='venues'){
+    if(document.getElementById('cinema').style.display!=='none')toggleCinema(false);
+    document.getElementById('venues').scrollIntoView({behavior:'smooth',block:'start'});
+  }else if(section==='cinema'){
+    toggleCinema(true);
   }
 }
 
@@ -779,6 +902,8 @@ function init(){
     });
   });
   document.getElementById("map-toggle").addEventListener("click",toggleMap);
+document.getElementById("clear-filters").addEventListener("click",resetFilters);
+document.getElementById("density-toggle").addEventListener("click",function(){this.classList.toggle("on");document.getElementById("ev-grid").classList.toggle("detailed");this.textContent=this.classList.contains("on")?t("density_btn"):"Compact";});
   document.getElementById("theme-btn").addEventListener("click",function(){toggleTheme();renderVenues();render();var mc=document.getElementById("map-container");if(mc&&mc.classList.contains("show")&&map){map.remove();map=null;initMap();updateMapMarkers();}});
   document.getElementById("locale-sel").addEventListener("change",function(){LOCALE=this.value;localStorage.setItem(LOCALE_KEY,LOCALE);applyLocale();renderVenues();render();});
   document.getElementById("modal-close").addEventListener("click",closeModal);

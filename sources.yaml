@@ -18,10 +18,10 @@
 # to the events table. Per-source overrides allowed via min_publish_confidence
 # on individual source entries.
 #
-# Default 0.4 = "publish unless something is clearly off". Aspirational
-# target as data quality improves is 0.6 — once scrapers fill in more
-# optional fields (venue, time, image_url), event confidence rises.
-min_publish_confidence: 0.4
+# Default 0.6 = "require reasonable data quality before publishing".
+# Aspirational target for Phase 3+ once scrapers consistently fill in
+# optional fields (venue, time, image_url).
+min_publish_confidence: 0.6
 
 sources:
   - id: chamonix_net
@@ -57,14 +57,14 @@ sources:
     active: false
     notes: "Disabled by T09 until T02 + T12 land."
 
-  - id: nightlife
+  - id: chamonix_nightlife
     name: Nightlife venues
     type: venue
     base_url: null
     trust_level: low
     ingestion_cadence_hours: 168
-    active: false
-    notes: "P3 / T30 — review-only with confidence cap 0.55."
+    active: true
+    notes: "T30 — scraped venues (conf 0.7 → auto-publish) + curated recurring (conf 0.55 → review queue)."
 
   - id: manual_submission
     name: User submissions

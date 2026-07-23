@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Chamonix Events</title>
+<meta name="description" content="Privacy policy for Chamonix Events — what data we collect, how we use it, and your rights.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0b0a08;--surface:#141210;--card:#1a1815;--border:rgba(255,255,255,0.06);--border-a:rgba(200,164,92,0.25);--text:#ede8e0;--text2:#9a948c;--text3:#6b6660;--gold:#c8a45c;--gold-h:#d4b46a;--gold-d:rgba(200,164,92,0.15);--ff-serif:'Playfair Display',Georgia,serif;--ff-sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--rs:8px;--rm:12px;--rl:16px;--rxl:24px;--ease:cubic-bezier(0.22,1,0.36,1)}
+html{font-size:16px;-webkit-font-smoothing:antialiased}
+body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+::selection{background:var(--gold-d);color:var(--text)}
+a{color:var(--gold);text-decoration:none}
+a:hover{color:var(--gold-h)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 24px;background:rgba(11,10,8,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.nav-links{display:flex;align-items:center;gap:24px;list-style:none}
+.nav-links a{font-size:.8rem;color:var(--text2);text-decoration:none;letter-spacing:.05em}
+.nav-links a:hover{color:var(--text)}
+.wrap{max-width:960px;margin:0 auto;padding:100px 24px 60px}
+h1{font-family:var(--ff-serif);font-size:clamp(1.8rem,3vw,2.4rem);font-weight:500;margin-bottom:8px;letter-spacing:-.02em}
+.sub{color:var(--text3);font-size:.85rem;margin-bottom:40px}
+h2{font-family:var(--ff-serif);font-size:1.2rem;font-weight:500;margin-top:32px;margin-bottom:12px;color:var(--text)}
+h3{font-size:.95rem;font-weight:500;margin-top:24px;margin-bottom:8px;color:var(--text2)}
+p{font-size:.88rem;color:var(--text2);line-height:1.7;margin-bottom:12px;max-width:720px}
+ul{font-size:.88rem;color:var(--text2);line-height:1.7;margin-bottom:12px;padding-left:20px}
+li{margin-bottom:4px}
+.updated{font-size:.7rem;color:var(--text3);margin-top:48px;padding-top:16px;border-top:1px solid var(--border)}
+@media(max-width:640px){.wrap{padding:80px 16px 40px}}
+</style>
+</head><body>
+<nav class="nav"><div class="nav-inner">
+<div><a href="/" style="font-family:var(--ff-serif);font-size:1.1rem;color:var(--text)">Chamonix Events</a></div>
+<ul class="nav-links">
+<li><a href="/">← Events</a></li>
+<li><a href="/about.html">About</a></li>
+</ul>
+</div></nav>
+<main class="wrap">
+<h1>Privacy Policy</h1>
+<p class="sub">Last updated: 2026-07-23</p>
+
+<h2>Overview</h2>
+<p>Chamonix Events is a community events calendar for the Chamonix valley. We take your privacy seriously. This policy explains what information we collect, why we collect it, and how we use it.</p>
+
+<h2>Information We Collect</h2>
+
+<h3>Event Submissions</h3>
+<p>When you submit an event via our <a href="/submit.html">submission form</a>, we collect:</p>
+<ul>
+<li>Your name (optional — for attribution purposes)</li>
+<li>Your email address (optional — for follow-up questions about your submission)</li>
+<li>Event details you provide (title, date, description, venue, etc.)</li>
+</ul>
+<p>This information is stored in our database and may appear publicly on the site if the event is approved. Your email address is <strong>never</strong> published or shared.</p>
+
+<h3>Automatically Collected Data</h3>
+<p>We do <strong>not</strong> set cookies, use tracking scripts, or collect personal data through analytics. The site has no user accounts, no login system, and no tracking pixels.</p>
+
+<h3>Third-Party Services</h3>
+<p>The site uses the following external services:</p>
+<ul>
+<li><strong>Google Fonts</strong> — for typography (Inter and Playfair Display fonts). Google may collect your IP address when loading fonts. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</li>
+<li><strong>Leaflet.js</strong> with OpenStreetMap tiles — for venue maps. Map tiles are loaded from OpenStreetMap's CDN. See <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" target="_blank" rel="noopener">OpenStreetMap Privacy Policy</a>.</li>
+<li><strong>TMDB</strong> (The Movie Database) — for cinema poster images. See <a href="https://www.themoviedb.org/privacy-policy" target="_blank" rel="noopener">TMDB Privacy Policy</a>.</li>
+<li><strong>AlloCiné</strong> — for cinema showtime data. See <a href="https://www.allocine.fr/conditions/confidentialite.html" target="_blank" rel="noopener">AlloCiné Privacy Policy</a>.</li>
+</ul>
+
+<h2>Data Storage and Retention</h2>
+<p>Event data is stored in a SQLite database on our server. Review queue records are retained indefinitely for operational purposes. If you submitted an event and want it removed, <a href="/about.html">contact us</a>.</p>
+
+<h2>Your Rights</h2>
+<p>Under GDPR (if you are in the EU/EEA) and applicable privacy laws, you have the right to:</p>
+<ul>
+<li>Request access to any personal data we hold about you</li>
+<li>Request correction or deletion of your data</li>
+<li>Object to processing of your data</li>
+<li>Request data portability</li>
+</ul>
+<p>To exercise these rights, please contact us via the details on the <a href="/about.html">About page</a>.</p>
+
+<h2>Changes to This Policy</h2>
+<p>We may update this privacy policy from time to time. Changes will be posted on this page with an updated revision date.</p>
+
+<p class="updated">Chamonix Events · A community events calendar for the Chamonix valley. No user accounts, no tracking, no cookies.</p>
+</main></body></html>

@@ -133,6 +133,61 @@ def cmd_count(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_batch_approve(args: argparse.Namespace) -> int:
+    """T43: batch-approve review items matching criteria."""
+    s = get_storage()
+    items = s.list_review_items(
+        status="open",
+        source_id=args.source,
+        limit=args.limit,
+        min_confidence=args.min_confidence,
+        max_confidence=args.max_confidence,
+    )
+    if not items:
+        print("No matching open items to approve.")
+        return 0
+    count = 0
+    for it in items:
+        if s.approve_review_item(it["id"], reviewer=args.by, note=args.note or "auto-approved"):
+            count += 1
+    print(f"Batch-approved {count} item(s) (matched {len(items)})")
+    return 0
+
+
+def cmd_batch_reject(args: argparse.Namespace) -> int:
+    """T43: batch-reject review items matching criteria."""
+    s = get_storage()
+    items = s.list_review_items(
+        status="open",
+        source_id=args.source,
+        limit=args.limit,
+        min_confidence=args.min_confidence,
+        max_confidence=args.max_confidence,
+    )
+    if not items:
+        print("No matching open items to reject.")
+        return 0
+    note = args.note or "batch-rejected"
+    count = 0
+    for it in items:
+        if s.reject_review_item(it["id"], reviewer=args.by, note=note):
+            count += 1
+    print(f"Batch-rejected {count} item(s) (matched {len(items)})")
+    return 0
+
+
+def cmd_auto_triage(args: argparse.Namespace) -> int:
+    """T43: run auto-triage — approve high-confidence, reject stale low-confidence."""
+    s = get_storage()
+    result = s.auto_triage()
+    print(f"Auto-triage complete:")
+    print(f"  Approved: {result['approved']}")
+    print(f"  Rejected: {result['rejected']}")
+    if result['errors']:
+        print(f"  Errors:   {result['errors']} (check stderr)")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="review_cli",
@@ -170,6 +225,34 @@ def build_parser() -> argparse.ArgumentParser:
         "count", help="Show review_items counts by status"
     )
     p_count.set_defaults(func=cmd_count)
+
+    # T43: batch operations
+    p_bappr = sub.add_parser(
+        "batch-approve", help="Batch-approve items matching criteria"
+    )
+    p_bappr.add_argument("--source", default=None, help="filter by source_id")
+    p_bappr.add_argument("--limit", type=int, default=1000)
+    p_bappr.add_argument("--min-confidence", type=float, default=None)
+    p_bappr.add_argument("--max-confidence", type=float, default=None)
+    p_bappr.add_argument("--note", default=None)
+    p_bappr.add_argument("--by", default="operator")
+    p_bappr.set_defaults(func=cmd_batch_approve)
+
+    p_brej = sub.add_parser(
+        "batch-reject", help="Batch-reject items matching criteria"
+    )
+    p_brej.add_argument("--source", default=None, help="filter by source_id")
+    p_brej.add_argument("--limit", type=int, default=1000)
+    p_brej.add_argument("--min-confidence", type=float, default=None)
+    p_brej.add_argument("--max-confidence", type=float, default=None)
+    p_brej.add_argument("--note", default=None)
+    p_brej.add_argument("--by", default="operator")
+    p_brej.set_defaults(func=cmd_batch_reject)
+
+    p_auto = sub.add_parser(
+        "auto-triage", help="Auto-approve high-confidence + auto-reject stale low-confidence"
+    )
+    p_auto.set_defaults(func=cmd_auto_triage)
 
     return p
 
