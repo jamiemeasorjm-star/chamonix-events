@@ -547,15 +547,29 @@ class Storage:
             )
             updated_at_idx = cols.index("updated_at")
             created_at_idx = cols.index("created_at")
+            # T-fix (C1): two films can normalize to the same slug id (e.g. a film
+            # repeated across PDF pages). A UNIQUE violation used to roll back the
+            # ENTIRE batch (the DELETE + all inserts share one transaction), leaving
+            # cinema_events permanently empty. Dedupe ids up front and use
+            # INSERT OR IGNORE as a safety net so a single collision can never
+            # wipe the whole cinema section.
+            seen: set[str] = set()
+            inserted = 0
             for r in cinema_events:
-                vals = list(_cinema_to_row(r))
-                vals[created_at_idx] = vals[created_at_idx] or now
-                vals[updated_at_idx] = now
-                self.conn.execute(
-                    f"INSERT INTO cinema_events ({','.join(cols)}) VALUES ({','.join('?' * len(cols))})",
-                    vals,
+                row = list(_cinema_to_row(r))
+                cid = row[0] or _slug(row[1] or "")
+                if cid in seen:
+                    continue  # skip exact duplicate film
+                seen.add(cid)
+                row[0] = cid
+                row[created_at_idx] = row[created_at_idx] or now
+                row[updated_at_idx] = now
+                cur = self.conn.execute(
+                    f"INSERT OR IGNORE INTO cinema_events ({','.join(cols)}) VALUES ({','.join('?' * len(cols))})",
+                    row,
                 )
-        return len(cinema_events)
+                inserted += cur.rowcount
+        return inserted
 
     def upsert_venues(self, venues: list[dict]) -> int:
         with self.conn:

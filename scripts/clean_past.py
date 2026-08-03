@@ -50,6 +50,43 @@ def clean_json(path: str) -> int:
     return before - len(events)
 
 
+def clean_review_queue(max_age_days: int = 21) -> int:
+    """Auto-age-out 'open' review items whose event date has passed AND that
+    have been sitting unreviewed for > max_age_days. Prevents the review queue
+    from growing unbounded with stale below-threshold events (T-fix H2).
+    Returns count purged.
+    """
+    from scripts.storage import get_storage
+    s = get_storage()
+    from datetime import datetime, timedelta, timezone
+    today = date.today().isoformat()
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=max_age_days)).isoformat()
+    with s.conn:
+        rows = s.conn.execute(
+            "SELECT id, event_snapshot, created_at FROM review_items WHERE status='open'"
+        ).fetchall()
+        purge_ids = []
+        for r in rows:
+            snap = {}
+            try:
+                import json
+                snap = json.loads(r["event_snapshot"]) if r["event_snapshot"] else {}
+            except Exception:
+                snap = {}
+            event_date = snap.get("start_date") or snap.get("startDate") or ""
+            created = r["created_at"] or ""
+            # purge only if the event date is in the past AND item is old enough
+            if event_date and event_date[:10] < today and created and created < cutoff:
+                purge_ids.append(r["id"])
+        if purge_ids:
+            placeholders = ",".join("?" * len(purge_ids))
+            s.conn.execute(
+                f"DELETE FROM review_items WHERE id IN ({placeholders})",
+                purge_ids,
+            )
+    return len(purge_ids)
+
+
 def main() -> int:
     args = sys.argv[1:]
 
@@ -65,12 +102,13 @@ def main() -> int:
             print(f'No past events to remove ({remaining} events)')
         return 0
 
-    # SQLite mode (default): purge events + cinema_events
+    # SQLite mode (default): purge events + cinema_events + stale review items
     events_removed = clean_sqlite("events")
     cinema_removed = clean_sqlite("cinema_events")
+    review_removed = clean_review_queue(max_age_days=21)
 
-    if events_removed or cinema_removed:
-        print(f"Purged {events_removed} past events, {cinema_removed} past cinema events")
+    if events_removed or cinema_removed or review_removed:
+        print(f"Purged {events_removed} past events, {cinema_removed} past cinema events, {review_removed} stale review items")
     else:
         print("No past events to remove")
     return 0

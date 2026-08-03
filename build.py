@@ -324,13 +324,18 @@ def generate_html(events, venues, cinema=None, has_coorded_venues=True):
     if '<!-- TMDB_ATTRIBUTION -->' in html:
         html = html.replace('<!-- TMDB_ATTRIBUTION -->', tmdb_html)
 
-    # Update last built timestamp
+    # Update last built timestamp (T-fix H1): stamp a <meta> tag instead of
+    # re.sub'ing an HTML comment. The old regex `<!-- build: .*? -->` ALSO
+    # matched the JS regex literal inside showBuildTime(), destroying its
+    # capture group and rendering the footer's build-age as "NaNj". Reading a
+    # meta tag avoids the collision entirely.
     from datetime import datetime, timezone
     build_time = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     html = re.sub(
-        r'<!-- build: .*? -->',
-        f'<!-- build: {build_time} -->',
-        html
+        r'<meta name="build-time" content="([^"]*)"',
+        f'<meta name="build-time" content="{build_time}"',
+        html,
+        count=1,
     )
 
     return html
@@ -436,11 +441,14 @@ ROBOTS_TXT = os.path.join(SCRIPT_DIR, "robots.txt")
 SITE_URL = "https://events.chamonix.app"  # base for canonical/OG URLs
 
 
-def slugify(text: str) -> str:
+def slugify(text: str, date_suffix: str | None = None) -> str:
     """Convert text to a URL-safe slug (lowercase ASCII, hyphens only).
 
     Handles French accented chars (é→e, è→e, ç→c, etc.) and strips
     non-alphanumeric characters. Used for event detail page filenames.
+
+    When date_suffix is provided (e.g. "2026-07-24"), a short date
+    hash is appended to disambiguate events with identical titles.
     """
     text = text.lower().strip()
     # Normalize unicode (NFD decomposes é → e + combining accent)
@@ -455,6 +463,10 @@ def slugify(text: str) -> str:
     text = re.sub(r"-+", "-", text)
     # Remove trailing date pattern if present (e.g. "-2026-07-24")
     text = re.sub(r"-\d{4}-\d{2}-\d{2}$", "", text)
+    # Append date suffix for uniqueness when provided
+    if date_suffix and len(date_suffix) >= 7:
+        short_date = date_suffix[:7].replace("-", "")  # e.g. "202607"
+        text = f"{text[:60]}-{short_date}"
     return text[:80] or "event"
 
 
@@ -508,11 +520,18 @@ def generate_event_pages(events: list[dict]) -> int:
     os.makedirs(EVENTS_DIR, exist_ok=True)
     count = 0
 
+    written_slugs: set[str] = set()
     for e in events:
         # Use event id as base for deterministic slug (already unique)
-        slug = slugify(e.get("id", e.get("title", "event")))
-        # Remove trailing date pattern from id-based slug
-        slug = re.sub(r"-\d{4}-\d{2}-\d{2}$", "", slug)
+        date_part = e.get("start_date") or e.get("end_date") or ""
+        slug = slugify(e.get("id", e.get("title", "event")), date_suffix=date_part)
+        # Fallback: if slug still collides, add a numeric suffix
+        if slug in written_slugs:
+            n = 2
+            while f"{slug}-{n}" in written_slugs:
+                n += 1
+            slug = f"{slug}-{n}"
+        written_slugs.add(slug)
 
         title = e.get("title", "Event")
         title_en = e.get("title_en") or e.get("title") or ""
@@ -639,12 +658,15 @@ def generate_sitemap(events: list[dict], cinema: list[dict]) -> None:
   </url>""")
 
     # Event pages
-    seen_slugs = set()
+    seen_slugs: set[str] = set()
     for e in events:
-        slug = slugify(e.get("id", e.get("title", "event")))
-        slug = re.sub(r"-\d{4}-\d{2}-\d{2}$", "", slug)
+        date_part = e.get("start_date") or e.get("end_date") or ""
+        slug = slugify(e.get("id", e.get("title", "event")), date_suffix=date_part)
         if slug in seen_slugs:
-            continue
+            n = 2
+            while f"{slug}-{n}" in seen_slugs:
+                n += 1
+            slug = f"{slug}-{n}"
         seen_slugs.add(slug)
         lastmod = (e.get("updated_at") or e.get("created_at") or now_iso)[:10]
         urls.append(f"""  <url>
@@ -781,13 +803,25 @@ def main():
     # This avoids overwriting the 26-venue reference file on every build.
 
     # T41: inject _slug field so JS can link to event detail pages
+    # Uses same slug logic as generate_event_pages for consistency
+    used_slugs: dict[str, int] = {}
     for e in merged:
-        slug = slugify(e.get("id", e.get("title", "event")))
-        slug = re.sub(r"-\d{4}-\d{2}-\d{2}$", "", slug)
+        date_part = e.get("start_date") or e.get("end_date") or ""
+        slug = slugify(e.get("id", e.get("title", "event")), date_suffix=date_part)
+        if slug in used_slugs:
+            used_slugs[slug] += 1
+            slug = f"{slug}-{used_slugs[slug]}"
+        else:
+            used_slugs[slug] = 1
         e["_slug"] = slug
     for e in cinema:
-        slug = slugify(e.get("id", e.get("title", "event")))
-        slug = re.sub(r"-\d{4}-\d{2}-\d{2}$", "", slug)
+        date_part = e.get("start_date") or e.get("end_date") or ""
+        slug = slugify(e.get("id", e.get("title", "event")), date_suffix=date_part)
+        if slug in used_slugs:
+            used_slugs[slug] += 1
+            slug = f"{slug}-{used_slugs[slug]}"
+        else:
+            used_slugs[slug] = 1
         e["_slug"] = slug
 
     # Generate HTML — pass cinema separately for dedicated section
@@ -837,8 +871,8 @@ def main():
         {"built_at": datetime.now(timezone.utc).isoformat(), "events": len(merged), "cinema": len(cinema)},
     )
 
-    # T41: generate individual event pages, sitemap, and robots.txt
-    generate_event_pages(merged)
+    # T41: generate individual event pages (regular + cinema), sitemap, and robots.txt
+    generate_event_pages(merged + cinema)
     generate_sitemap(merged, cinema)
     generate_robots()
 

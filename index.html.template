@@ -1,5 +1,6 @@
 <!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chamonix Events</title>
+<meta name="build-time" content="2026-01-01T00:00:00Z">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -552,6 +553,42 @@ function openModal(idx){
 }
 function closeModal(){document.getElementById("modal").classList.remove("open");document.body.style.overflow="";window.history.pushState(null,"",window.location.pathname);}
 
+// T47: mobile swipe-to-dismiss for modal
+(function(){
+  var startY=0,startX=0,modalEl=null,swiping=false;
+  document.getElementById("modal").addEventListener("touchstart",function(e){
+    if(e.target!==this)return; // only on overlay, not modal content
+    var t=e.touches[0];startY=t.clientY;startX=t.clientX;swiping=false;modalEl=null;
+  },{passive:true});
+  document.getElementById("modal").addEventListener("touchmove",function(e){
+    var t=e.touches[0];var dy=t.clientY-startY,dx=Math.abs(t.clientX-startX);
+    if(dy>40&&dx<dy){swiping=true} // downward swipe
+  },{passive:true});
+  document.getElementById("modal").addEventListener("touchend",function(e){
+    if(swiping){closeModal();}
+  },{passive:true});
+})();
+
+// T48: filter state persistence
+function saveFilters(){
+  var q=document.getElementById("search");if(q)localStorage.setItem("chx-search",q.value);
+  var cat=document.querySelector(".filt.on");if(cat)localStorage.setItem("chx-cat",cat.getAttribute("data-cat")||"");
+}
+function loadFilters(){
+  var sq=localStorage.getItem("chx-search");if(sq){var inp=document.getElementById("search");if(inp){inp.value=sq;}}
+  var sc=localStorage.getItem("chx-cat");if(sc&&sc!==''){
+    document.querySelectorAll(".filt").forEach(function(b){
+      if(b.getAttribute("data-cat")===sc){document.querySelectorAll(".filt.on").forEach(function(x){x.classList.remove("on");});b.classList.add("on");}
+    });
+  }
+  return sq||"";
+}
+// Debounced save on input
+var _sfTimer;
+document.addEventListener("input",function(e){
+  if(e.target.id==="search-inp"){clearTimeout(_sfTimer);_sfTimer=setTimeout(saveFilters,300);}
+});
+
 function renderVenues(){
   var grid=document.getElementById("ven-grid");if(!grid)return;
   grid.innerHTML=VENUES.map(function(v){
@@ -611,7 +648,7 @@ function renderTodaySection(){
     var img=e.image_url&&!e.image_url.startsWith("data:")
       ?"<img src=\""+e.image_url+"\" alt=\""+esc(_l(e,'title'))+"\" loading=\"lazy\">"
       :"<div class=\"td-fb\">"+(esc(_l(e,'title'))[0]||"?")+_td_close("div");
-    var venueHtml=e.venue_name?"<span class=\"td-venue\">"+esc(e.venue_name)+_td_close("span"):"";
+    var venueHtml=_l(e,'venue_name')?"<span class=\"td-venue\">"+esc(_l(e,'venue_name'))+_td_close("span"):"";
     var timeHtml=time?"<span class=\"td-time\">"+time+_td_close("span"):"";
     var html="<div class=\"td-card\" onclick=\"openModal("+EVENTS.indexOf(e)+")\">"
       +"<div class=\"td-img\">"+img+_td_close("div")
@@ -642,7 +679,7 @@ function render(){
     var dl=fd?fd.dayNum:"",ml=fd?fd.month:"";
     var cc=catColor(e.category),lb=catLabel(e.category);
     var img=e.image_url&&!e.image_url.startsWith("data:")?'<img src="'+e.image_url+'" alt="'+esc(_l(e,'title'))+'" loading="lazy" data-fb="'+esc(_l(e,'title')[0]||"")+'">':'<div class="card-img-f '+cc+'">'+(_l(e,'title')[0]||"")+'</div>';
-    var evVenue=e.venue||getEventVenue(e)||"";var vHtml=evVenue?'<span class="card-venue">'+esc(evVenue)+'</span>':"";
+    var evVenue=_l(e,'venue_name')||e.venue||getEventVenue(e)||"";var vHtml=evVenue?'<span class="card-venue">'+esc(evVenue)+'</span>':"";
     // T25: info row — time / venue_name / price, only when present
     var infoItems=[];
     if(e.time)infoItems.push('<span class="card-info-item"><span class="card-info-ic" aria-hidden="true">🕒</span><span class="card-info-tx">'+esc(e.time)+'</span></span>');
@@ -702,7 +739,7 @@ function getCinemaFilms(){
     var key=(titleKey||e.title||'').trim();
     if(!key)return;
     if(!films[key]){
-      films[key]={title:titleKey||e.title,desc:_l(e,'description')||e.description||'',image:e.image_url||'',venue:e.venue||'Le Vox',lang:e.language||'Francais',duration:e.duration||'',source_url:e.source_url||'',showtimes:{},index:i};
+      films[key]={title:titleKey||e.title,desc:_l(e,'description')||e.description||'',image:e.image_url||'',venue:_l(e,'venue_name')||e.venue||'Le Vox',lang:e.language||'Francais',duration:e.duration||'',source_url:e.source_url||'',showtimes:{},index:i};
     }
     for(var d in st){
       if(!films[key].showtimes[d])films[key].showtimes[d]=[];
@@ -865,18 +902,17 @@ function toggleMobileSection(section){
 function showBuildTime(){
   var ftr=document.querySelector('.ftr-cp');
   if(!ftr)return;
-  var html=document.documentElement.innerHTML;
-  var m=html.match(/<!-- build: ([^ ]+) -->/);
-  if(m){
-    var dt=new Date(m[1]);
-    var now=new Date();
-    var hrs=Math.floor((now-dt)/3600000);
-    var text=hrs<1?"<1h":hrs<24?hrs+"h":Math.floor(hrs/24)+"j";
-    ftr.textContent+=" \u00b7 "+text;
-    if(hrs>48){
-      var sw=document.getElementById('stale-warning');
-      if(sw)sw.style.display='block';
-    }
+  var meta=document.querySelector('meta[name="build-time"]');
+  if(!meta)return;
+  var dt=new Date(meta.getAttribute('content'));
+  if(!dt.getTime)return;if(isNaN(dt.getTime()))return;
+  var now=new Date();
+  var hrs=Math.floor((now-dt)/3600000);
+  var text=hrs<1?"<1h":hrs<24?hrs+"h":Math.floor(hrs/24)+"j";
+  ftr.textContent+=" \u00b7 "+text;
+  if(hrs>48){
+    var sw=document.getElementById('stale-warning');
+    if(sw)sw.style.display='block';
   }
 }
 function init(){
@@ -890,7 +926,7 @@ function init(){
   document.querySelectorAll("[href='#events']").forEach(function(a){a.addEventListener("click",function(){if(document.getElementById("cinema").style.display!=='none')toggleCinema(false);document.getElementById("nav-links").classList.remove("open");});});
   document.querySelectorAll("[href='#venues']").forEach(function(a){a.addEventListener("click",function(){if(document.getElementById("cinema").style.display!=='none')toggleCinema(false);document.getElementById("nav-links").classList.remove("open");});});
   document.getElementById("btt").addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"});});
-  var st;document.getElementById("search").addEventListener("input",function(){clearTimeout(st);st=setTimeout(render,200);});
+  var st;document.getElementById("search").addEventListener("input",function(){clearTimeout(st);st=setTimeout(function(){saveFilters();render();},200);});
   document.querySelectorAll(".qfilt").forEach(function(btn){
     btn.addEventListener("click",function(){
       var q=btn.dataset.q;var d1=new Date(today),d2=new Date(today);
@@ -898,7 +934,7 @@ function init(){
       if(q==="week"){var day=today.getDay();var diff=today.getDate()-day+(day===0?-6:1);d1.setDate(diff);d2.setDate(diff+6);}
       else if(q==="weekend"){var day=today.getDay();var diff=today.getDate()+(day===0?0:6-day);d1.setDate(diff);d2.setDate(diff+1);}
       else if(q==="month"){d1.setDate(1);d2.setMonth(d2.getMonth()+1);d2.setDate(0);}
-      document.getElementById("date-from").value=d1.toISOString().split("T")[0];document.getElementById("date-to").value=d2.toISOString().split("T")[0];render();
+      document.getElementById("date-from").value=d1.toISOString().split("T")[0];document.getElementById("date-to").value=d2.toISOString().split("T")[0];saveFilters();render();
     });
   });
   document.getElementById("map-toggle").addEventListener("click",toggleMap);
@@ -914,12 +950,12 @@ document.getElementById("density-toggle").addEventListener("click",function(){th
   var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add("in");});},{threshold:0.1});
   document.querySelectorAll(".fade-in").forEach(function(el){obs.observe(el);});
   document.querySelectorAll(".filt:not(.date):not(.map-toggle)").forEach(function(btn){
-    btn.addEventListener("click",function(){document.querySelectorAll(".filt.on").forEach(function(b){b.classList.remove("on");});btn.classList.add("on");render();});
+    btn.addEventListener("click",function(){document.querySelectorAll(".filt.on").forEach(function(b){b.classList.remove("on");});btn.classList.add("on");saveFilters();render();});
   });
   ["date-from","date-to"].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener("change",render);});
   var d1=new Date(today),d2=new Date(today);d2.setDate(d2.getDate()+30);
   document.getElementById("date-from").value=d1.toISOString().split("T")[0];document.getElementById("date-to").value=d2.toISOString().split("T")[0];
-  applyTheme();renderVenues();render();applyLocale();showBuildTime();
+  applyTheme();loadFilters();renderVenues();render();applyLocale();showBuildTime();
 }
 document.addEventListener("DOMContentLoaded",init);
 
