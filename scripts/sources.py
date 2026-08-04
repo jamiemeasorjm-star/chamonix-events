@@ -45,6 +45,14 @@ def _find_sources_yaml() -> Path:
 _cache: Optional[list[Source]] = None
 _by_id: dict[str, Source] = {}
 _global_threshold: float = 0.4  # default if sources.yaml has no key
+_publish_rules: dict = {}  # T55: auto-publish quality rules from sources.yaml
+
+# T55: conservative defaults for silent auto-publish guards (no review queue).
+PUBLISH_DEFAULTS = {
+    "min_confidence": 0.0,      # absolute floor — drop only truly-broken events
+    "exclude_title_patterns": [],  # regex (case-insens) — tuning knob for noise
+    "dedupe": True,             # drop near-identical (title + start_date + venue)
+}
 
 
 def load_sources(force_reload: bool = False) -> list[Source]:
@@ -65,6 +73,10 @@ def load_sources(force_reload: bool = False) -> list[Source]:
                 _global_threshold = float(raw_t)
             except (TypeError, ValueError):
                 pass  # keep previous value on bad config
+
+    # T55: auto-publish quality rules (silent guards — no review queue).
+    if isinstance(data, dict):
+        _publish_rules = data.get("publish_rules", {}) or {}
 
     raw_sources = data.get("sources", []) if isinstance(data, dict) else []
     sources: list[Source] = []
@@ -126,6 +138,20 @@ def get_default_min_confidence() -> float:
 def active_sources() -> list[Source]:
     """Return only sources where active=true."""
     return [s for s in load_sources() if s.active]
+
+
+def get_publish_rules() -> dict:
+    """T55: auto-publish quality rules from the sources.yaml `publish_rules` block.
+
+    Silent guards applied at insert time (there is NO review queue): events are
+    dropped only if they fall below the absolute confidence floor or match an
+    exclude pattern; and near-identical duplicates are collapsed.
+    """
+    if not _by_id:
+        load_sources()
+    merged = dict(PUBLISH_DEFAULTS)
+    merged.update(_publish_rules or {})
+    return merged
 
 
 def trust_summary() -> dict[str, int]:

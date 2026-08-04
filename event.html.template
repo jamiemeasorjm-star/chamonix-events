@@ -65,8 +65,8 @@ __EVENT_TITLE_EN__
 <div class="event-meta">
 <div class="meta-item"><div class="meta-label">Date</div><div class="meta-value">__EVENT_DATE__</div></div>
 <div class="meta-item"><div class="meta-label">Time</div><div class="meta-value">__EVENT_TIME__</div></div>
-<div class="meta-item"><div class="meta-label">Venue</div><div class="meta-value">__EVENT_VENUE__</div></div>
-<div class="meta-item"><div class="meta-label">Location</div><div class="meta-value">__EVENT_COMMUNE__</div></div>
+__EVENT_VENUE_ROW__
+__EVENT_LOCATION_ROW__
 __EVENT_PRICE__
 __EVENT_WEBSITE__
 </div>

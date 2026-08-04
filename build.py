@@ -540,7 +540,7 @@ def generate_event_pages(events: list[dict]) -> int:
         category = e.get("category", "other").capitalize()
         date_str = _format_date_range(e.get("start_date", ""), e.get("end_date"))
         time_str = e.get("time") or "All day"
-        venue_name = e.get("venue_name") or e.get("venue") or "Chamonix"
+        venue_name = e.get("venue_name") or e.get("venue") or ""
         commune = e.get("commune", "Chamonix")
         price = e.get("price")
         website = e.get("website") or e.get("source_url", "")
@@ -611,6 +611,16 @@ def generate_event_pages(events: list[dict]) -> int:
                 f'font-weight:400;margin-top:4px">{html.escape(title_en)}</p>'
             )
 
+        # Conditionally render Venue / Location meta rows (T55: hidden when empty)
+        venue_row = ""
+        if venue_name:
+            venue_row = (f'<div class="meta-item"><div class="meta-label">Venue</div>'
+                         f'<div class="meta-value">{html.escape(venue_name)}</div></div>')
+        location_row = ""
+        if commune:
+            location_row = (f'<div class="meta-item"><div class="meta-label">Location</div>'
+                            f'<div class="meta-value">{html.escape(commune)}</div></div>')
+
         page = tmpl
         page = page.replace("__EVENT_TITLE__", html.escape(title))
         page = page.replace("__EVENT_TITLE_EN__", title_en_html)
@@ -618,7 +628,9 @@ def generate_event_pages(events: list[dict]) -> int:
         page = page.replace("__EVENT_CATEGORY__", category)
         page = page.replace("__EVENT_DATE__", html.escape(date_str))
         page = page.replace("__EVENT_TIME__", html.escape(time_str))
+        page = page.replace("__EVENT_VENUE_ROW__", venue_row)
         page = page.replace("__EVENT_VENUE__", html.escape(venue_name))
+        page = page.replace("__EVENT_LOCATION_ROW__", location_row)
         page = page.replace("__EVENT_COMMUNE__", html.escape(commune))
         page = page.replace("__EVENT_DESCRIPTION__", desc_html)
         page = page.replace("__EVENT_SOURCE_URL__", html.escape(source_url))

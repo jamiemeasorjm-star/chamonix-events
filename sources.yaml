@@ -13,15 +13,19 @@
 # Ingestion cadence is an interval in hours; null means "on-demand only"
 # (used by manual_submission).
 
-# T26: global publish threshold. Events with confidence below this value
-# are routed to the review queue (review_items) instead of being published
-# to the events table. Per-source overrides allowed via min_publish_confidence
-# on individual source entries.
-#
-# Default 0.6 = "require reasonable data quality before publishing".
-# Aspirational target for Phase 3+ once scrapers consistently fill in
-# optional fields (venue, time, image_url).
+# T26/legacy: previous global publish threshold. RETIRED in T55 — the review
+# stage was removed, so this value is no longer used by upsert_events().
 min_publish_confidence: 0.6
+
+# T55: AUTO-PUBLISH RULES — silent quality guards (the review queue is gone).
+# Events are DROPPED (not queued anywhere) only if they fall below the
+# confidence floor or match an exclude pattern; near-identical duplicates are
+# collapsed. Tune this as you review the site — it is THE knob for
+# "what gets on".
+publish_rules:
+  min_confidence: 0.0          # absolute floor — drop only truly-broken events
+  dedupe: true                 # collapse same [title + start_date + venue]
+  exclude_title_patterns: []   # regex (case-insensitive); e.g. '^Cocktails & Social$'
 
 sources:
   - id: chamonix_net
@@ -64,9 +68,9 @@ sources:
     base_url: null
     trust_level: low
     ingestion_cadence_hours: 168
-    min_publish_confidence: 0.4
+    min_publish_confidence: 0.3
     active: true
-    notes: "T30 — scraped venues (conf 0.7 → auto-publish) + curated recurring (conf 0.55 → publish with min_publish_confidence=0.4 override)."
+    notes: "T30 — scraped venues + curated recurring. Image_url required in expected fields; events without images compute ~0.21 confidence and route to review queue."
 
   - id: manual_submission
     name: User submissions

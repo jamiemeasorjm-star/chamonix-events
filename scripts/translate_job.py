@@ -242,6 +242,30 @@ def _call_llm_single(text: str) -> str:
     return text
 
 
+def _translate_descriptions_per_item(items, dry_run=False):
+    """Translate long descriptions ONE AT A TIME (T55).
+
+    Descriptions were previously batch-translated 10-at-a-time inside a single
+    JSON response. The model sometimes returned valid JSON with misaligned /
+    cross-contaminated values, which the code trusted by key order and wrote to
+    the WRONG event (e.g. a falconry card got an ice-hockey description).
+    Translating long text per-item makes that class of error impossible.
+    Titles/venue names (short) stay batched for speed.
+    """
+    results: list[str] = []
+    total = len(items)
+    for idx, (e, _t, desc_fr, _v) in enumerate(items):
+        if not desc_fr or not desc_fr.strip():
+            results.append(desc_fr or "")
+            continue
+        t = _call_llm_single(desc_fr)
+        print(f"  [{idx+1}/{total}] description ({len(desc_fr)}c)...",
+              "ok" if t and t != desc_fr else "unchanged", flush=True)
+        results.append(t if t else desc_fr)
+        time.sleep(RATE_LIMIT_DELAY)
+    return results
+
+
 def main():
     dry_run = "--dry-run" in sys.argv
     if not API_KEY:
@@ -261,7 +285,7 @@ def main():
     events = storage.get_events()
     to_translate = []
     for e in events:
-        if e.get("title_en"):
+        if e.get("title_en") and e.get("description_en"):
             continue
         title_fr = e.get("title") or ""
         desc_fr = e.get("description") or ""
@@ -286,7 +310,7 @@ def main():
                         )
             print(f"  Saved {sum(1 for t in en_titles if t)} title translations")
 
-        en_descs = batch_translate([t[2] for t in to_translate], "description")
+        en_descs = _translate_descriptions_per_item(to_translate, dry_run)
 
         # Save descriptions immediately
         if not dry_run and en_descs:

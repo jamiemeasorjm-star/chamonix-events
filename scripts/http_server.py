@@ -97,6 +97,15 @@ class ChamonixHandler(http.server.SimpleHTTPRequestHandler):
         if m:
             self._api_review_show(m.group(1))
             return
+        # Proxy-path fallback: host-nginx strips /events/ prefix, so
+        # /events/cosmo-jazz.html arrives as /cosmo-jazz.html. Try serving
+        # from the events/ subdirectory as a fallback.
+        import os
+        fs_path = "." + path
+        if not os.path.isfile(fs_path) and not path.endswith("/"):
+            events_path = "." + "/events" + path
+            if os.path.isfile(events_path):
+                self.path = "/events" + path
         return super().do_GET()
 
     def do_POST(self):  # noqa: N802 (stdlib naming)

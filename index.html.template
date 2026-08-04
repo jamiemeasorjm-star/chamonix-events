@@ -190,8 +190,19 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 .ven-feat-icon{width:32px;height:32px;background:var(--gold-d);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ven-feat-icon svg{width:14px;height:14px;color:var(--gold);fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .btt{position:fixed;bottom:32px;right:32px;z-index:50;width:40px;height:40px;border-radius:50%;background:rgba(200,164,92,.12);border:1px solid var(--gold-d);color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(12px);transition:all var(--dur-m) var(--ease);backdrop-filter:blur(8px)}
-/* T20-E: mobile bottom tab bar */
-.mobile-nav{display:none}@media(max-width:768px){.mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(11,10,8,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:6px 0 env(safe-area-inset-bottom,6px);justify-content:space-around;align-items:center}.mobile-nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 12px;background:none;border:none;color:var(--text3);font-family:var(--ff-sans);font-size:.55rem;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:color .2s;min-width:56px}.mobile-nav-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.mobile-nav-btn:hover{color:var(--text2)}.mobile-nav-btn.on{color:var(--gold)}.mobile-nav-btn.on svg{stroke:var(--gold)}body{padding-bottom:56px}}
+/* T55: mobile bottom tab bar removed */
+/* T55: venue chips (circular buttons, only venues with active events) */
+.ven-chips{display:flex;flex-wrap:wrap;gap:18px;justify-content:center}
+.venue-chip{display:flex;flex-direction:column;align-items:center;gap:6px;width:78px;background:none;border:none;cursor:pointer;font-family:var(--ff-sans);padding:0;transition:transform .3s var(--ease)}
+.venue-chip:hover{transform:translateY(-3px)}
+.venue-chip .vc-av{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--border);color:var(--gold);font-family:var(--ff-serif);font-size:1.5rem;line-height:1;transition:all .3s var(--ease)}
+.venue-chip:hover .vc-av{border-color:var(--gold-d);color:var(--text)}
+.venue-chip.on .vc-av{background:var(--gold);color:var(--text);border-color:var(--gold)}
+.venue-chip .vc-name{font-size:.62rem;color:var(--text2);text-align:center;line-height:1.2;max-width:78px}
+.venue-chip.on .vc-name{color:var(--gold)}
+.venue-chip .vc-count{font-size:.55rem;color:var(--text3)}
+.venue-chip.on .vc-count{color:var(--text2)}
+.venue-go{display:inline-flex;align-items:center;gap:6px}
 .btt.show{opacity:1;visibility:visible;transform:translateY(0)}
 .btt:hover{background:var(--gold-d);border-color:var(--gold)}
 .btt svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
@@ -245,7 +256,7 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
 .preloader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:var(--bg);transition:opacity .6s var(--ease),visibility .6s var(--ease)}.preloader.hidden{opacity:0;visibility:hidden;pointer-events:none}.preloader-inner{text-align:center}.preloader-bar{width:120px;height:2px;background:var(--border);border-radius:2px;overflow:hidden}.preloader-bar-fill{height:100%;width:40%;background:var(--gold);border-radius:2px;animation:preloadBar 1.2s var(--ease) infinite}@keyframes preloadBar{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
-.lang-sel{position:absolute;top:20px;right:0;z-index:10}.lang-select{font-family:var(--ff-sans);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:rgba(11,10,8,.6);backdrop-filter:blur(8px);color:var(--text2);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;transition:all .3s;min-width:60px;text-align:center}.lang-select:hover{border-color:var(--text3);color:var(--text)}.lang-select:focus{border-color:var(--gold-d)}.lang-select option{background:var(--bg);color:var(--text);font-size:.75rem}@media(max-width:768px){.lang-sel{top:12px;right:0}.lang-select{font-size:.6rem;padding:4px 8px;min-width:50px}}.light,:root.light{--bg:#f8f6f2;--surface:#f0ece6;--card:#ffffff;--border:rgba(0,0,0,0.08);--border-a:rgba(200,164,92,0.3);--text:#1a1815;--text2:#6b6660;--text3:#9a948c}.light .nav.scrolled{background:rgba(248,246,242,.92);border-bottom-color:rgba(0,0,0,.06)}.light .filt.on{color:var(--bg)}.light .card-date{background:rgba(248,246,242,.9);border-color:rgba(0,0,0,.06)}.light .modal-overlay{background:rgba(0,0,0,.3)}.light .hero-title{color:var(--gold)}.light .filt.map-toggle{color:var(--gold);border-color:var(--border-a)}.light .filt.map-toggle.on{color:var(--text);background:var(--gold);border-color:var(--gold)}.light .filt.date{color-scheme:light}.lang-row{display:flex;align-items:center;gap:6px}.theme-btn{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:rgba(11,10,8,.6);backdrop-filter:blur(8px);color:var(--text2);cursor:pointer;transition:all .3s;padding:0}.theme-btn:hover{border-color:var(--text3);color:var(--gold)}.theme-btn svg{transition:transform .4s cubic-bezier(.22,1,.36,1)}.light .theme-btn{background:rgba(248,246,242,.6)}.light .theme-btn:hover{color:#e8a020}.light .mobile-nav{background:rgba(248,246,242,.92);border-top-color:rgba(0,0,0,.06)}@media(max-width:768px){.theme-btn{width:24px;height:24px}.theme-btn svg{width:12px;height:12px}}
+.lang-sel{position:absolute;top:20px;right:0;z-index:10}.lang-select{font-family:var(--ff-sans);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:rgba(11,10,8,.6);backdrop-filter:blur(8px);color:var(--text2);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;transition:all .3s;min-width:60px;text-align:center}.lang-select:hover{border-color:var(--text3);color:var(--text)}.lang-select:focus{border-color:var(--gold-d)}.lang-select option{background:var(--bg);color:var(--text);font-size:.75rem}@media(max-width:768px){.lang-sel{top:12px;right:0}.lang-select{font-size:.6rem;padding:4px 8px;min-width:50px}}.light,:root.light{--bg:#f8f6f2;--surface:#f0ece6;--card:#ffffff;--border:rgba(0,0,0,0.08);--border-a:rgba(200,164,92,0.3);--text:#1a1815;--text2:#6b6660;--text3:#9a948c}.light .nav.scrolled{background:rgba(248,246,242,.92);border-bottom-color:rgba(0,0,0,.06)}.light .filt.on{color:var(--bg)}.light .card-date{background:rgba(248,246,242,.9);border-color:rgba(0,0,0,.06)}.light .modal-overlay{background:rgba(0,0,0,.3)}.light .hero-title{color:var(--gold)}.light .filt.map-toggle{color:var(--gold);border-color:var(--border-a)}.light .filt.map-toggle.on{color:var(--text);background:var(--gold);border-color:var(--gold)}.light .filt.date{color-scheme:light}.lang-row{display:flex;align-items:center;gap:6px}.theme-btn{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:rgba(11,10,8,.6);backdrop-filter:blur(8px);color:var(--text2);cursor:pointer;transition:all .3s;padding:0}.theme-btn:hover{border-color:var(--text3);color:var(--gold)}.theme-btn svg{transition:transform .4s cubic-bezier(.22,1,.36,1)}.light .theme-btn{background:rgba(248,246,242,.6)}.light .theme-btn:hover{color:#e8a020}@media(max-width:768px){.theme-btn{width:24px;height:24px}.theme-btn svg{width:12px;height:12px}}
 .cinema-days{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;margin-bottom:24px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .cinema-days::-webkit-scrollbar{display:none}
 .cinema-day{flex-shrink:0;font-family:var(--ff-sans);font-size:.7rem;padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;transition:all .3s;text-align:center;min-width:56px}
@@ -328,6 +339,7 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 <button class="filt clear-btn" id="clear-filters" data-i18n="filter_clear">Réinitialiser</button>
 <button class="filt" id="density-toggle" data-i18n="density_btn">Compact</button>
 <button class="filt map-toggle" id="map-toggle" data-view="grid" data-i18n="map_btn">Carte</button>
+<button class="filt venue-go" id="venue-go" onclick="document.getElementById('venues').scrollIntoView({behavior:'smooth'})"><svg viewBox="0 0 24 24" width="12" height="12" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span data-i18n="nav_venues">Lieux</span></button>
 </div>
 <div class="cnt fade-in"><b id="ev-count">0</b> <span id="ev-found-text">events found</span></div>
 <div class="grid" id="ev-grid"></div>
@@ -347,15 +359,7 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 </div>
 </section>
 
-<section class="sec-v" id="venues"><div class="ven-spotlight">
-<div class="ven-spotlight-img fade-in"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Cinema_Le_Vox_Chamonix.jpg/640px-Cinema_Le_Vox_Chamonix.jpg" alt="Le Vox" loading="lazy"><div class="ven-spotlight-img-o"></div></div>
-<div class="fade-in"><div class="ven-badge"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg data-i18n="venue_badge">Lieu vedette</div>
-<h3 class="ven-spotlight-t">Le Vox</h3><p class="ven-spotlight-l">Cinema - Centre-ville de Chamonix</p><p class="ven-spotlight-d">Cinema emblematique depuis les annees 1930. 7 films a l'affiche.</p>
-<div class="ven-features"><div class="ven-feat"><div class="ven-feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>Seances variees</div>
-<div class="ven-feat"><div class="ven-feat-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>Centre-ville</div>
-<div class="ven-feat"><div class="ven-feat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>Son Dolby 7.1</div>
-<div class="ven-feat"><div class="ven-feat-icon"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>Ambiance historique</div></div></div></div>
-<div class="sec fade-in" style="padding-top:0"><h2 class="sec-t" style="margin-bottom:32px" data-i18n="venue_section">Tous les lieux</h2><div class="ven-grid" id="ven-grid"></div></div></section>
+<section class="sec-v" id="venues"><div class="sec fade-in" style="padding-top:60px;padding-bottom:60px"><h2 class="sec-t" style="margin-bottom:24px;text-align:center" data-i18n="venue_section">Tous les lieux</h2><div class="ven-chips" id="ven-chips"></div></div></section>
 <button class="btt" id="btt" aria-label="Back to top" data-i18n="btt_label"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
 <div class="modal-overlay" id="modal"><div class="modal"><button class="modal-close" id="modal-close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
 <img class="modal-img" id="modal-img" src="" alt=""><div class="modal-body">
@@ -365,21 +369,6 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 <div class="modal-actions"><a class="modal-source" id="modal-source" href="#" target="_blank" rel="noopener">Voir la source <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
 <button class="modal-share" id="modal-share"><span data-i18n="modal_share">Partager</span> <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button></div></div></div></div>
 <footer class="ftr"><div class="ftr-in"><div class="ftr-br">Chamonix Events</div><div class="ftr-lk"><a href="https://www.chamonix.net/english/events">chamonix.net</a><a href="https://www.allocine.fr/seance/salle_gen_csalle=P1406.html">AlloCine</a><a href="/api/events.ics">📅 iCal</a><a href="/privacy.html">Privacy</a></div></div><div class="ftr-cp">Evenements collectes depuis chamonix.net, chamonix.com et AlloCine</div></footer>
-<!-- T20-E: mobile bottom tab bar -->
-<nav class="mobile-nav" id="mobile-nav">
-  <button class="mobile-nav-btn on" data-section="events" onclick="toggleMobileSection('events')">
-    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-    <span data-i18n="nav_events">Événements</span>
-  </button>
-  <button class="mobile-nav-btn" data-section="venues" onclick="toggleMobileSection('venues')">
-    <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-    <span data-i18n="nav_venues">Lieux</span>
-  </button>
-  <button class="mobile-nav-btn" data-section="cinema" onclick="toggleMobileSection('cinema')">
-    <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-    <span data-i18n="nav_cinema">Cinéma</span>
-  </button>
-</nav>
 <script>
 // i18n
 /* T20-D: detect browser language on first visit */
@@ -408,6 +397,7 @@ var CAT_LABELS = {"Cinema": "Cinema", "concert": "Concert", "exhibition": "Expos
 var today=new Date(),tom=new Date(today);tom.setDate(tom.getDate()+1);
 var todayS=today.toISOString().split("T")[0],tomS=tom.toISOString().split("T")[0];
 var map=null,markerGroup=null;
+var venueFilter="";
 
 function fmt(d){if(!d)return null;try{var dt=new Date(d);if(isNaN(dt.getTime()))return null;return{date:dt,day:t("d"+dt.getDay()),dayNum:dt.getDate(),month:t("m"+dt.getMonth()),iso:dt.toISOString().split("T")[0],display:String(dt.getDate()).padStart(2,"0")+"/"+String(dt.getMonth()+1).padStart(2,"0")+"/"+dt.getFullYear()};}catch{return null}}
 function catLabel(cat){return CAT_LABELS[cat]||t("cat_"+cat)||cat}
@@ -509,19 +499,26 @@ function getFilteredEvents(){
     // Multi-day overlap: keep event if any part of its range is in the window
     if(ed&&ee<todayS&&es<todayS)return false;if(from&&ee<from)return false;if(to&&es>to)return false;
     if(cat&&e.category!==cat)return false;
+    if(venueFilter&&!(e.venue_name||e.venue||"").toLowerCase().includes(venueFilter.toLowerCase()))return false;
     if(q&&!_l(e,'title').toLowerCase().includes(q)&&!strip(_l(e,'description')||"").toLowerCase().includes(q))return false;
     return true;
   }).sort(function(a,b){return(a.start_date||"").localeCompare(b.start_date||"");});
 }
 
-function filterByVenue(name){
+function setVenueFilter(btn){
+  var name=(btn&&btn.dataset)?btn.dataset.v:"";
+  if(venueFilter&&venueFilter.toLowerCase()===name.toLowerCase())venueFilter="";
+  else venueFilter=name;
+  // Make venue the active filter: reset category to "all" and clear search
   document.querySelectorAll(".filt.on").forEach(function(b){b.classList.remove("on");});
-  document.querySelector(".filt[data-cat='']").classList.add("on");
-  document.getElementById("search").value=name;
+  var all=document.querySelector(".filt[data-cat='']");if(all)all.classList.add("on");
+  var q=document.getElementById("search");if(q)q.value="";
   document.querySelectorAll(".qfilt.on").forEach(function(b){b.classList.remove("on");});
-  document.getElementById("events").scrollIntoView({behavior:"smooth"});
+  renderVenues();
   render();
+  var ev=document.getElementById("events");if(ev)ev.scrollIntoView({behavior:"smooth"});
 }
+function filterByVenue(name){setVenueFilter({dataset:{v:name}});}
 
 function openModal(idx){
   var e=EVENTS[idx];if(!e)return;var id=evId(e);
@@ -589,18 +586,35 @@ document.addEventListener("input",function(e){
   if(e.target.id==="search-inp"){clearTimeout(_sfTimer);_sfTimer=setTimeout(saveFilters,300);}
 });
 
+function venueInitials(name){
+  var w=String(name||"").replace(/\(.*?\)/g,"").split(/[\s\-]+/).filter(function(x){return x&&x.length>=2;});
+  var s=(w[0]||"?").charAt(0);
+  if(w[1])s+=(w[1]).charAt(0);
+  return s.toUpperCase();
+}
+function activeVenues(){
+  var counts={};
+  (typeof EVENTS!=="undefined"?EVENTS:[]).forEach(function(e){
+    var name=e.venue_name||e.venue||"";
+    if(!name)return;
+    var es=(e.start_date||"").slice(0,10),ee=((e.end_date)||es).slice(0,10);
+    if(ee<todayS)return; // only venues with current/future events
+    counts[name]=(counts[name]||0)+1;
+  });
+  return Object.keys(counts).sort(function(a,b){return a.localeCompare(b);}).map(function(k){return{name:k,count:counts[k]};});
+}
 function renderVenues(){
-  var grid=document.getElementById("ven-grid");if(!grid)return;
-  grid.innerHTML=VENUES.map(function(v){
-    var name=esc(v.name);
-    // Defensive: legacy venues.json had a `key` field; SQLite-migrated
-    // venues have `id` + `name` only. Fall back so renderVenues never throws
-    // — an uncaught throw here halts init() before render() runs (T25 finding).
-    var vkey=v.key||v.id||"";
-    var initial=(vkey||name)[0]||(name[0]||"");
-    var img=v.image?'<img class="ven-card-img" src="'+v.image+'" alt="'+name+'" loading="lazy">':'<div class="ven-card-img-f">'+initial+'</div>';
-    var cats=v.categories.map(function(c){return'<span class="ven-card-cat">'+(CAT_LABELS[c]||c)+'</span>';}).join("");
-    return '<div class="ven-card" onclick="filterByVenue(\''+esc(vkey)+'\')">'+img+'<div class="ven-card-body"><div class="ven-card-name">'+name+'</div><div class="ven-card-meta"><span class="ven-card-type">'+esc(v.type||"")+'</span><span class="ven-card-loc">'+esc(v.location||"")+'</span></div>'+'<div class="ven-card-count">'+v.count+' '+(v.count>1?t("venue_count_other"):t("venue_count_one"))+'</div><div class="ven-card-cats">'+cats+'</div></div></div>';
+  var el=document.getElementById("ven-chips");if(!el)return;
+  var list=activeVenues();
+  if(!list.length){el.innerHTML='<span style="color:var(--text3);font-size:.8rem">—</span>';return;}
+  el.innerHTML=list.map(function(v){
+    var n=esc(v.name);
+    var on=venueFilter&&venueFilter.toLowerCase()===v.name.toLowerCase()?" on":"";
+    return '<button type="button" class="venue-chip'+on+'" data-v="'+n+'" onclick="setVenueFilter(this)" title="'+n+'">'
+      +'<span class="vc-av">'+esc(venueInitials(v.name))+'</span>'
+      +'<span class="vc-name">'+n+'</span>'
+      +'<span class="vc-count">'+v.count+'</span>'
+      +'</button>';
   }).join("");
 }
 
@@ -710,10 +724,12 @@ function resetFilters(){
   document.querySelector(".filt[data-cat='']").classList.add("on");
   document.getElementById("date-from").value="";document.getElementById("date-to").value="";
   document.getElementById("search").value="";document.querySelectorAll(".qfilt.on").forEach(function(b){b.classList.remove("on");});
+  venueFilter="";
   // Re-apply default 30-day window
   var d1=new Date(today),d2=new Date(today);d2.setDate(d2.getDate()+30);
   document.getElementById("date-from").value=d1.toISOString().split("T")[0];document.getElementById("date-to").value=d2.toISOString().split("T")[0];
   render();
+  renderVenues();
 }
 
 document.addEventListener("error",function(e){if(e.target.tagName==="IMG"&&e.target.dataset.fb!==void 0){var fb=document.createElement("div");fb.className="card-img-f";fb.textContent=e.target.dataset.fb||"";e.target.parentNode.replaceChild(fb,e.target);}},true);
@@ -879,22 +895,6 @@ renderCinemaGrid(targetDate);
     if(venues)venues.style.display='';
     if(map)map.style.display='';
     document.getElementById('nav-cinema')&&(document.getElementById('nav-cinema').style.color='');
-  }
-  // Sync mobile tab bar state
-  document.querySelectorAll('.mobile-nav-btn').forEach(function(b){b.classList.toggle('on',b.dataset.section===(show?'cinema':'events'));});
-}
-
-// T20-E: mobile bottom tab bar navigation
-function toggleMobileSection(section){
-  document.querySelectorAll('.mobile-nav-btn').forEach(function(b){b.classList.toggle('on',b.dataset.section===section);});
-  if(section==='events'){
-    if(document.getElementById('cinema').style.display!=='none')toggleCinema(false);
-    document.getElementById('events').scrollIntoView({behavior:'smooth',block:'start'});
-  }else if(section==='venues'){
-    if(document.getElementById('cinema').style.display!=='none')toggleCinema(false);
-    document.getElementById('venues').scrollIntoView({behavior:'smooth',block:'start'});
-  }else if(section==='cinema'){
-    toggleCinema(true);
   }
 }
 

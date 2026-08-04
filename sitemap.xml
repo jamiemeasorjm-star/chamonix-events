@@ -2,397 +2,1531 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://events.chamonix.app</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://events.chamonix.app/about.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://events.chamonix.app/submit.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://events.chamonix.app/review.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://events.chamonix.app/privacy.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/exposition-150-ans-dhospitalite-et-daccueil.html</loc>
+    <loc>https://events.chamonix.app/events/visite-guidee-de-chamonix-guides-du-patrimoine-savoie-mont-b-202606.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/petit-marche-de-vallorcine-202606.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/brunch-bbq-spa-la-table-du-lavancher-202607.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/lunch-spa-la-table-du-lavancher-202607.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/lechappee-lire-202607.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/summer-tribute-concerts-202607.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/chamonix-valley-classics-festival-202607.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/chamonix-vallee-classics-festival-202607.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/festival-la-nuit-des-ours-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/afternoon-happy-hour-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/apero-live-music-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/apero-tapas-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-social-evenings-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-dup-evening-drinks-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/brewpub-live-events-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/chamonix-vallee-classics-festival-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktail-bar-south-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktails-social-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/coffee-apero-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/craft-beer-after-ski-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cultural-events-exhibitions-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/evening-cocktails-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/le-chamonix-bar-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/le-garage-bar-events-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/live-music-bar-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/live-music-irish-vibes-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/live-music-sessions-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/live-music-at-le-solerey-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/local-bar-events-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/moon-tines-bar-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/sortie-nature-enquete-sur-nos-liens-au-vivant-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/spectacle-en-famille-passeurs-de-reves-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/visite-du-cimetiere-de-chamonix-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/wine-tastings-evenings-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/afternoon-happy-hour-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/apero-live-music-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/apero-tapas-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/atelier-couleurs-nature-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-social-evenings-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-dup-evening-drinks-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/brewpub-live-events-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/chamonix-vallee-classics-festival-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktail-bar-south-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktails-social-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/coffee-apero-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/concert-de-jeanette-berger-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/conference-lage-des-especes-blanches-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/craft-beer-after-ski-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cultural-events-exhibitions-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/evening-cocktails-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/le-chamonix-bar-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/le-garage-bar-events-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/live-music-bar-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/live-music-irish-vibes-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/live-music-sessions-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/local-bar-events-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/match-de-hockey-sur-glace-chamonix-vs-selection-mont-blanc-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/moon-tines-bar-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/spectacle-les-aigles-du-leman-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/vallorcine-pont-de-memoires-festival-la-nuit-des-ours-2026-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/visite-guidee-destination-chamonix-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/wine-tastings-evenings-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/afternoon-happy-hour-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/apero-live-music-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/apero-tapas-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/atelier-le-rucher-volant-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-social-evenings-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-dup-evening-drinks-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/brewpub-live-events-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/brocante-vintage-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktail-bar-south-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktails-social-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/coffee-apero-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/craft-beer-after-ski-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cultural-events-exhibitions-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/evening-cocktails-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/le-chamonix-bar-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/le-garage-bar-events-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/live-music-bar-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/live-music-irish-vibes-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/live-music-sessions-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/local-bar-events-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/moon-tines-bar-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/wine-tastings-evenings-202608-3.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/afternoon-happy-hour-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/apero-live-music-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/apero-tapas-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-social-evenings-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-dup-evening-drinks-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/brewpub-live-events-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktail-bar-south-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktails-social-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/coffee-apero-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/craft-beer-after-ski-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cultural-events-exhibitions-202608-4.html</loc>
     <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/brunch-bbq-spa-la-table-du-lavancher.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/evening-cocktails-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/guinguette-club.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/le-chamonix-bar-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/lunch-spa-la-table-du-lavancher.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/le-garage-bar-events-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/bella-vita.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/live-music-bar-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/visite-guidee-en-compagnie-dun-cristallier.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/live-music-irish-vibes-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/lechappee-lire.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/live-music-sessions-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/summer-tribute-concerts.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/local-bar-events-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/cosmo-jazz-festival.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/moon-tines-bar-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/afternoon-happy-hour.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/wine-tastings-evenings-202608-4.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/apero-live-music.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/afternoon-happy-hour-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/apero-tapas.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/apero-live-music-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/atelier-potager-de-papier.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/apero-tapas-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/bar-social-evenings.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/bar-social-evenings-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/bar-dup-evening-drinks.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/bar-dup-evening-drinks-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/brewpub-live-events.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/brewpub-live-events-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/brocante-vintage.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/club-night-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/cocktail-bar-south.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/cocktail-bar-south-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/cocktails-social.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/cocktails-social-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/coffee-apero.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/coffee-apero-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/concert-cosmojazz-festival-awa-ly.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/craft-beer-after-ski-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/concert-cosmojazz-festival-david-walters.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/cultural-events-exhibitions-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/concert-cosmojazz-festival-habibisly.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/dj-nights-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/concert-violon-alto-piano.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/dj-sets-late-night-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/craft-beer-after-ski.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/evening-cocktails-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/evening-cocktails.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/le-chamonix-bar-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/gala-de-patinage-artistique.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/le-garage-bar-events-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/initiation-zumba-en-plein-air.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/live-music-bar-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/jeu-de-piste.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/live-music-irish-vibes-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/le-chamonix-bar.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/live-music-sessions-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/le-garage-bar-events.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/local-bar-events-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/live-music-bar.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/moon-tines-bar-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/live-music-irish-vibes.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/wine-tastings-evenings-202608-5.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/live-music-sessions.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/afternoon-happy-hour-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/live-music-at-le-solerey.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/apero-live-music-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/local-bar-events.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/apero-tapas-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/moon-tines-bar.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/bar-social-evenings-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/wine-tastings-evenings.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/bar-dup-evening-drinks-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/causerie-patou-randonneur-besoin-dun-decodeur.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/brewpub-live-events-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/concert-cosmojazz-festival-camille-matthieu-saglio.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/cocktail-bar-south-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/concert-cosmojazz-festival-daoud.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/cocktails-social-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/concert-cosmojazz-festival-nusantara-beat.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/coffee-apero-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/concert-du-festival-dorgue-de-la-vallee-de-chamonix.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/craft-beer-after-ski-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/concert-violon-alto-et-piano.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/cultural-events-exhibitions-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/exposition-tresor-mineral.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/evening-cocktails-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/glaciorium-le-mystere-des-glaciers.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/le-chamonix-bar-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/maison-des-artistes-art-contemporain-local.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/le-garage-bar-events-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/temple-de-la-nature-biodiversite-alpine.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/live-music-bar-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/club-night.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/live-music-irish-vibes-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/dj-nights.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/live-music-sessions-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/dj-sets-late-night.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/local-bar-events-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/visite-guidee-observatoire-du-mont-blanc.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/moon-tines-bar-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/atelier-lecture-enfants.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/wine-tastings-evenings-202608-6.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/marche-artisanal-dete.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/afternoon-happy-hour-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/initiation-escalade-decouverte-du-lac-des-gaillands.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/apero-live-music-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/conference-histoire-de-lalpinisme.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/apero-tapas-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/cultural-events-exhibitions.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/bar-social-evenings-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/reouverture-musee-alpin.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/bar-dup-evening-drinks-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/ultra-trail-du-mont-blanc-utmb.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/brewpub-live-events-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/trail-des-aiguilles-rouges-tar.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/cocktail-bar-south-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://events.chamonix.app/events/chamonix-market-day-every-saturday.html</loc>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://events.chamonix.app/events/cocktails-social-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/coffee-apero-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/craft-beer-after-ski-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cultural-events-exhibitions-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/evening-cocktails-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/le-chamonix-bar-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/le-garage-bar-events-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/live-music-bar-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/live-music-irish-vibes-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/live-music-sessions-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/local-bar-events-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/moon-tines-bar-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/wine-tastings-evenings-202608-7.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/afternoon-happy-hour-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/apero-live-music-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/apero-tapas-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-social-evenings-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-dup-evening-drinks-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/brewpub-live-events-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktail-bar-south-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktails-social-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/coffee-apero-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/craft-beer-after-ski-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cultural-events-exhibitions-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/evening-cocktails-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/le-chamonix-bar-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/le-garage-bar-events-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/live-music-bar-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/live-music-irish-vibes-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/live-music-sessions-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/local-bar-events-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/moon-tines-bar-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/wine-tastings-evenings-202608-8.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/afternoon-happy-hour-202608-9.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/apero-tapas-202608-9.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-social-evenings-202608-9.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-dup-evening-drinks-202608-9.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktail-bar-south-202608-9.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktails-social-202608-9.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/coffee-apero-202608-9.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/craft-beer-after-ski-202608-9.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/evening-cocktails-202608-9.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/le-chamonix-bar-202608-9.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/moon-tines-bar-202608-9.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/afternoon-happy-hour-202608-10.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/apero-tapas-202608-10.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-social-evenings-202608-10.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-dup-evening-drinks-202608-10.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktail-bar-south-202608-10.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktails-social-202608-10.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/coffee-apero-202608-10.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/craft-beer-after-ski-202608-10.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/evening-cocktails-202608-10.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/le-chamonix-bar-202608-10.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/moon-tines-bar-202608-10.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/afternoon-happy-hour-202608-11.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/apero-tapas-202608-11.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-social-evenings-202608-11.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-dup-evening-drinks-202608-11.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktail-bar-south-202608-11.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktails-social-202608-11.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/coffee-apero-202608-11.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/craft-beer-after-ski-202608-11.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/evening-cocktails-202608-11.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/le-chamonix-bar-202608-11.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/moon-tines-bar-202608-11.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/afternoon-happy-hour-202608-12.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/apero-tapas-202608-12.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-social-evenings-202608-12.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-dup-evening-drinks-202608-12.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/club-night-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktail-bar-south-202608-12.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktails-social-202608-12.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/coffee-apero-202608-12.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/craft-beer-after-ski-202608-12.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/dj-nights-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/dj-sets-late-night-202608-2.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/evening-cocktails-202608-12.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/le-chamonix-bar-202608-12.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/moon-tines-bar-202608-12.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/afternoon-happy-hour-202608-13.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/apero-tapas-202608-13.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-social-evenings-202608-13.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/bar-dup-evening-drinks-202608-13.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktail-bar-south-202608-13.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/cocktails-social-202608-13.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/coffee-apero-202608-13.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/craft-beer-after-ski-202608-13.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/evening-cocktails-202608-13.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/le-chamonix-bar-202608-13.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/moon-tines-bar-202608-13.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/ultra-trail-du-mont-blanc-utmb-202608.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/trail-des-aiguilles-rouges-tar-202609.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/marche-paysan-202611.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/chamonix-market-day-every-saturday-202612.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://events.chamonix.app/events/visite-guidee-du-patrimoine-202707.html</loc>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

@@ -37,7 +37,8 @@ EXPECTED_FIELDS: dict[str, list[str]] = {
     "chamonix_com": ["title", "start_date"],  # listing-only today; detail scraper pending
     "vox_pdf": ["title", "duration", "showtimes"],
     "allocine_vox": ["title", "start_date"],
-    "nightlife": ["title", "start_date"],
+    "chamonix_nightlife": ["title", "start_date", "image_url"],
+    "cultural_venues": ["title", "start_date", "image_url"],
     "manual_submission": ["title", "start_date", "venue_name"],
 }
 

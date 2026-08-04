@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 SOURCE_ID = "chamonix_nightlife"
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 RECURRING_PATH = DATA_DIR / "nightlife_recurring.json"
+from scripts.scoring import compute_confidence
 
 VENUES = [
     ("Big Mountain Basecamp", "Chamonix", "https://www.bigmtnbrew.co/chamonix-basecamp/", "+33 4 50 53 40 75", "365 Avenue Ravanel le Rouge"),
@@ -313,9 +314,9 @@ def load_curated_events(horizon_days: int = 14) -> list[dict]:
                 "source_url": source_url,
                 "category": "nightlife",
                 "_source_kind": "curated",
-                "confidence": 0.55,
                 "time": time_val,
             })
+            events[-1].update({"confidence": compute_confidence("chamonix_nightlife", events[-1])})
 
     return events
 
@@ -350,7 +351,8 @@ def run(dry_run: bool = False, horizon_days: int = 14):
                         ev["commune"] = commune
                         ev["description"] = ev.get("description") or ""
                         ev["_source_kind"] = "scraped"
-                        ev["confidence"] = 0.7
+                        from scripts.scoring import compute_confidence
+                        ev["confidence"] = compute_confidence("chamonix_nightlife", ev)
                         meta["events_found"] += 1
                     if events:
                         scraped_events.extend(events)

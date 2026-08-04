@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sqlite3
 import sys
 import tempfile
@@ -392,33 +393,54 @@ class Storage:
         Strategy: DELETE existing rows for source_id, then bulk-INSERT new ones.
         Single transaction; ACID.
 
-        T26: events below the per-source publish threshold are routed to
-        review_items (status='open', reason='below_confidence_threshold')
-        instead of being published to the events table. Only events at or
-        above the threshold appear in `get_events()`. The threshold comes
-        from `scripts.sources.get_min_confidence(source_id)`.
-
-        Existing decided (approved/rejected) review_items rows are left
-        untouched — operator decisions stand across re-scrapes.
+        T55: the review stage has been REMOVED. Every scraped event is
+        published directly to the events table — there is no confidence
+        threshold gate and no review_items routing.
         """
-        # Import here to avoid circular import (sources.py imports models.py).
-        from scripts.sources import get_min_confidence
-
-        threshold = get_min_confidence(source_id)
         now = datetime.now(timezone.utc).isoformat()
 
-        # Partition events by threshold (precomputed confidence).
-        passing: list[dict] = []
+        # T55: no review gate — publish every scraped event.
+        passing: list[dict] = events
         queued: list[dict] = []
-        for ev in events:
+
+        # T55: apply silent auto-publish rules (quality guards — no review).
+        from scripts.sources import get_publish_rules
+        rules = get_publish_rules()
+        try:
+            min_conf = float(rules.get("min_confidence", 0.0) or 0.0)
+        except (TypeError, ValueError):
+            min_conf = 0.0
+        compiled = [re.compile(p, re.IGNORECASE)
+                    for p in (rules.get("exclude_title_patterns") or []) if p]
+        kept = []
+        for ev in passing:
+            t = (ev.get("title") or "").strip()
             try:
-                conf = float(ev.get("confidence", 0.0) or 0.0)
+                c = float(ev.get("confidence", 0.0) or 0.0)
             except (TypeError, ValueError):
-                conf = 0.0
-            if conf >= threshold:
-                passing.append(ev)
-            else:
-                queued.append(ev)
+                c = 0.0
+            if c < min_conf:
+                continue
+            if compiled and any(x.search(t) for x in compiled):
+                continue
+            kept.append(ev)
+        # Near-identical dedupe (title + start_date + venue).
+        if rules.get("dedupe", True):
+            seen = set()
+            ded = []
+            for ev in kept:
+                key = ((ev.get("title") or "").strip().lower(),
+                       ev.get("start_date") or "",
+                       (ev.get("venue_name") or "").strip().lower())
+                if key in seen:
+                    continue
+                seen.add(key)
+                ded.append(ev)
+            kept = ded
+        passing = kept
+        if len(passing) != len(events):
+            print(f"  [t55] publish rules dropped {len(events) - len(passing)} events",
+                  flush=True)
 
         cols = (
             "id", "source_id", "title", "description", "start_date", "end_date",
@@ -476,17 +498,7 @@ class Storage:
                     vals,
                 )
 
-            # 3. Queue below-threshold events to review_items (idempotent).
-            for r in queued:
-                self._queue_below_threshold(source_id, r, reason="below_confidence_threshold")
-
-        if queued:
-            print(
-                f"  [t26] {source_id}: threshold={threshold:.2f} "
-                f"published={len(passing)} queued_for_review={len(queued)}",
-                flush=True,
-            )
-
+        # T55: review stage removed — no below-threshold queue.
         return len(events)
 
     def _queue_below_threshold(self, source_id: str, event: dict, reason: str) -> str:
