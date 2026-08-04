@@ -51,7 +51,37 @@ staging) → Verify (schema + coverage + dedupe + a real sample vs source page).
 (visual regression + UX sanity + mobile).
 **Config/domain/durability:** Planning-only first — write plan, get sign-off, then implement.
 
-## 4. How cron / wrappers / supervisor / CI integrate
+## 4. Delegated execution (OpenCode + external agents)
+
+**OpenCode** (`opencode`, provider-agnostic) is the harness's delegated coding executor. It
+is **installed and verified on your DeepSeek model** (`deepseek/deepseek-v4-flash-0731` via
+OpenRouter — smoke test passed; Claude Code rejects non-Claude models, so OpenCode is the
+correct executor here).
+
+**Executor pattern (Hermes holds verification):**
+1. OpenCode runs in an **isolated git worktree** off a committed baseline (never the live
+   checkout).
+2. It operates against a **thrown-away DB COPY** with `CHAMONIX_DB=<copy>` exported so it
+   can never reach the live `chamonix.db`.
+3. A strict brief forbids touching `/docker/hermes-agent-2bpx/data/chamonix-events` (live).
+4. When OpenCode reports done, **Hermes independently verifies** (re-runs tests, reads the
+   diff, checks the live DB is unchanged) — agent self-reports are never treated as proof.
+5. Nothing merges to `main`/production without the **operator's diff-review + a green gate**.
+
+**Known integration lessons (from the option-B spike):**
+- OpenCode **auto-rejects reading paths outside its workdir** (`external_directory`). Shared
+  deps (e.g. the `web_foundation` package) must be **copied/symlinked into the workdir** so it
+  can read + import them; otherwise the task dies on a permission wall.
+- Use the repo venv's python explicitly (which has PyYAML etc.) and set `CHAMONIX_DB` on every
+  run; workdir=worktree means `scripts.*` resolves to the modified code, not the live copy.
+- Scope one OpenCode session per workdir; don't grant it `main` or the live path.
+
+**OpenCode + the `wf` switch:** the `wf`-based ingestion migration (PIPELINE-SPEC §1) is
+executed this way — OpenCode builds the new `wf`-backed scraper module in a worktree, Hermes
+verifies **parity behind G1** (recovers the JS-rendered description/venue gap, per the spike
+that recovered 2466 chars for the chamonix.com case), then the swap happens only when green.
+
+## 5. How cron / wrappers / supervisor / CI integrate
 
 - **Canonical runner:** `chamonix-refresh.sh` (06:00). Keep it the single scheduler entry.
   Split its steps so each is independently verifiable and independently alerted.
@@ -64,7 +94,7 @@ staging) → Verify (schema + coverage + dedupe + a real sample vs source page).
   quality is gated before it ever reaches cron.
 - **Supervisor:** unchanged mechanically; ensure the http_server is the only bind on 8090.
 
-## 5. Script mapping (current → harness role)
+## 6. Script mapping (current → harness role)
 
 | Script/runner | Current | Harness role |
 |---|---|---|

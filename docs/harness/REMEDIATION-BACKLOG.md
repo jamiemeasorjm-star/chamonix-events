@@ -16,6 +16,14 @@
       publishing invisible category=Cinema events; poster+desc for every film or labelled badge.
 - [ ] **Durable storage** (PIPELINE-SPEC §6): replace `DELETE-all-per-scrape` with upsert-by-key
       + tombstone/expiry + protected `curated` source so curated/community events persist.
+      *(Option-B prototype done in worktree `durable-storage`, 13/13 tests pass, live-untouched.
+      Before the production flip, close these review follow-ups:)*
+      - Normalize `venue_name` in the row key (currently only title is accent/space-normalized).
+      - Gate the `get_events()` `absent_since IS NULL` filter behind the same opt-in flag
+        (today it's a safe no-op, but it's an unconditional behaviour change on merge).
+      - Define one-time migration semantics for legacy `row_key IS NULL` rows (tombstone +
+        translation-merge on first durable run).
+      - Wire tombstone **expiry** into `clean_past` so dead rows don't accumulate.
 - [ ] **Cross-source EN/FR-aware dedup** (PIPELINE-SPEC §3): fold "Valley/Vallée" etc. via
       synonym map so duplicate festival entries merge.
 - [ ] **Migrate ingestion to the `wf` toolkit (staged)** — PIPELINE-SPEC §1:
@@ -54,5 +62,13 @@
 ## Sequencing rationale (docs → sensors → code)
 Docs first (free, corrects operator ground truth), then sensors (turn the audit's "looks
 complete" into measurable gates), then small code changes *behind* those gates so every refactor
-is provably non-regressive. Highest-leverage 3–5 items to start: **canonical domain, single
-cinema source, durable storage, content sensor, commit/push baseline.**
+is provably non-regressive. **Execution mechanism:** every code change is implemented by
+**OpenCode in an isolated git worktree against a DB COPY** (per RUNTIME-HARNESS §4 + G7), with
+Hermes independently verifying (re-run tests, read diff, confirm live DB untagged) and the
+operator reviewing the diff before any merge — so the live site is never at risk during
+refactors, including the staged **`wf` ingestion switch** and the **durable-storage flip**. The
+`wf` switch is deliberately staged: new `wf`-backed scraper → parity behind G1 (recovers the
+JS-rendered gap) → swap, never delete the old scraper first.
+
+Highest-leverage items to start: **commit + push baseline → canonical domain → durable-storage
+flip (after the 4 review follow-ups) → single cinema source → content sensor (G1).**

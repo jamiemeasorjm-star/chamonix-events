@@ -38,6 +38,10 @@ ingestion → normalization → deduplication → validation → confidence+publ
   land a wf-based scraper as a new module, verify parity behind the quality gates, then
   swap, never delete the working scraper before the replacement is green (see
   REMEDIATION-BACKLOG § Phase 1 → Phase 2).
+- **Executor:** the `wf` migration is implemented by **OpenCode in an isolated worktree**,
+  per RUNTIME-HARNESS §4 — Hermes verifies parity behind G1, and the old ingestor is swapped
+  only when the new one is green. Proven recoverable: the option-B spike recovered 2466 chars
+  of description + venue for the JS-rendered chamonix.com case that the current pipeline drops.
 
 ## 2. Normalization
 - Standardise: ISO dates, clean text, strip Drupal/category prefixes, map categories,

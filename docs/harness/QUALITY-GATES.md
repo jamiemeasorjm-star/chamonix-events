@@ -39,6 +39,16 @@
 - Mobile sanity: no horizontal scroll, tap targets ≥ 44px, filters usable; visual-regression
   diff ≤ configured threshold vs goldens; light+dark both pass contrast.
 
+## G7 — Delegated-code / executor gate (OpenCode + external agents)
+- Any change produced by a delegated coding agent must land in an **isolated git worktree
+  against a DB COPY** (`CHAMONIX_DB=<copy>`), and must **not** touch the live checkout or
+  live `chamonix.db` — verify the live DB has no new columns/count-change as proof.
+- The agent's self-report is never proof of pass: **Hermes independently re-runs the tests
+  and reviews the diff** before the result is presented for operator sign-off.
+- Nothing merges to `main`/production without a green unit gate + the relevant content/design
+  gate (G1–G6) + an **operator diff-review**. Opt-in flags (e.g. `DURABLE_DEFAULT`) must keep
+  live behaviour unchanged until explicitly flipped and re-gated.
+
 ## Gate owners & hooks
 - Executed by: unit tests (`test_*`), a `validate_build.py` sensor, a `validate_content.py`
   content sensor, and CI on PR. Alerts to the operator chat on any trip.

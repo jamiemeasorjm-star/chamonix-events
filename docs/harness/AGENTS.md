@@ -37,6 +37,11 @@ Working principles:
 6. **Push, don't pull.** Reliability/quality events go to the operator's chat.
 7. **Plan vs implement.** For multi-step tasks, separate PLAN, EXECUTE, VERIFY
    (see PEV below). Planning-only when the change is architectural or risky.
+8. **Delegated code is code — gate it like your own.** When a delegated coding agent
+   (OpenCode on DeepSeek — installed and verified) executes a change, it must run in an
+   **isolated git worktree against a DB COPY, never the live DB or the live checkout**,
+   and the result must pass the same unit + content gates + an operator diff-review
+   before any merge. Hermes holds verification; the agent does not self-approve.
 
 ## PEV loop (Plan – Execute – Verify)
 
@@ -66,6 +71,8 @@ domain/SEO changes, aesthetic redesigns, anything touching durable-storage seman
 | Current-state audit | `docs/current-state-audit-2026-08-04.md` | Ground-truth evidence for the above |
 | Config-as-truth | `sources.yaml` | Active sources + publish rules |
 | Living ops manual | Hermes skill `chamonix-events` | Operational procedures/pitfalls |
+| Delegated executor | **OpenCode** (`opencode`, provider-agnostic; installed + verified on DeepSeek via OpenRouter) | coding-agent execution, isolated worktrees, behind gates |
+| Scrape/extract toolkit | **`wf` / `web-foundation`** skill (`extract_url`, `BrowserSession`, `wf shot`) | fetch + clean-extract, server-rendered + JS-rendered |
 
 ## When to stop and ask
 
