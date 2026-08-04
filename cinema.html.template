@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chamonix Events</title>
+<title>Cinema — Chamonix Events</title>
 <meta name="build-time" content="2026-01-01T00:00:00Z">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
@@ -288,12 +288,13 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 .cinema-empty .mt-b{display:inline-block;padding:8px 20px;border:1px solid var(--border);border-radius:100px;font-size:.7rem;color:var(--text2);background:transparent;cursor:pointer;transition:all .3s}
 .cinema-empty .mt-b:hover{border-color:var(--text3);color:var(--text)}
 @media(max-width:768px){.cinema-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}.cinema-card-title{font-size:.78rem}}@media(max-width:480px){.cinema-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
-</style></head><body>
+</style>
+</head><body class="page-cinema">
 <div class="preloader" id="preloader"><div class="preloader-inner"><div class="preloader-bar"><div class="preloader-bar-fill"></div></div></div></div>
 <nav class="nav" id="nav"><div class="nav-inner">
-<a href="#" class="nav-brand"><svg viewBox="0 0 24 12" width="28" height="14"><polyline points="0,12 6,2 12,7 18,0 24,6" fill="none" stroke="#ede8e0" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+<a href="/" class="nav-brand"><svg viewBox="0 0 24 12" width="28" height="14"><polyline points="0,12 6,2 12,7 18,0 24,6" fill="none" stroke="#ede8e0" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-<ul class="nav-links" id="nav-links"><li><a href="#events" class="nav-lnk" data-i18n="nav_events">Événements</a></li><li><a href="#venues" class="nav-lnk" data-i18n="nav_venues">Lieux</a></li><li><a href="/cinema.html" class="nav-lnk" data-i18n="nav_cinema">Cinéma</a></li><li><a href="/submit.html" class="nav-lnk" data-i18n="nav_submit">Soumettre</a></li></ul>
+<ul class="nav-links" id="nav-links"><li><a href="/" class="nav-lnk" data-i18n="nav_events">Événements</a></li><li><a href="/#venues" class="nav-lnk" data-i18n="nav_venues">Lieux</a></li><li><a href="/cinema.html" class="nav-lnk active" data-i18n="nav_cinema">Cinéma</a></li><li><a href="/submit.html" class="nav-lnk" data-i18n="nav_submit">Soumettre</a></li></ul>
 </div></nav>
 <section class="hero"><div class="hero-bg"></div><div class="hero-gd"></div><div class="hero-c">
 <div class="lang-sel"><div class="lang-row"><button class="theme-btn" id="theme-btn" aria-label="Toggle theme"><svg class="theme-sun" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button><select id="locale-sel" class="lang-select">
@@ -303,61 +304,25 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-heig
 <option value="hu">HU</option>
 <option value="sv">SV</option>
 </select></div></div>
-<div class="hero-label" data-i18n="hero_label">Vallee de Chamonix</div><h1 class="hero-title">Chamonix Events</h1>
-<p class="hero-sub" data-i18n="hero_sub">Decouvrez les plus beaux evenements, concerts et soirees de la vallee.</p>
-<div class="hero-stats" id="hero-stats" aria-live="polite">
-  <div class="hero-stat"><b id="hero-stat-week">0</b><span data-i18n="hero_stat_week">événements cette semaine</span></div>
-  <div class="hero-stat-sep">·</div>
-  <div class="hero-stat"><b id="hero-stat-today">0</b><span data-i18n="hero_stat_today">aujourd'hui</span></div>
-  <div class="hero-stat-sep">·</div>
-  <div class="hero-stat"><b id="hero-stat-weekend">0</b><span data-i18n="hero_stat_weekend">ce week-end</span></div>
-</div></div>
-<div class="hero-scroll"><span class="hero-scroll-t" data-i18n="scroll">Defiler</span><div class="hero-scroll-l"></div></div></section>
-
-<section class="sec today-sec" id="today-section" style="display:none">
-  <div class="sec-h fade-in"><div class="sec-l" data-i18n="today_label">Aujourd'hui</div><h2 class="sec-t" data-i18n="today_title">Que faire aujourd'hui</h2></div>
-  <div class="td-grid" id="today-grid"></div>
-</section>
-
-<section class="sec" id="events"><div class="sec-h fade-in"><div class="sec-l" data-i18n="sec_label">Programmation</div><h2 class="sec-t" data-i18n="sec_title">Tous les evenements</h2></div>
-<div class="flt-row fade-in">
-<div class="srch-w"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-<input class="srch" id="search" type="text" data-i18n="search_placeholder" placeholder="Rechercher..." autocomplete="off"></div>
-<div class="quick-filts"><button class="qfilt" data-q="week" data-i18n="q_week">Cette semaine</button><button class="qfilt" data-q="weekend" data-i18n="q_weekend">Ce week-end</button><button class="qfilt" data-q="month" data-i18n="q_month">Ce mois</button></div></div>
-<div class="filts fade-in" id="filters">
-<button class="filt on" data-cat="" data-i18n="filter_all">Tout</button>
-<!-- T24: Cinema lives in its own section; removed misleading chip from event filters (audit §18) -->
-<button class="filt cE" data-cat="concert" data-i18n="filter_concert">Concert</button>
-<button class="filt cE" data-cat="exhibition" data-i18n="filter_exhibition">Exposition</button>
-<button class="filt cF" data-cat="family" data-i18n="filter_family">Famille</button>
-<button class="filt cM" data-cat="market" data-i18n="filter_market">Marché</button>
-<button class="filt cP" data-cat="other" data-i18n="filter_other">Autre</button>
-<button class="filt cS" data-cat="sport" data-i18n="filter_sport">Sport</button>
-<button class="filt cT" data-cat="theatre" data-i18n="filter_theatre">Théâtre</button>
-<input type="date" id="date-from" class="filt date" data-i18n="date_from" placeholder="Du">
-<input type="date" id="date-to" class="filt date" data-i18n="date_to" placeholder="Au">
-<button class="filt clear-btn" id="clear-filters" data-i18n="filter_clear">Réinitialiser</button>
-<button class="filt" id="density-toggle" data-i18n="density_btn">Compact</button>
-<button class="filt map-toggle" id="map-toggle" data-view="grid" data-i18n="map_btn">Carte</button>
-<button class="filt venue-go" id="venue-go" onclick="document.getElementById('venues').scrollIntoView({behavior:'smooth'})"><svg viewBox="0 0 24 24" width="12" height="12" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span data-i18n="nav_venues">Lieux</span></button>
+<div class="hero-label" data-i18n="hero_label">Chamonix</div><h1 class="hero-title">Cinema</h1>
+<p class="hero-sub">Le Vox — Chamonix</p>
 </div>
-<div class="cnt fade-in"><b id="ev-count">0</b> <span id="ev-found-text">events found</span></div>
-<div class="grid" id="ev-grid"></div>
-<div class="map-container" id="map-container"></div>
-</section>
+<div class="hero-scroll"><span class="hero-scroll-t" data-i18n="scroll">Défiler</span><div class="hero-scroll-l"></div></div></section>
 
-<section class="sec-v" id="venues"><div class="sec fade-in" style="padding-top:60px;padding-bottom:60px"><h2 class="sec-t" style="margin-bottom:24px;text-align:center" data-i18n="venue_section">Tous les lieux</h2><div class="ven-chips" id="ven-chips"></div></div></section>
+<section class="cinema-sec" id="cinema">
+<div id="stale-warning" class="stale-warning" data-i18n="stale_warning" style="display:none">⚠ Some screenings may not be up to date</div>
+<div class="sec" style="padding-top:20px">
+<div class="cinema-days" id="cinema-days"></div>
+<div class="cinema-grid" id="cinema-grid"></div>
+<div class="cinema-empty" id="cinema-empty" style="display:none">
+<div class="mt-i">—</div>
+<div class="mt-t" data-i18n="cinema_no_films">Aucune séance ce jour</div>
+<button class="mt-b" onclick="nextCinemaDay()" data-i18n="cinema_next_day">Voir le prochain jour</button>
+</div></div></section>
+
 <button class="btt" id="btt" aria-label="Back to top" data-i18n="btt_label"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
-<div class="modal-overlay" id="modal"><div class="modal"><button class="modal-close" id="modal-close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-<img class="modal-img" id="modal-img" src="" alt=""><div class="modal-body">
-<div class="modal-meta"><span class="modal-cat" id="modal-cat"></span><span class="modal-dot"></span><span class="modal-venue" id="modal-venue"></span></div>
-<h3 class="modal-title" id="modal-title"></h3><div class="modal-info" id="modal-info"></div>
-<p class="modal-desc" id="modal-desc"></p><p class="modal-address" id="modal-address"></p><div class="modal-showtimes" id="modal-showtimes"></div>
-<div class="modal-actions"><a class="modal-source" id="modal-source" href="#" target="_blank" rel="noopener">Voir la source <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
-<button class="modal-share" id="modal-share"><span data-i18n="modal_share">Partager</span> <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button></div></div></div></div>
-<footer class="ftr"><div class="ftr-in"><div class="ftr-br">Chamonix Events</div><div class="ftr-lk"><a href="https://www.chamonix.net/english/events">chamonix.net</a><a href="https://www.allocine.fr/seance/salle_gen_csalle=P1406.html">AlloCine</a><a href="/api/events.ics">📅 iCal</a><a href="/privacy.html">Privacy</a></div></div><div class="ftr-cp">Evenements collectes depuis chamonix.net, chamonix.com et AlloCine</div></footer>
+<footer class="ftr"><div class="ftr-in"><div class="ftr-br">Chamonix Events</div><div class="ftr-lk"><a href="/">chamonix.net</a><a href="https://www.allocine.fr/seance/salle_gen_csalle=P1406.html">AlloCiné</a><a href="/api/events.ics">📅 iCal</a><a href="/privacy.html">Privacy</a></div></div><!-- TMDB_ATTRIBUTION --><div class="ftr-cp">Evenements collectes depuis chamonix.net, chamonix.com et AlloCiné</div></footer>
 <script>
-// i18n
 /* T20-D: detect browser language on first visit */
 var LOCALE_KEY='chx-locale';
 var LOCALE=localStorage.getItem(LOCALE_KEY)||(navigator.language&&navigator.language.startsWith('en')?'en':'fr');
@@ -365,366 +330,134 @@ var I18N={"en":{"name":"English","hero_label":"Chamonix Valley","hero_sub":"Disc
 function t(k){var l=I18N[LOCALE]||I18N['fr'];return l[k]||k;}
 // T24: localized event/cinema field reader
 function _l(e,f){return e[f+'_'+LOCALE]||e[f];}
-function cycleLocale(l){if(l){LOCALE=l}else{var a=['en','fr','es','hu','sv'];var i=a.indexOf(LOCALE);LOCALE=a[(i+1)%a.length]}localStorage.setItem(LOCALE_KEY,LOCALE);if(document.getElementById('locale-sel'))document.getElementById('locale-sel').value=LOCALE;applyLocale();renderVenues();render()}
-function applyLocale(){
-document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(k==='search_placeholder'||k==='date_from'||k==='date_to')el.placeholder=t(k);else el.textContent=t(k);});
-var btn=document.getElementById('locale-btn');if(btn)btn.textContent=I18N[LOCALE].name;
+function cycleLocale(l){if(l){LOCALE=l}else{var a=['en','fr','es','hu','sv'];var i=a.indexOf(LOCALE);LOCALE=a[(i+1)%a.length]}localStorage.setItem(LOCALE_KEY,LOCALE);if(document.getElementById('locale-sel'))document.getElementById('locale-sel').value=LOCALE;applyCine();}
+function applyCine(){
+document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');el.textContent=t(k);});
+var btn=document.getElementById('theme-btn');
 document.documentElement.lang=LOCALE;
 }
 </script>
-
 <script>
-
-<!-- EVENTS_DATA -->
-<!-- VENUES_DATA -->
-var CAT_COLORS = {"Cinema": "cC", "concert": "cE", "exhibition": "cE", "family": "cF", "market": "cM", "other": "cP", "sport": "cS", "theatre": "cT"};
-var CAT_LABELS = {"Cinema": "Cinema", "concert": "Concert", "exhibition": "Exposition", "family": "Famille", "market": "Marche", "other": "Autre", "sport": "Sport", "theatre": "Theatre"};
-
-var today=new Date(),tom=new Date(today);tom.setDate(tom.getDate()+1);
-var todayS=today.toISOString().split("T")[0],tomS=tom.toISOString().split("T")[0];
-var map=null,markerGroup=null;
-var venueFilter="";
-
+<!-- CINEMA_DATA -->
+var CAT_COLORS = {"Cinema": "cC"};
+var CAT_LABELS = {"Cinema": "Cinema"};
 function fmt(d){if(!d)return null;try{var dt=new Date(d);if(isNaN(dt.getTime()))return null;return{date:dt,day:t("d"+dt.getDay()),dayNum:dt.getDate(),month:t("m"+dt.getMonth()),iso:dt.toISOString().split("T")[0],display:String(dt.getDate()).padStart(2,"0")+"/"+String(dt.getMonth()+1).padStart(2,"0")+"/"+dt.getFullYear()};}catch{return null}}
-function catLabel(cat){return CAT_LABELS[cat]||t("cat_"+cat)||cat}
-function catColor(cat){return CAT_COLORS[cat]||""}
 function esc(s){return s?s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"):""}
-function strip(s){return s?s.replace(/<[^>]*>/g,""):""}
-function evId(e){return e.id||"ev-"+EVENTS.indexOf(e)}
-
-function getEventVenue(e){
-  if(e.venue)return e.venue;
-  var addr=e.address||"";
-  if(addr.indexOf("Place du Mont-Blanc")>=0)return"Place du Mont-Blanc";
-  if(!addr)return"";
-  var raw=addr.split(/\d+/)[0].trim().replace(/\s+/g," ").replace(/[-,]+$/,"").trim();
-  if(raw.indexOf("Eglise")>=0)return"Eglise Saint-Michel";if(raw.indexOf("Presbytere")>=0)return"Presbytere Saint-Michel";
-  if(raw.indexOf("Musee")>=0||raw.indexOf("Cristaux")>=0)return"Musee des Cristaux";if(raw.indexOf("Observatoire")>=0)return"Observatoire du Mont-Blanc";
-  if(raw.indexOf("Centre sportif")>=0)return"Centre sportif Richard Bozon";if(raw.indexOf("Tennis")>=0)return"Tennis de Chamonix";
-  if(raw.indexOf("Ferme")>=0||raw.indexOf("Pain")>=0)return"La ferme du Pain de Chibon";if(raw.indexOf("Chavants")>=0)return"Lac des Chavants";
-  if(raw.indexOf("Gaillands")>=0)return"Lac des Gaillands";if(raw.indexOf("Mairie")>=0)return"Mairie Les Houches";
-  if(raw.indexOf("Argentiere")>=0)return"Maison de Village d'Argentiere";if(raw.indexOf("Pre")>=0||raw.indexOf("Servoz")>=0)return"Pre de l'Eglise";
-  if(raw.indexOf("Espace Animation")>=0)return"Espace Animation";if(raw.indexOf("Espace Michel")>=0||raw.indexOf("EMC")>=0)return"Espace Michel Croz";
-  return raw;
-}
-
-function getVenueCoords(vname){
-  if(!vname)return null;
-  for(var i=0;i<VENUES.length;i++){if(VENUES[i].key===vname||VENUES[i].name===vname){if(VENUES[i].lat&&VENUES[i].lng)return[VENUES[i].lat,VENUES[i].lng];}}
-  return null;
-}
-
-function toggleMap(){
-  var btn=document.getElementById("map-toggle");
-  var grid=document.getElementById("ev-grid");
-  var mc=document.getElementById("map-container");
-  var isMap=btn.dataset.view==="map";
-  if(isMap){
-    btn.dataset.view="grid";btn.classList.remove("on");btn.textContent=t("map_btn");
-    grid.classList.remove("hidden");mc.classList.remove("show");
-  }else{
-    btn.dataset.view="map";btn.classList.add("on");btn.textContent=t("grid_btn");
-    grid.classList.add("hidden");mc.classList.add("show");
-    if(!map){initMap();}
-    updateMapMarkers();
+function getCinemaFilms(){
+  var films={};
+  // Prefer injected CINEMA_EVENTS (separate dataset from vox_pdf.py / cinema_events.json)
+  var src=(typeof CINEMA_EVENTS!=='undefined'&&CINEMA_EVENTS&&CINEMA_EVENTS.length)?CINEMA_EVENTS:[];
+  if(!src.length){
+    // Fallback: legacy path — find cinema events in main EVENTS array
+    src=(typeof EVENTS!=='undefined'?EVENTS:[]).filter(function(e){return e.category==='Cinema'||e.category==='cinema';});
   }
+  src.forEach(function(e,i){
+    // Normalize showtimes: cinema_events.json has it as a dict; SQLite dump may have showtimes_json string
+    var st=e.showtimes;
+    if(!st&&typeof e.showtimes_json==='string'){try{st=JSON.parse(e.showtimes_json);}catch(_){st={};}}
+    if(!st||!Object.keys(st).length)return;
+    var titleKey=_l(e,'title');
+    var key=(titleKey||e.title||'').trim();
+    if(!key)return;
+    if(!films[key]){
+      films[key]={title:titleKey||e.title,desc:_l(e,'description')||e.description||'',image:e.image_url||'',venue:_l(e,'venue_name')||e.venue||'Le Vox',lang:e.language||'Francais',duration:e.duration||'',source_url:e.source_url||'',showtimes:{},index:i};
+    }
+    for(var d in st){
+      if(!films[key].showtimes[d])films[key].showtimes[d]=[];
+      (st[d]||[]).forEach(function(t){
+        if(films[key].showtimes[d].indexOf(t)<0)films[key].showtimes[d].push(t);
+      });
+    }
+  });
+  return Object.keys(films).map(function(k){return films[k];});
 }
-
-function initMap(){
-  // T20-F: defer Leaflet load — load CSS + JS on first map click
-  if(typeof L==="undefined"){
-    if(window._leafletLoading)return;
-    window._leafletLoading=true;
-    // Load CSS
-    var lc=document.createElement("link");lc.rel="stylesheet";lc.href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-    document.head.appendChild(lc);
-    // Load JS
-    var ls=document.createElement("script");ls.src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
-    ls.onload=function(){window._leafletLoading=false;initMap();};
-    document.body.appendChild(ls);
-    return;
+function getCinemaDates(films){
+  var dates={};
+  var today=new Date();today.setHours(0,0,0,0);
+  films.forEach(function(f){
+    for(var d in f.showtimes){
+      var dt=new Date(d+'T12:00:00');
+      if(dt<today)continue;
+      if(!dates[d])dates[d]=0;
+      dates[d]+=f.showtimes[d].length;
+    }
+  });
+  return Object.keys(dates).sort();
+}
+function isToday(d){
+  var now=new Date();return d===now.toISOString().split('T')[0];
+}
+function fmtDay(dStr){
+  var d=new Date(dStr+'T12:00:00');
+  var DAYS_SHORT=t('d0')?[t('d0'),t('d1'),t('d2'),t('d3'),t('d4'),t('d5'),t('d6')]:['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  var MONTHS_SHORT=t('m0')?[t('m0'),t('m1'),t('m2'),t('m3'),t('m4'),t('m5'),t('m6'),t('m7'),t('m8'),t('m9'),t('m10'),t('m11')]:['Jan','Fev','Mar','Avr','Mai','Juin','Juil','Aou','Sep','Oct','Nov','Dec'];
+  return {dow:DAYS_SHORT[d.getDay()],day:d.getDate(),month:MONTHS_SHORT[d.getMonth()],iso:dStr};
+}
+function fmtTime(t){
+  return t.substring(0,5);
+}
+function renderCinemaDays(films){
+  var el=document.getElementById('cinema-days');
+  if(!el)return;
+  var dates=getCinemaDates(films);
+  if(!dates.length){el.innerHTML='';return;}
+  var sel=document.getElementById('cinema-grid').dataset.date||dates[0];
+  el.innerHTML=dates.map(function(d){
+    var f=fmtDay(d);
+    var cls='cinema-day'+(d===sel?' on':'')+(isToday(d)?' today':'');
+    return '<button class="'+cls+'" data-date="'+d+'" onclick="selectCinemaDay(\''+d+'\')">'+f.day+'<span class="dow">'+f.dow+'</span></button>';
+  }).join('');
+  el.scrollLeft=0;
+  var selBtn=el.querySelector('.on');
+  if(selBtn)selBtn.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+}
+function selectCinemaDay(d){
+  document.getElementById('cinema-grid').dataset.date=d;
+  renderCinemaDays(getCinemaFilms());
+  renderCinemaGrid(d);
+}
+function nextCinemaDay(){
+  var films=getCinemaFilms();
+  var dates=getCinemaDates(films);
+  if(!dates.length)return;
+  var cur=document.getElementById('cinema-grid').dataset.date;
+  var idx=dates.indexOf(cur);
+  var next=idx>=0&&idx<dates.length-1?dates[idx+1]:dates[0];
+  selectCinemaDay(next);
+}
+function renderCinemaGrid(date){
+  var el=document.getElementById('cinema-grid');
+  var empty=document.getElementById('cinema-empty');
+  if(!el)return;
+  var films=getCinemaFilms();
+  if(!date){date=films.length?getCinemaDates(films)[0]||'':'';}
+  el.dataset.date=date;
+  var today=new Date();
+  var todayStr=today.toISOString().split('T')[0];
+  var nowH=today.getHours(),nowM=today.getMinutes();
+  var nowTotal=nowH*60+nowM;
+  var dayFilms=films.filter(function(f){return f.showtimes[date]&&f.showtimes[date].length;}).sort(function(a,b){var at=a.showtimes[date]?parseInt(a.showtimes[date][0]):'99:99';var bt=b.showtimes[date]?parseInt(b.showtimes[date][0]):'99:99';return at<bt?-1:at>bt?1:0;});
+  if(!dayFilms.length){
+    el.innerHTML='';empty.style.display='block';return;
   }
-  map=L.map("map-container",{zoomControl:false,attributionControl:true}).setView([45.92,6.87],13);
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',subdomains:"abcd",maxZoom:19}).addTo(map);
-  L.control.zoom({position:"bottomright"}).addTo(map);
-  markerGroup=L.layerGroup().addTo(map);
+  empty.style.display='none';
+  el.innerHTML=dayFilms.map(function(f){
+    var img=f.image?'<img src="'+esc(f.image)+'" alt="'+esc(_l(f,'title'))+'" loading="lazy">':'<div class="no-img">'+esc(_l(f,'title')[0]||'')+'</div>';
+    var isVO=(f.lang&&(f.lang.toLowerCase().indexOf('vo')>=0||f.lang.toLowerCase().indexOf('vost')>=0));
+    var langTag=isVO?'<span class="lang vo">VO</span>':'<span class="lang">FR</span>';
+    var times=f.showtimes[date].map(function(t){
+      var cleanT=t.substring(0,5);
+      var parts=cleanT.split(':');
+      var tMin=parseInt(parts[0])*60+parseInt(parts[1]);
+      var isPast=tMin<nowTotal&&date===todayStr;
+      var isNow=!isPast&&Math.abs(tMin-nowTotal)<=60&&date===todayStr;
+      var cls='time-btn'+(isPast?' past':'')+(isNow?' now':'');
+      return '<button class="'+cls+'" onclick="event.stopPropagation();">'+cleanT+'</button>';
+    }).join('');
+    var dur=f.duration?' <span>'+esc(f.duration)+'</span>':'';
+    return '<div class="cinema-card"><div class="cinema-card-poster">'+img+'</div><div class="cinema-card-body"><div class="cinema-card-title">'+esc(_l(f,'title'))+'</div><div class="cinema-card-meta">'+langTag+dur+'</div><div class="cinema-card-times">'+times+'</div></div></div>';
+  }).join('');
 }
-
-function updateMapMarkers(){
-  if(!map||!markerGroup)return;
-  markerGroup.clearLayers();
-  var filtered=getFilteredEvents();
-  var added={};
-  filtered.forEach(function(e){
-    var vname=getEventVenue(e);
-    if(!vname||added[vname])return;
-    added[vname]=true;
-    var coords=getVenueCoords(vname);
-    if(!coords)return;
-    var fd=fmt(e.start_date);
-    var title=esc(_l(e,'title'));
-    var cat=catLabel(e.category);
-    var date=fd?fd.display:"";
-    var icon=L.divIcon({className:"",html:'<div style="width:32px;height:32px;background:var(--gold);border:2px solid var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--bg);font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.5)">'+vname[0]+"</div>",iconSize:[32,32],iconAnchor:[16,16]});
-    var marker=L.marker(coords,{icon:icon}).addTo(markerGroup);
-    marker.bindPopup('<strong>'+title+'</strong><div class="popup-cat">'+cat+'</div><div class="popup-date">'+date+"</div>");
-  });
-  if(Object.keys(added).length>0){map.fitBounds(markerGroup.getBounds().pad(0.15));}
-}
-
-function getFilteredEvents(){
-  var from=document.getElementById("date-from").value;
-  var to=document.getElementById("date-to").value;
-  var act=document.querySelector(".filt.on");
-  var cat=act?act.dataset.cat:"";
-  var q=document.getElementById("search").value.toLowerCase().trim();
-  return EVENTS.filter(function(e){
-    var sd=fmt(e.start_date),ed=fmt(e.end_date);
-    if(!sd)return false;
-    var es=sd.iso,ee=ed?ed.iso:es;
-    // Multi-day overlap: keep event if any part of its range is in the window
-    if(ed&&ee<todayS&&es<todayS)return false;if(from&&ee<from)return false;if(to&&es>to)return false;
-    if(cat&&e.category!==cat)return false;
-    if(venueFilter&&!(e.venue_name||e.venue||"").toLowerCase().includes(venueFilter.toLowerCase()))return false;
-    if(q&&!_l(e,'title').toLowerCase().includes(q)&&!strip(_l(e,'description')||"").toLowerCase().includes(q))return false;
-    return true;
-  }).sort(function(a,b){return(a.start_date||"").localeCompare(b.start_date||"");});
-}
-
-function setVenueFilter(btn){
-  var name=(btn&&btn.dataset)?btn.dataset.v:"";
-  if(venueFilter&&venueFilter.toLowerCase()===name.toLowerCase())venueFilter="";
-  else venueFilter=name;
-  // Make venue the active filter: reset category to "all" and clear search
-  document.querySelectorAll(".filt.on").forEach(function(b){b.classList.remove("on");});
-  var all=document.querySelector(".filt[data-cat='']");if(all)all.classList.add("on");
-  var q=document.getElementById("search");if(q)q.value="";
-  document.querySelectorAll(".qfilt.on").forEach(function(b){b.classList.remove("on");});
-  renderVenues();
-  render();
-  var ev=document.getElementById("events");if(ev)ev.scrollIntoView({behavior:"smooth"});
-}
-function filterByVenue(name){setVenueFilter({dataset:{v:name}});}
-
-function openModal(idx){
-  var e=EVENTS[idx];if(!e)return;var id=evId(e);
-  window.history.pushState({modal:idx},"","#"+id);
-  var fd=fmt(e.start_date),ed=fmt(e.end_date);
-  var dateR=e.end_date&&e.end_date!==e.start_date?(fd?fd.display:"")+" -> "+(ed?ed.display:""):(fd?fd.display:"");
-  var cc=catColor(e.category),lb=catLabel(e.category);
-  var img=e.image_url&&!e.image_url.startsWith("data:")?e.image_url:"";
-  var hs=e.showtimes&&Object.keys(e.showtimes).length>0;
-  document.getElementById("modal-img").src=img;document.getElementById("modal-img").alt=esc(_l(e,'title'));
-  document.getElementById("modal-cat").className="modal-cat "+cc;document.getElementById("modal-cat").textContent=lb;
-  document.getElementById("modal-venue").textContent=e.venue||getEventVenue(e)||"";
-  document.getElementById("modal-title").textContent=_l(e,'title');
-  var info="";var v=e.venue||getEventVenue(e)||"";
-  if(dateR)info+='<div class="modal-info-item"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'+esc(dateR)+'</div>';
-  if(e.time)info+='<div class="modal-info-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'+esc(e.time)+'</div>';
-  info+='<div class="modal-info-item"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>'+lb+'</div>';
-  if(v)info+='<div class="modal-info-item"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>'+esc(v)+'</div>';
-  document.getElementById("modal-info").innerHTML=info;
-  document.getElementById("modal-desc").textContent=strip(_l(e,'description')||"").substring(0,500);
-  document.getElementById("modal-address").textContent=[e.address,e.venue,e.commune].filter(Boolean).join(" - ")||"";
-  var stEl=document.getElementById("modal-showtimes");
-  if(hs){var h="<h4>Seances</h4><table>";for(var k in e.showtimes){var f=fmt(k);h+="<tr><td>"+(f?f.display:k)+"</td><td>"+e.showtimes[k].join(", ")+"</td></tr>";}h+="</table>";stEl.innerHTML=h;}else{stEl.innerHTML="";}
-  document.getElementById("modal-source").href=e.source_url||"#";
-  var sb=document.getElementById("modal-share");
-  sb.onclick=function(){var u=window.location.origin+window.location.pathname+"#"+id;if(navigator.share){navigator.share({title:_l(e,'title'),url:u}).catch(function(){});}else{navigator.clipboard.writeText(u);sb.innerHTML=t("copied");setTimeout(function(){sb.innerHTML='<span data-i18n="modal_share">'+t("modal_share")+'</span> <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>';},2000);}};
-  document.getElementById("modal").classList.add("open");document.body.style.overflow="hidden";
-  var qs=document.querySelector(".modal");if(qs)qs.scrollTop=0;
-}
-function closeModal(){document.getElementById("modal").classList.remove("open");document.body.style.overflow="";window.history.pushState(null,"",window.location.pathname);}
-
-// T47: mobile swipe-to-dismiss for modal
-(function(){
-  var startY=0,startX=0,modalEl=null,swiping=false;
-  document.getElementById("modal").addEventListener("touchstart",function(e){
-    if(e.target!==this)return; // only on overlay, not modal content
-    var t=e.touches[0];startY=t.clientY;startX=t.clientX;swiping=false;modalEl=null;
-  },{passive:true});
-  document.getElementById("modal").addEventListener("touchmove",function(e){
-    var t=e.touches[0];var dy=t.clientY-startY,dx=Math.abs(t.clientX-startX);
-    if(dy>40&&dx<dy){swiping=true} // downward swipe
-  },{passive:true});
-  document.getElementById("modal").addEventListener("touchend",function(e){
-    if(swiping){closeModal();}
-  },{passive:true});
-})();
-
-// T48: filter state persistence
-function saveFilters(){
-  var q=document.getElementById("search");if(q)localStorage.setItem("chx-search",q.value);
-  var cat=document.querySelector(".filt.on");if(cat)localStorage.setItem("chx-cat",cat.getAttribute("data-cat")||"");
-}
-function loadFilters(){
-  var sq=localStorage.getItem("chx-search");if(sq){var inp=document.getElementById("search");if(inp){inp.value=sq;}}
-  var sc=localStorage.getItem("chx-cat");if(sc&&sc!==''){
-    document.querySelectorAll(".filt").forEach(function(b){
-      if(b.getAttribute("data-cat")===sc){document.querySelectorAll(".filt.on").forEach(function(x){x.classList.remove("on");});b.classList.add("on");}
-    });
-  }
-  return sq||"";
-}
-// Debounced save on input
-var _sfTimer;
-document.addEventListener("input",function(e){
-  if(e.target.id==="search-inp"){clearTimeout(_sfTimer);_sfTimer=setTimeout(saveFilters,300);}
-});
-
-function venueInitials(name){
-  var w=String(name||"").replace(/\(.*?\)/g,"").split(/[\s\-]+/).filter(function(x){return x&&x.length>=2;});
-  var s=(w[0]||"?").charAt(0);
-  if(w[1])s+=(w[1]).charAt(0);
-  return s.toUpperCase();
-}
-function activeVenues(){
-  var counts={};
-  (typeof EVENTS!=="undefined"?EVENTS:[]).forEach(function(e){
-    var name=e.venue_name||e.venue||"";
-    if(!name)return;
-    var es=(e.start_date||"").slice(0,10),ee=((e.end_date)||es).slice(0,10);
-    if(ee<todayS)return; // only venues with current/future events
-    counts[name]=(counts[name]||0)+1;
-  });
-  return Object.keys(counts).sort(function(a,b){return a.localeCompare(b);}).map(function(k){return{name:k,count:counts[k]};});
-}
-function renderVenues(){
-  var el=document.getElementById("ven-chips");if(!el)return;
-  var list=activeVenues();
-  if(!list.length){el.innerHTML='<span style="color:var(--text3);font-size:.8rem">—</span>';return;}
-  el.innerHTML=list.map(function(v){
-    var n=esc(v.name);
-    var on=venueFilter&&venueFilter.toLowerCase()===v.name.toLowerCase()?" on":"";
-    return '<button type="button" class="venue-chip'+on+'" data-v="'+n+'" onclick="setVenueFilter(this)" title="'+n+'">'
-      +'<span class="vc-av">'+esc(venueInitials(v.name))+'</span>'
-      +'<span class="vc-name">'+n+'</span>'
-      +'<span class="vc-count">'+v.count+'</span>'
-      +'</button>';
-  }).join("");
-}
-
-function renderHeroStats(){
-  // T20-A: dynamic counters in hero
-  var now=new Date();now.setHours(0,0,0,0);
-  var todayIso=now.toISOString().slice(0,10);
-  var weekEnd=new Date(now);weekEnd.setDate(weekEnd.getDate()+7);
-  var day=now.getDay();var sat=new Date(now);sat.setDate(sat.getDate()+(day===0?0:6-day));
-  var sun=new Date(sat);sun.setDate(sun.getDate()+1);
-  var satIso=sat.toISOString().slice(0,10);
-  var sunIso=sun.toISOString().slice(0,10);
-  var weekCount=0,todayCount=0,weekendCount=0;
-  (typeof EVENTS!=="undefined"?EVENTS:[]).forEach(function(e){
-    var d=(e.start_date||"").slice(0,10);
-    if(!d)return;
-    if(d>=todayIso && d<weekEnd.toISOString().slice(0,10))weekCount++;
-    if(d===todayIso)todayCount++;
-    if(d===satIso||d===sunIso)weekendCount++;
-  });
-  var sw=document.getElementById("hero-stat-week");if(sw)sw.textContent=weekCount;
-  var st=document.getElementById("hero-stat-today");if(st)st.textContent=todayCount;
-  var se=document.getElementById("hero-stat-weekend");if(se)se.textContent=weekendCount;
-}
-
-function _td_close(tag){return "<"+"/"+tag+">";}
-
-function renderTodaySection(){
-  // T20-B: highlight today events
-  var sec=document.getElementById("today-section");
-  if(!sec)return;
-  var now=new Date();now.setHours(0,0,0,0);
-  var todayIso=now.toISOString().slice(0,10);
-  var todayEvs=(typeof EVENTS!=="undefined"?EVENTS:[]).filter(function(e){
-    return (e.start_date||"").slice(0,10)===todayIso;
-  });
-  if(!todayEvs.length){sec.style.display="none";return;}
-  sec.style.display="";
-  var grid=document.getElementById("today-grid");
-  if(!grid)return;
-  grid.innerHTML=todayEvs.slice(0,6).map(function(e){
-    var time=e.time?esc(e.time):"";
-    var cc=catColor(e.category);
-    var lb=catLabel(e.category);
-    var img=e.image_url&&!e.image_url.startsWith("data:")
-      ?"<img src=\""+e.image_url+"\" alt=\""+esc(_l(e,'title'))+"\" loading=\"lazy\">"
-      :"<div class=\"td-fb\">"+(esc(_l(e,'title'))[0]||"?")+_td_close("div");
-    var venueHtml=_l(e,'venue_name')?"<span class=\"td-venue\">"+esc(_l(e,'venue_name'))+_td_close("span"):"";
-    var timeHtml=time?"<span class=\"td-time\">"+time+_td_close("span"):"";
-    var html="<div class=\"td-card\" onclick=\"openModal("+EVENTS.indexOf(e)+")\">"
-      +"<div class=\"td-img\">"+img+_td_close("div")
-      +"<div class=\"td-body\">"
-      +"<div class=\"td-meta\"><span class=\"td-cat "+cc+"\">"+lb+_td_close("span")
-      +timeHtml+venueHtml+_td_close("div")
-      +"<div class=\"td-title\">"+esc(_l(e,'title'))+_td_close("div")
-      +_td_close("div")+_td_close("div");
-    return html;
-  }).join("");
-}
-
-function render(){
-  var filtered=getFilteredEvents();
-  document.getElementById("ev-count").textContent=filtered.length;
-  document.getElementById("ev-found-text")&&(document.getElementById("ev-found-text").textContent=t("events_found"));
-  var grid=document.getElementById("ev-grid");
-  if(!filtered.length){
-    grid.innerHTML='<div class="mt"><div class="mt-i">--</div><div class="mt-t">'+t("empty_title")+'</div><div class="mt-d">'+t("empty_desc")+'</div><button class="mt-b" onclick="resetFilters()">'+t("empty_btn")+'</button></div>';
-    return;
-  }
-  var evIndexMap=filtered.map(function(e){return EVENTS.indexOf(e);});
-  grid.innerHTML=evIndexMap.map(function(oi,i){
-    var e=EVENTS[oi];var fd=fmt(e.start_date);var descFull=strip(_l(e,'description')||"");var desc=descFull.substring(0,180);
-    var descHtml=desc?'<p class="card-desc" id="desc-'+oi+'">'+desc+(descFull.length>180?'…</p><button class="card-desc-toggle" onclick="event.stopPropagation();document.getElementById(\'desc-'+oi+'\').classList.toggle(\'exp\');this.style.display=\'none\'">'+t("details")+' <svg viewBox="0 0 16 16" fill="none"><path d="M1 8h12M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>':'</p>'):"";
-    var isT=fd&&fd.iso===todayS,isTm=fd&&fd.iso===tomS;
-    var tag=isT?t("today"):isTm?t("tomorrow"):"";
-    var dl=fd?fd.dayNum:"",ml=fd?fd.month:"";
-    var cc=catColor(e.category),lb=catLabel(e.category);
-    var img=e.image_url&&!e.image_url.startsWith("data:")?'<img src="'+e.image_url+'" alt="'+esc(_l(e,'title'))+'" loading="lazy" data-fb="'+esc(_l(e,'title')[0]||"")+'">':'<div class="card-img-f '+cc+'">'+(_l(e,'title')[0]||"")+'</div>';
-    var evVenue=_l(e,'venue_name')||e.venue||getEventVenue(e)||"";var vHtml=evVenue?'<span class="card-venue">'+esc(evVenue)+'</span>':"";
-    // T25: info row — time / venue_name / price, only when present
-    var infoItems=[];
-    if(e.time)infoItems.push('<span class="card-info-item"><span class="card-info-ic" aria-hidden="true">🕒</span><span class="card-info-tx">'+esc(e.time)+'</span></span>');
-    if(_l(e,'venue_name')&&esc(_l(e,'venue_name'))!==evVenue)infoItems.push('<span class="card-info-item"><span class="card-info-ic" aria-hidden="true">📍</span><span class="card-info-tx">'+esc(_l(e,'venue_name'))+'</span></span>');
-    else if(evVenue&&e.time)infoItems.push('<span class="card-info-item"><span class="card-info-ic" aria-hidden="true">📍</span><span class="card-info-tx">'+esc(evVenue)+'</span></span>');
-    if(e.price)infoItems.push('<span class="card-info-item"><span class="card-info-tx p">'+esc(e.price)+'</span></span>');
-    var infoRow=infoItems.length?'<div class="card-info">'+infoItems.join("")+'</div>':"";
-    // T41: link card to event detail page, keep quick-view modal button
-    var slug=e._slug||"event";
-    var detailUrl="/events/"+slug+".html";
-    return '<div class="card" style="transition-delay:'+(i*0.06)+'s">'+
-      '<a href="'+detailUrl+'" class="card-link">'+
-      '<div class="card-img">'+img+'<div class="card-img-o"></div><div class="card-date"><div class="dy">'+dl+'</div><div class="mo">'+ml+'</div></div>'+(tag?'<div class="card-tag">'+tag+'</div>':"")+'</div>'+
-      '<div class="card-body"><div class="card-meta"><span class="card-cat '+cc+'">'+lb+'</span>'+(e.time?'<span class="card-dot"></span><span class="card-venue">'+esc(e.time)+'</span>':"")+(evVenue?'<span class="card-dot"></span><span class="card-venue">'+esc(evVenue)+'</span>':"")+'</div>'+
-      // T20-1: bilingual subtitle
-      (function(){var t=_l(e,'title');var sub=e.title_fr&&e.title_en&&e.title_fr!==e.title_en?(LOCALE==='fr'?e.title_en:LOCALE==='en'?e.title_fr:''):'';return sub?'<h3 class="card-title">'+esc(t)+'<span class="card-title-sub">'+esc(sub)+'</span></h3>':'<h3 class="card-title">'+esc(t)+'</h3>';})()+
-      descHtml+
-      '</a>'+
-      '<div class="card-ft"><a href="'+detailUrl+'" class="card-cta">'+t("details")+' <svg viewBox="0 0 16 16" fill="none"><path d="M1 8h12M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>'+
-      '<button class="btn btn-secondary" onclick="event.stopPropagation();openModal('+oi+')" style="font-size:.7rem;padding:6px 14px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;font-family:var(--ff-sans)">'+t("modal_share")+'</button></div></div></div>';
-  }).join("");
-  requestAnimationFrame(function(){document.querySelectorAll(".card").forEach(function(el,i){setTimeout(function(){el.classList.add("in");},i*60);});});
-  if(map&&document.getElementById("map-container").classList.contains("show")){updateMapMarkers();}
-}
-
-function resetFilters(){
-  document.querySelectorAll(".filt.on").forEach(function(b){b.classList.remove("on");});
-  document.querySelector(".filt[data-cat='']").classList.add("on");
-  document.getElementById("date-from").value="";document.getElementById("date-to").value="";
-  document.getElementById("search").value="";document.querySelectorAll(".qfilt.on").forEach(function(b){b.classList.remove("on");});
-  venueFilter="";
-  // Re-apply default 30-day window
-  var d1=new Date(today),d2=new Date(today);d2.setDate(d2.getDate()+30);
-  document.getElementById("date-from").value=d1.toISOString().split("T")[0];document.getElementById("date-to").value=d2.toISOString().split("T")[0];
-  render();
-  renderVenues();
-}
-
-document.addEventListener("error",function(e){if(e.target.tagName==="IMG"&&e.target.dataset.fb!==void 0){var fb=document.createElement("div");fb.className="card-img-f";fb.textContent=e.target.dataset.fb||"";e.target.parentNode.replaceChild(fb,e.target);}},true);
-
-
-function toggleTheme(){var h=document.documentElement;var isLight=h.classList.contains('light');if(isLight){h.classList.remove('light');localStorage.setItem('chx-theme','dark')}else{h.classList.add('light');localStorage.setItem('chx-theme','light')}}
-function applyTheme(){var t=localStorage.getItem('chx-theme');if(t==='light')document.documentElement.classList.add('light')}
-
-
 function showBuildTime(){
   var ftr=document.querySelector('.ftr-cp');
   if(!ftr)return;
@@ -742,46 +475,23 @@ function showBuildTime(){
   }
 }
 function init(){
-
-  setTimeout(function(){var pl=document.getElementById("preloader");if(pl)pl.classList.add("hidden");},800);
-  renderHeroStats();
-  renderTodaySection();
-  window.addEventListener("scroll",function(){var nav=document.getElementById("nav");if(nav)nav.classList.toggle("scrolled",window.scrollY>60);var btt=document.getElementById("btt");if(btt)btt.classList.toggle("show",window.scrollY>600);});
-  document.getElementById("hamburger").addEventListener("click",function(){document.getElementById("nav-links").classList.toggle("open");});
-  document.getElementById("btt").addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"});});
-  var st;document.getElementById("search").addEventListener("input",function(){clearTimeout(st);st=setTimeout(function(){saveFilters();render();},200);});
-  document.querySelectorAll(".qfilt").forEach(function(btn){
-    btn.addEventListener("click",function(){
-      var q=btn.dataset.q;var d1=new Date(today),d2=new Date(today);
-      document.querySelectorAll(".qfilt.on").forEach(function(b){b.classList.remove("on");});btn.classList.add("on");
-      if(q==="week"){var day=today.getDay();var diff=today.getDate()-day+(day===0?-6:1);d1.setDate(diff);d2.setDate(diff+6);}
-      else if(q==="weekend"){var day=today.getDay();var diff=today.getDate()+(day===0?0:6-day);d1.setDate(diff);d2.setDate(diff+1);}
-      else if(q==="month"){d1.setDate(1);d2.setMonth(d2.getMonth()+1);d2.setDate(0);}
-      document.getElementById("date-from").value=d1.toISOString().split("T")[0];document.getElementById("date-to").value=d2.toISOString().split("T")[0];saveFilters();render();
-    });
-  });
-  document.getElementById("map-toggle").addEventListener("click",toggleMap);
-document.getElementById("clear-filters").addEventListener("click",resetFilters);
-document.getElementById("density-toggle").addEventListener("click",function(){this.classList.toggle("on");document.getElementById("ev-grid").classList.toggle("detailed");this.textContent=this.classList.contains("on")?t("density_btn"):"Compact";});
-  document.getElementById("theme-btn").addEventListener("click",function(){toggleTheme();renderVenues();render();var mc=document.getElementById("map-container");if(mc&&mc.classList.contains("show")&&map){map.remove();map=null;initMap();updateMapMarkers();}});
-  document.getElementById("locale-sel").addEventListener("change",function(){LOCALE=this.value;localStorage.setItem(LOCALE_KEY,LOCALE);applyLocale();renderVenues();render();});
-  document.getElementById("modal-close").addEventListener("click",closeModal);
-  document.getElementById("modal").addEventListener("click",function(e){if(e.target===this)closeModal();});
-  document.addEventListener("keydown",function(e){if(e.key==="Escape")closeModal();});
-  window.addEventListener("popstate",function(e){if(e.state&&e.state.modal!==void 0){openModal(e.state.modal);}else if(document.getElementById("modal").classList.contains("open")){closeModal();}});
-  var hash=window.location.hash.slice(1);if(hash){var idx=EVENTS.findIndex(function(e){return evId(e)===hash;});if(idx>=0){setTimeout(function(){openModal(idx);},1000);}}
-  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add("in");});},{threshold:0.1});
-  document.querySelectorAll(".fade-in").forEach(function(el){obs.observe(el);});
-  document.querySelectorAll(".filt:not(.date):not(.map-toggle)").forEach(function(btn){
-    btn.addEventListener("click",function(){document.querySelectorAll(".filt.on").forEach(function(b){b.classList.remove("on");});btn.classList.add("on");saveFilters();render();});
-  });
-  ["date-from","date-to"].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener("change",render);});
-  var d1=new Date(today),d2=new Date(today);d2.setDate(d2.getDate()+30);
-  document.getElementById("date-from").value=d1.toISOString().split("T")[0];document.getElementById("date-to").value=d2.toISOString().split("T")[0];
-  applyTheme();loadFilters();renderVenues();render();applyLocale();showBuildTime();
+setTimeout(function(){var pl=document.getElementById("preloader");if(pl)pl.classList.add("hidden");},800);
+window.addEventListener("scroll",function(){var nav=document.getElementById("nav");if(nav)nav.classList.toggle("scrolled",window.scrollY>60);var btt=document.getElementById("btt");if(btt)btt.classList.toggle("show",window.scrollY>600);});
+document.getElementById("hamburger").addEventListener("click",function(){document.getElementById("nav-links").classList.toggle("open");});
+document.getElementById("btt").addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"});});
+document.getElementById("theme-btn").addEventListener("click",toggleTheme);
+document.getElementById("locale-sel").addEventListener("change",function(){LOCALE=this.value;localStorage.setItem(LOCALE_KEY,LOCALE);applyCine();renderCinemaDays(getCinemaFilms());renderCinemaGrid(document.getElementById('cinema-grid').dataset.date);});
+applyTheme();applyCine();
+var films=getCinemaFilms();
+var dates=getCinemaDates(films);
+var todayStr=new Date().toISOString().split('T')[0];
+var targetDate=dates.indexOf(todayStr)>=0?todayStr:dates[0]||todayStr;
+renderCinemaDays(films);
+renderCinemaGrid(targetDate);
+showBuildTime();
 }
+function toggleTheme(){var on=document.documentElement.classList.toggle('light');try{localStorage.setItem('chx-theme',on?'light':'dark');}catch(_){}}
+function applyTheme(){try{var s=localStorage.getItem('chx-theme');if(s==='light')document.documentElement.classList.add('light');}catch(_){}}
 document.addEventListener("DOMContentLoaded",init);
-
 </script>
-</body>
-</html>
+</body></html>

@@ -24,6 +24,9 @@ ABOUT_TEMPLATE = os.path.join(SCRIPT_DIR, "about.html.template")
 # T32: manual event submission page.
 SUBMIT_HTML = os.path.join(SCRIPT_DIR, "submit.html")
 SUBMIT_TEMPLATE = os.path.join(SCRIPT_DIR, "submit.html.template")
+# Cinema page — dedicated /cinema.html rendered from cinema.html.template.
+CINEMA_HTML = os.path.join(SCRIPT_DIR, "cinema.html")
+CINEMA_TEMPLATE = os.path.join(SCRIPT_DIR, "cinema.html.template")
 EVENTS_JSON = os.path.join(DATA_DIR, "events.json")
 CINEMA_JSON = os.path.join(DATA_DIR, "cinema_events.json")
 VENUES_JSON = os.path.join(DATA_DIR, "venues.json")
@@ -339,6 +342,53 @@ def generate_html(events, venues, cinema=None, has_coorded_venues=True):
     )
 
     return html
+
+
+def render_cinema_page(cinema) -> bool:
+    """Render /cinema.html from cinema.html.template.
+
+    Injects the dedicated cinema data (<!-- CINEMA_DATA --> -> var CINEMA_EVENTS),
+    the TMDB attribution footer, and the build-time meta, then writes atomically.
+    The cinema page carries no EVENTS/VENUES markers — it is an isolated page.
+    """
+    if not os.path.exists(CINEMA_TEMPLATE):
+        print(f"  [cinema] {CINEMA_TEMPLATE} not found — skipping cinema.html")
+        return False
+    try:
+        with open(CINEMA_TEMPLATE, "r", encoding="utf-8") as f:
+            html = f.read()
+
+        from scripts.storage import localized
+        cinema = [localized(c) for c in (cinema or [])]
+
+        cinema_json = json.dumps(cinema, ensure_ascii=False)
+        if '<!-- CINEMA_DATA -->' in html:
+            html = html.replace('<!-- CINEMA_DATA -->', 'var CINEMA_EVENTS = ' + cinema_json + ';')
+
+        tmdb_html = ''
+        try:
+            from scripts import tmdb as _tmdb_mod
+            if _tmdb_mod.get_api_key():
+                tmdb_html = _tmdb_mod.ATTRIBUTION_HTML
+        except ImportError:
+            pass
+        if '<!-- TMDB_ATTRIBUTION -->' in html:
+            html = html.replace('<!-- TMDB_ATTRIBUTION -->', tmdb_html)
+
+        build_time = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        html = re.sub(
+            r'<meta name="build-time" content="([^"]*)"',
+            f'<meta name="build-time" content="{build_time}"',
+            html,
+            count=1,
+        )
+
+        write_atomic_text(CINEMA_HTML, html)
+        print(f"  [cinema] wrote {CINEMA_HTML}")
+        return True
+    except OSError as exc:
+        print(f"  [cinema] failed to write cinema.html: {exc}", file=sys.stderr)
+        return False
 
 
 def sort_times(times):
@@ -860,6 +910,9 @@ def main():
 
     # T32: manual event submission page.
     render_submit_page()
+
+    # Cinema page: dedicated /cinema.html (data injected from the loaded cinema list).
+    render_cinema_page(cinema)
 
     # T46: privacy policy page.
     _render_static("privacy", "Privacy Policy", "privacy.html.template", "privacy.html")
