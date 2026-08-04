@@ -110,6 +110,23 @@ def merge(existing, new_events):
     existing.extend(new_events)
     return existing
 
+def _cleanup_legacy_allocine_cinema(storage=None) -> int:
+    """One-off, safe, idempotent cleanup: remove any leftover invisible rows in
+    the `events` table with source_id='allocine_vox' AND category='Cinema'.
+
+    Only deletes allocine_vox cinema-category rows; everything else is
+    untouched. Returns the number of rows removed (0 when already clean).
+    """
+    if storage is None:
+        storage = get_storage()
+    with storage.conn:
+        cur = storage.conn.execute(
+            "DELETE FROM events WHERE source_id = ? AND category = ?",
+            (SOURCE_ID, "Cinema"),
+        )
+        return cur.rowcount
+
+
 def main():
     dry = "--dry-run" in sys.argv
     html = fetch()
@@ -124,18 +141,19 @@ def main():
     if dry:
         print("Dry run - no changes")
         return
-    existing = []
-    if os.path.exists(EVENTS_FILE):
-        with open(EVENTS_FILE) as f:
-            existing = json.load(f)
-    merged = merge(existing, events)
-    # T10: SQLite canonical. allocine_vox is skipped by T09 in the default
-    # pipeline, but if invoked manually it now writes to SQLite too.
-    # T13: stamp events with the trust-level baseline
-    for ev in merged:
-        ev["confidence"] = CONFIDENCE
-    get_storage().upsert_events(SOURCE_ID, merged)
-    print(f"Merged: {len(existing)} -> {len(merged)} events")
+    # Legacy cleanup: remove leftover invisible allocine_vox Cinema rows from
+    # the `events` table (idempotent — a second run removes 0 rows).
+    removed = _cleanup_legacy_allocine_cinema()
+    print(f"Legacy cleanup: removed {removed} allocine_vox Cinema rows from events")
+
+    # cinema-merge: allocine_vox is now an ENRICHER of cinema_events. It ONLY
+    # backfills missing posters/descriptions and NEVER writes to `events`.
+    storage = get_storage()
+    matched = storage.enrich_cinema(events)
+    print(
+        f"Enriched {matched} cinema_events rows "
+        "(allocine_vox writes ONLY via enrich_cinema; events table untouched)"
+    )
 
 if __name__ == "__main__":
     main()

@@ -797,6 +797,68 @@ class Storage:
                 inserted += cur.rowcount
         return inserted
 
+    def enrich_cinema(self, movies: list[dict]) -> int:
+        """Backfill missing fields on `cinema_events` rows (cinema-merge).
+
+        For each incoming `movie` (a cinema-event dict from allocine_vox),
+        find the matching row in `cinema_events` by NORMALIZED TITLE (reuse
+        `normalize_title` from scripts.dedup — strips accents/age-rating/
+        punctuation), falling back to a case-insensitive title match.
+
+        Only fills MISSING fields (image_url, description, title_en):
+          - NEVER overwrites existing values,
+          - NEVER deletes rows,
+          - NEVER inserts-or-replaces the whole table,
+          - NEVER touches the `events` table.
+        Wrapped in a single `with self.conn:` transaction.
+
+        Returns the number of cinema rows that were updated.
+        """
+        now = datetime.now(timezone.utc).isoformat()
+        rows = self.conn.execute(
+            "SELECT id, title, image_url, description, title_en "
+            "FROM cinema_events"
+        ).fetchall()
+        by_norm: dict[str, list] = {}
+        by_lower: dict[str, list] = {}
+        for r in rows:
+            by_norm.setdefault(normalize_title(r["title"]), []).append(r)
+            by_lower.setdefault((r["title"] or "").lower().strip(), []).append(r)
+
+        updated = 0
+        with self.conn:
+            for movie in movies:
+                title = movie.get("title") or ""
+                if not title:
+                    continue
+                candidates = by_norm.get(normalize_title(title))
+                if not candidates:
+                    candidates = by_lower.get(title.lower().strip())
+                if not candidates:
+                    continue
+                target = candidates[0]
+                sets: list[str] = []
+                params: list[Any] = []
+                if not target["image_url"] and movie.get("image_url"):
+                    sets.append("image_url = ?")
+                    params.append(movie["image_url"])
+                if not target["description"] and movie.get("description"):
+                    sets.append("description = ?")
+                    params.append(movie["description"])
+                if not target["title_en"] and movie.get("title_en"):
+                    sets.append("title_en = ?")
+                    params.append(movie["title_en"])
+                if not sets:
+                    continue
+                sets.append("updated_at = ?")
+                params.append(now)
+                cur = self.conn.execute(
+                    f"UPDATE cinema_events SET {', '.join(sets)} WHERE id = ?",
+                    params + [target["id"]],
+                )
+                updated += cur.rowcount
+        return updated
+
     def upsert_venues(self, venues: list[dict]) -> int:
         with self.conn:
             self.conn.execute("DELETE FROM venues")
