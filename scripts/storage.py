@@ -33,6 +33,7 @@ sys_path = str(Path(__file__).resolve().parent.parent)
 if sys_path not in sys.path:
     sys.path.insert(0, sys_path)
 from scripts.dedup import dedupe_events  # T11
+from scripts.dedup import normalize_title  # option B durable row key
 
 
 # T24: per-language field reader with fallback
@@ -196,6 +197,18 @@ T24_COLUMNS: dict[str, list[tuple[str, str]]] = {
 
 # ----- Storage class --------------------------------------------------------
 
+# Durable storage (option B): opt-in flag. When False (the default) the
+# pipeline keeps using the legacy delete-all `upsert_events()`. Set this to
+# True (or call `upsert_events_durable()` directly) to use the durable upsert.
+# Nothing in build.py / sources.yaml / cron / http_server is changed by this
+# task, so runtime behaviour is identical unless a caller opts in explicitly.
+DURABLE_DEFAULT = False
+
+# Sources that must never be touched by the durable upsert / any automated
+# rescrape. Rows from these sources are preserved verbatim.
+PROTECTED_SOURCES = frozenset({"curated", "manual_submission"})
+
+
 class Storage:
     """Thin SQLite wrapper. Single connection per process, row_factory=dict."""
 
@@ -232,6 +245,20 @@ class Storage:
         for table, cols in T24_COLUMNS.items():
             for col, decl in cols:
                 self._add_column_if_missing(table, col, decl)
+        # Durable storage (option B): idiomatic idempotent additions.
+        #   row_key      = stable composite key (source_id, normalized title,
+        #                  start_date, venue_name) used by the durable upsert.
+        #   absent_since = set when a previously-seen row disappears from the
+        #                  source's current scrape (a "tombstone"); NULL while
+        #                  the row is live. Never deleted, only tombstones.
+        self._add_column_if_missing("events", "row_key", "TEXT")
+        self._add_column_if_missing("events", "absent_since", "TEXT")
+        # Unique index on row_key so the durable upsert can ON CONFLICT it.
+        # Existing rows predate row_key (all NULL) so a UNIQUE index is safe.
+        self.conn.execute(
+            "CREATE UNIQUE INDEX IF NOT EXISTS idx_events_row_key "
+            "ON events(row_key)"
+        )
 
     def _add_column_if_missing(self, table: str, column: str, decl: str) -> None:
         """SQLite helper: add a column only if it isn't already there.
@@ -578,6 +605,152 @@ class Storage:
                 )
         return len(events)
 
+    def upsert_events_durable(self, source_id: str, events: list[dict]) -> int:
+        """Durable upsert for a source's events (option B).
+
+        Fixes the root "DELETE-all-per-scrape" data-loss bug: instead of
+        deleting every row for `source_id` and re-inserting, this:
+          - upserts rows present in `events` keyed by the stable row key
+            (source_id, normalize_title(title), start_date, venue_name);
+          - tombstones rows for this source that existed before but are now
+            absent, by setting `absent_since = <now>` (they are NOT deleted);
+          - clears `absent_since` back to NULL for rows that reappear.
+
+        Protected sources (`curated`, `manual_submission`) are never touched:
+        the method returns immediately without modifying anything.
+
+        Existing per-language fields (title_en/description_en/...) are merged
+        before the upsert so translated content is preserved. The whole
+        operation runs in a single transaction (ACID).
+        """
+        if source_id in PROTECTED_SOURCES:
+            return len(events)
+
+        now = datetime.now(timezone.utc).isoformat()
+        cols = (
+            "id", "source_id", "title", "description", "start_date", "end_date",
+            "time", "venue_id", "category", "commune", "source_url", "image_url",
+            "price", "venue_name", "address", "contact_phone", "website",
+            "status", "confidence", "created_at", "updated_at",
+            "title_en", "title_fr", "description_en", "description_fr",
+            "venue_name_en", "venue_name_fr",
+            "absent_since", "row_key",
+        )
+
+        # Stable keys for everything we are writing in this scrape.
+        present_keys = set()
+        for ev in events:
+            present_keys.add(_event_row_key(source_id, ev))
+
+        with self.conn:
+            # FIX 3: one-time legacy backfill. Rows that predate the durable
+            # columns (row_key IS NULL) get a stable row_key computed from
+            # their OWN content, so on the first durable run they participate
+            # in the correct merge (preserving title_en/description_en/...) and
+            # the correct tombstone/resurrect logic instead of being bulk-
+            # tombstoned. Idempotent: already-set keys are untouched and
+            # re-runs are no-ops. Runs before translation merge + tombstone.
+            legacy = self.conn.execute(
+                "SELECT id, title, start_date, venue_name FROM events "
+                "WHERE source_id = ? AND row_key IS NULL",
+                (source_id,),
+            ).fetchall()
+            for row in legacy:
+                rk = _event_row_key(source_id, dict(row))
+                if rk:
+                    self.conn.execute(
+                        "UPDATE events SET row_key = ? "
+                        "WHERE id = ? AND row_key IS NULL",
+                        (rk, row["id"]),
+                    )
+
+            # 0. Merge existing per-language translations for this source,
+            #    keyed by row_key (like the legacy path merges by id).
+            existing_tx = {}
+            cur = self.conn.execute(
+                "SELECT row_key, title_en, title_fr, description_en, "
+                "description_fr, venue_name_en, venue_name_fr "
+                "FROM events WHERE source_id = ?",
+                (source_id,),
+            )
+            for row in cur.fetchall():
+                existing_tx[row["row_key"]] = row[1:]
+
+            for r in events:
+                key = _event_row_key(source_id, r)
+                if key in existing_tx:
+                    xt = existing_tx[key]
+                    for i, field in enumerate(
+                        ["title_en", "title_fr", "description_en",
+                         "description_fr", "venue_name_en", "venue_name_fr"]
+                    ):
+                        if xt[i] and not r.get(field):
+                            r[field] = xt[i]
+
+                r["status"] = "published"
+                vals = list(_event_to_row(r, default_source_id=source_id))
+                # _event_to_row returns the 27 base columns; append the two
+                # durable columns in cols order: absent_since then row_key.
+                vals.append(None)  # absent_since = NULL -> resurrect on reappear
+                vals.append(key)   # row_key
+                # updated_at is the 21st column (0-indexed 20).
+                vals[20] = now
+                self.conn.execute(
+                    f"""
+                    INSERT INTO events ({','.join(cols)})
+                    VALUES ({','.join('?' * len(cols))})
+                    ON CONFLICT(row_key) DO UPDATE SET
+                        title         = excluded.title,
+                        description   = excluded.description,
+                        start_date    = excluded.start_date,
+                        end_date      = excluded.end_date,
+                        time          = excluded.time,
+                        venue_id      = excluded.venue_id,
+                        category      = excluded.category,
+                        commune       = excluded.commune,
+                        source_url    = excluded.source_url,
+                        image_url     = excluded.image_url,
+                        price         = excluded.price,
+                        venue_name    = excluded.venue_name,
+                        address       = excluded.address,
+                        contact_phone = excluded.contact_phone,
+                        website       = excluded.website,
+                        status        = excluded.status,
+                        confidence    = excluded.confidence,
+                        updated_at    = excluded.updated_at,
+                        title_en      = excluded.title_en,
+                        title_fr      = excluded.title_fr,
+                        description_en = excluded.description_en,
+                        description_fr = excluded.description_fr,
+                        venue_name_en = excluded.venue_name_en,
+                        venue_name_fr = excluded.venue_name_fr,
+                        absent_since  = NULL
+                    """,
+                    vals,
+                )
+
+            # 2. Tombstone rows for this source that existed but are absent now.
+            #    Only set absent_since if it's not already set (keep the first
+            #    tombstone timestamp).
+            if present_keys:
+                placeholders = ",".join("?" * len(present_keys))
+                self.conn.execute(
+                    f"""
+                    UPDATE events SET absent_since = ?
+                    WHERE source_id = ? AND absent_since IS NULL
+                      AND (row_key IS NULL OR row_key NOT IN ({placeholders}))
+                    """,
+                    [now, source_id, *present_keys],
+                )
+            else:
+                self.conn.execute(
+                    "UPDATE events SET absent_since = ? "
+                    "WHERE source_id = ? AND absent_since IS NULL",
+                    (now, source_id),
+                )
+
+        return len(events)
+
     def upsert_cinema(self, cinema_events: list[dict]) -> int:
         now = datetime.now(timezone.utc).isoformat()
         with self.conn:
@@ -639,6 +812,13 @@ class Storage:
     def get_events(self, source_id: str | None = None, status: str | None = "published") -> list[dict]:
         q = "SELECT * FROM events WHERE 1=1"
         params: list[Any] = []
+        # Durable storage (option B): exclude tombstoned rows (absent_since
+        # set) ONLY once durability is opted in (DURABLE_DEFAULT=True). When
+        # the flag is off (the default) no tombstones are produced anyway, so
+        # this is a no-op for existing behaviour; when flipped on, tombstoned
+        # rows never leak back to the site (FIX 2).
+        if DURABLE_DEFAULT:
+            q += " AND absent_since IS NULL"
         if source_id is not None:
             q += " AND source_id = ?"
             params.append(source_id)
@@ -1211,6 +1391,27 @@ def _slug(s: str) -> str:
 def _slug_id(title: str, start_date: str) -> str:
     date_part = (start_date or "")[:10]
     return f"{_slug(title)}-{date_part}" if date_part else _slug(title)
+
+
+def _event_row_key(source_id: str, event: dict) -> str:
+    """Stable row key for the durable upsert.
+
+    Composite key = (source_id, normalize_title(title), start_date,
+    normalize_title(venue_name)). Each component is normalized so identical
+    events across scrapes map to the same row regardless of case/accents/
+    punctuation. The venue uses normalize_title too (FIX 1) so a venue with
+    accent/space/punctuation drift maps to the same key across scrapes.
+    NULLs are coerced to empty strings so the key (and its UNIQUE index)
+    behave deterministically.
+    """
+    norm_title = normalize_title(event.get("title") or "")
+    venue = normalize_title(event.get("venue_name") or "")
+    return "|".join([
+        source_id or "",
+        norm_title,
+        event.get("start_date") or "",
+        venue,
+    ])
 
 
 # ----- module-level convenience -----
