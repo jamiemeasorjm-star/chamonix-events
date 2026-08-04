@@ -57,7 +57,7 @@ PUBLISH_DEFAULTS = {
 
 def load_sources(force_reload: bool = False) -> list[Source]:
     """Return the list of Source objects from sources.yaml. Cached after first call."""
-    global _cache, _by_id, _global_threshold
+    global _cache, _by_id, _global_threshold, _publish_rules
     if _cache is not None and not force_reload:
         return _cache
 

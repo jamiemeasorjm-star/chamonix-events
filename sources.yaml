@@ -25,7 +25,22 @@ min_publish_confidence: 0.6
 publish_rules:
   min_confidence: 0.0          # absolute floor — drop only truly-broken events
   dedupe: true                 # collapse same [title + start_date + venue]
-  exclude_title_patterns: []   # regex (case-insensitive); e.g. '^Cocktails & Social$'
+  # Exclude pure venue-ad nightlife entries (cat_nightlife) — these are venue
+  # descriptions, not specific events. KEEP happy hours, live-music, DJ/club
+  # and tasting nights (the actual events).
+  exclude_title_patterns:
+    - '^Ap.ro & Tapas$'
+    - '^Bar & Social Evenings$'
+    - '^Bar d''Up Evening Drinks$'
+    - '^Cocktail Bar South$'
+    - '^Coff?ee & Aper'
+    - '^Craft Beer & After-Ski$'
+    - '^Cultural Events'
+    - '^Evening Cocktails$'
+    - '^Le Chamonix Bar$'
+    - '^Local Bar & Events$'
+    - '^Moon Tines Bar$'
+    - '^Cocktails & Social$'
 
 sources:
   - id: chamonix_net
