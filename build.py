@@ -438,7 +438,10 @@ def render_submit_page() -> bool:
 EVENT_TEMPLATE = os.path.join(SCRIPT_DIR, "event.html.template")
 SITEMAP_XML = os.path.join(SCRIPT_DIR, "sitemap.xml")
 ROBOTS_TXT = os.path.join(SCRIPT_DIR, "robots.txt")
-SITE_URL = "https://events.chamonix.app"  # base for canonical/OG URLs
+SITE_URL = os.environ.get(
+    "CHAMONIX_SITE_URL", "https://events.chamonix.app"
+)  # base for canonical/OG URLs. Set CHAMONIX_SITE_URL once a real domain is
+# bought (G4); until then the placeholder stays (known-incomplete, not live-advertised).
 
 
 def slugify(text: str, date_suffix: str | None = None) -> str:
