@@ -14,6 +14,30 @@ from datetime import date
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+# FIX 4: tombstoned rows (absent_since set) that have been dead for longer
+# than this many days are hard-deleted so dead rows don't accumulate forever.
+TOMBSTONE_MAX_AGE_DAYS = 30
+
+
+def clean_tombstones(max_age_days: int = TOMBSTONE_MAX_AGE_DAYS) -> int:
+    """Purge tombstoned events whose absent_since is older than max_age_days.
+
+    A row that has been gone (absent_since set) for longer than the threshold
+    is considered permanently dead and is removed outright. Newer tombstones
+    are kept so a reappearing event can still be resurrected. Honours
+    CHAMONIX_DB via storage's get_storage(). Returns count purged.
+    """
+    from scripts.storage import get_storage
+    s = get_storage()
+    from datetime import datetime, timedelta, timezone
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=max_age_days)).isoformat()
+    with s.conn:
+        cur = s.conn.execute(
+            "DELETE FROM events WHERE absent_since IS NOT NULL AND absent_since < ?",
+            (cutoff,),
+        )
+    return cur.rowcount
+
 
 def clean_sqlite(table: str) -> int:
     """Remove rows whose end_date (or start_date) is before today. Returns count purged."""
@@ -106,9 +130,13 @@ def main() -> int:
     events_removed = clean_sqlite("events")
     cinema_removed = clean_sqlite("cinema_events")
     review_removed = clean_review_queue(max_age_days=21)
+    # FIX 4: purge tombstoned rows whose absent_since is older than the
+    # threshold (so dead rows don't accumulate forever).
+    tombstone_removed = clean_tombstones()
 
-    if events_removed or cinema_removed or review_removed:
-        print(f"Purged {events_removed} past events, {cinema_removed} past cinema events, {review_removed} stale review items")
+    if (events_removed or cinema_removed or review_removed or tombstone_removed):
+        print(f"Purged {events_removed} past events, {cinema_removed} past cinema events, "
+              f"{review_removed} stale review items, {tombstone_removed} old tombstones")
     else:
         print("No past events to remove")
     return 0
