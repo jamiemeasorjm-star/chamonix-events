@@ -412,6 +412,29 @@ class Storage:
             min_conf = 0.0
         compiled = [re.compile(p, re.IGNORECASE)
                     for p in (rules.get("exclude_title_patterns") or []) if p]
+
+        # T55: persist dropped events to a review feed (visible post-run report).
+        try:
+            drop_path = Path(resolve_db_path()).parent / "drop_report.jsonl"
+        except Exception:
+            drop_path = None
+
+        def _record_drop(ev, reason):
+            if drop_path is None:
+                return
+            rec = {
+                "ts": now, "source_id": source_id,
+                "title": ev.get("title", ""),
+                "venue": ev.get("venue_name") or ev.get("venue") or "",
+                "date": ev.get("start_date", ""),
+                "reason": reason,
+            }
+            try:
+                with open(drop_path, "a", encoding="utf-8") as f:
+                    f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+            except OSError:
+                pass
+
         kept = []
         for ev in passing:
             t = (ev.get("title") or "").strip()
@@ -419,9 +442,16 @@ class Storage:
                 c = float(ev.get("confidence", 0.0) or 0.0)
             except (TypeError, ValueError):
                 c = 0.0
+            reason = None
             if c < min_conf:
-                continue
-            if compiled and any(x.search(t) for x in compiled):
+                reason = "low_confidence"
+            elif compiled:
+                for pat in compiled:
+                    if pat.search(t):
+                        reason = f"excluded_pattern:{pat.pattern}"
+                        break
+            if reason:
+                _record_drop(ev, reason)
                 continue
             kept.append(ev)
         # Near-identical dedupe (title + start_date + venue).
@@ -433,6 +463,7 @@ class Storage:
                        ev.get("start_date") or "",
                        (ev.get("venue_name") or "").strip().lower())
                 if key in seen:
+                    _record_drop(ev, "duplicate")
                     continue
                 seen.add(key)
                 ded.append(ev)
