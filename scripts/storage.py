@@ -202,7 +202,11 @@ T24_COLUMNS: dict[str, list[tuple[str, str]]] = {
 # True (or call `upsert_events_durable()` directly) to use the durable upsert.
 # Nothing in build.py / sources.yaml / cron / http_server is changed by this
 # task, so runtime behaviour is identical unless a caller opts in explicitly.
-DURABLE_DEFAULT = False
+#
+# 2026-08-04 FLIP: set to True to make durable storage the live path.
+# Revert to False to return to delete-all. Verified 27/27 + SAFE dry-run on a
+# real DB copy before flipping.
+DURABLE_DEFAULT = True
 
 # Sources that must never be touched by the durable upsert / any automated
 # rescrape. Rows from these sources are preserved verbatim.
@@ -424,6 +428,12 @@ class Storage:
         published directly to the events table — there is no confidence
         threshold gate and no review_items routing.
         """
+        # Option B (durable): when DURABLE_DEFAULT is on, route through the
+        # durable upsert (upsert-by-key + tombstone + protected sources) instead
+        # of delete-all. Flip DURABLE_DEFAULT back to False to revert to the
+        # legacy delete-all behaviour.
+        if DURABLE_DEFAULT:
+            return self.upsert_events_durable(source_id, events)
         now = datetime.now(timezone.utc).isoformat()
 
         # T55: no review gate — publish every scraped event.
