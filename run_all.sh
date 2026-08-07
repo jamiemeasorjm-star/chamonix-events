@@ -24,6 +24,8 @@ run "allocine_vox" scripts.allocine_vox
 run "chamonix_com" scripts.chamonix_com
 run "chamonix_com_detail" scripts.chamonix_com_detail
 run "chamonix_nightlife" scripts.nightlife
+run "chamonix_fr" scripts.chamonix_fr
+run "unidivers" scripts.unidivers
 
 # Cleanup: remove past events
 echo "[$TIMESTAMP] Removing past events..."

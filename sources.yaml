@@ -103,7 +103,35 @@ sources:
     ingestion_cadence_hours: 168
     min_publish_confidence: 0.3
     active: true
-    notes: "T30 — scraped venues + curated recurring. Image_url required in expected fields; events without images compute ~0.21 confidence and route to review queue."
+    notes: "T30 — scraped venues + curated recurring. Curated recurring venue-ads
+      (weekly 'DJ Nights'/'Happy Hour' venue descriptions, no real show/date) are
+      excluded via publish_rules.exclude_title_patterns. Genuinely scraped nightlife
+      events — an actual band/DJ/show scraped from a venue site with a real date —
+      still publish. Nightlife stays available, but only as real events."
+
+  - id: chamonix_fr
+    name: Mairie de Chamonix agenda (FR)
+    type: official
+    base_url: https://www.chamonix.fr/actualites-agenda/agenda/
+    trust_level: high
+    ingestion_cadence_hours: 24
+    active: true
+    notes: "2026-08-07 — official mairie agenda. Broadest coverage: festivals,
+      guided visits, conferences, exhibitions, cinema, association events, sport,
+      family ateliers. Server-rendered listing pages (paginated), per-event detail
+      pages with description + og:image. Scraper: scripts/chamonix_fr.py."
+
+  - id: unidivers
+    name: Unidivers (events aggregator)
+    type: aggregator
+    base_url: https://unidivers.fr/?s=chamonix
+    trust_level: medium
+    ingestion_cadence_hours: 24
+    active: true
+    notes: "2026-08-07 — Unidivers WP events site, partly fed by the OT de la
+      Vallée de Chamonix, carries the same event content as venue Facebook pages
+      but is anonymously scrapable. Search RSS + schema.org JSON-LD detail pages
+      (dates, geo coords, venue, address, price, image). Scraper: scripts/unidivers.py."
 
   - id: manual_submission
     name: User submissions

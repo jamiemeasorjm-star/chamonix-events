@@ -39,6 +39,8 @@ EXPECTED_FIELDS: dict[str, list[str]] = {
     "allocine_vox": ["title", "start_date"],
     "chamonix_nightlife": ["title", "start_date", "image_url"],
     "cultural_venues": ["title", "start_date", "image_url"],
+    "chamonix_fr": ["title", "start_date", "description", "image_url"],
+    "unidivers": ["title", "start_date", "description", "image_url", "venue_name"],
     "manual_submission": ["title", "start_date", "venue_name"],
 }
 

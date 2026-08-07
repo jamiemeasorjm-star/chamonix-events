@@ -232,7 +232,7 @@ def merge_with_existing(new_events: list[Event]) -> list[Event]:
     except (json.JSONDecodeError, OSError):
         return new_events
 
-    existing_com = [e for e in existing_data if e.get("source_id") != "chamonix_net"]
+    existing_com = [e for e in existing_data if e.get("source_id") == "chamonix_net"]
     new_urls = {e.source_url for e in new_events if e.source_url}
 
     kept_com = [e for e in existing_com if e.get("source_url", "") not in new_urls]
@@ -292,6 +292,11 @@ def normalize(raw: dict, source_url: str) -> Event:
         status="published",
         confidence=CONFIDENCE,  # T14: placeholder; real score computed below
     )
+    # Namespace the event id by source so the same title+date from another
+    # source (e.g. mairie, Unidivers) doesn't collide on the globally UNIQUE
+    # events.id column, and re-scrapes of this source can't hit old unprefixed
+    # rows that share the slug but have a different row_key (venue).
+    ev.id = f"{SOURCE_ID}-{ev.id}"
     ev.confidence = compute_confidence(SOURCE_ID, ev.to_dict())
     return ev
 
@@ -329,12 +334,35 @@ def run(dry_run: bool = False, fetch_detail: bool = True):
 
     try:
         with httpx.Client() as client:
-            html = fetch_page(LISTING_URL, client)
-            listing_events = extract_listing_events(html)
-            print(f"  Found {len(listing_events)} events on listing page", file=sys.stdout)
+            # Paginate through /english/events?page=N while event cards are returned.
+            listing_events: list[dict] = []
+            page = 0
+            while True:
+                url = LISTING_URL if page == 0 else f"{LISTING_URL}?page={page}"
+                html = fetch_page(url, client)
+                cards = extract_listing_events(html)
+                if not cards:
+                    break
+                print(f"  page {page}: {len(cards)} events", file=sys.stdout)
+                listing_events.extend(cards)
+                page += 1
+                if page > 20:  # safety cap
+                    break
+            print(f"  Found {len(listing_events)} events on listing ({page} pages)", file=sys.stdout)
+
+            # Dedupe by URL across pages before fetching details
+            seen_url: set[str] = set()
+            deduped_listing: list[dict] = []
+            for ev in listing_events:
+                u = ev.get("url", "")
+                if u in seen_url:
+                    continue
+                seen_url.add(u)
+                deduped_listing.append(ev)
+            print(f"  {len(deduped_listing)} after URL-dedupe", file=sys.stdout)
 
             raw_events = []
-            for ev in listing_events:
+            for ev in deduped_listing:
                 if fetch_detail:
                     try:
                         print(f"    Fetching detail: {ev['title'][:60]}...", file=sys.stdout)
@@ -379,6 +407,18 @@ def run(dry_run: bool = False, fetch_detail: bool = True):
                  'contact_phone','website','status','confidence','created_at','updated_at','id'}
         return Event(**{k:v for k,v in e.items() if k in valid})
     events = [to_event(e) for e in events]
+
+    # Filter out events whose start_date is already in the past (the paginated
+    # listing includes the archive back to 2023). Keep events with no date —
+    # clean_past handles date-based purging for the rest.
+    from datetime import date as _date
+    today = _date.today().isoformat()
+    future = []
+    for ev in events:
+        if ev.start_date and ev.start_date[:10] < today:
+            continue
+        future.append(ev)
+    events = future
 
     for ev in events:
         if not ev.start_date:
