@@ -44,8 +44,11 @@ def normalize_title(title: str) -> str:
     t = re.sub(r"[̀-ͯ]", "", t)
     # Strip age-rating prefix like "Int.—12 ans"
     t = re.sub(r"^int[.°]?\s*—\s*\d+\s+ans\s+", "", t, flags=re.IGNORECASE)
-    # Drop punctuation that varies across sources
+    # Drop punctuation that varies across sources, plus trademark/symbol chars
+    # that shouldn't separate two spellings of the same event (e.g. "UTMB
+    # Mont-Blanc ®" vs "Ultra Trail du Mont Blanc UTMB").
     t = re.sub(r"[\u2014\u2013\u2019\u2018\x22\x27\x3a\x5c/]+", "", t)
+    t = re.sub(r"[^\w\s|-]", "", t)  # drop remaining symbols (@, ®, ™, …, parentheses edge)
     t = re.sub(r"\s+", " ", t).strip()
     return t
 
@@ -139,6 +142,24 @@ _LOCALITY_PHRASES: list[tuple[str, ...]] = [
 
 SIM_THRESHOLD = 0.6
 
+# Known synonyms for the same REAL event where the sources use completely
+# different wording (zero token overlap), so token similarity can't catch them.
+# Key  = canonical event title (display string; also the merged card's title).
+# Value = set of alternate title strings that name the same event. Applied in
+# _fuzzy_event_name so all spellings collapse to one canonical token list.
+# For the merged survivor, best_of() picks the highest confidence+completeness
+# card from the group — so the canonical key here is just a stable merge target,
+# not necessarily the exact stored title. Keys/aliases are lenient: used in
+# normalized form, punctuation/case/accent-insensitive.
+EVENT_ALIASES: dict[str, set[str]] = {
+    "Ultra Trail du Mont Blanc UTMB": {
+        "UTMB Mont-Blanc",
+        "Ultra Trail du Mont Blanc",
+        "UTMB",
+    },
+    # (add more synonym groups here as new 2-card pairs appear)
+}
+
 
 def _strip_locality(tokens: list[str]) -> list[str]:
     """Remove trailing locality tokens from a tokenized event title."""
@@ -155,8 +176,22 @@ def _strip_locality(tokens: list[str]) -> list[str]:
 
 
 def _fuzzy_event_name(event: dict[str, Any]) -> list[str]:
-    """Tokenized event-name of a title, trailing locality stripped."""
-    return _strip_locality(normalize_title(event.get("title", "")).split())
+    """Tokenized event-name of a title, trailing locality stripped.
+
+    Applies the EVENT_ALIASES synonym map first so zero-word-overlap titles
+    that name the SAME real event collapse to one canonical token list —
+    e.g. "UTMB Mont-Blanc" and "Ultra Trail du Mont Blanc UTMB" both map to the
+    canonical event-name so their similarity becomes 1.0 and they merge.
+    """
+    title = event.get("title", "")
+    nt = normalize_title(title)
+    # Alias the canonical display title back to a stable token list. Compare
+    # NORMALIZED title against NORMALIZED canonical + every NORMALIZED alias so
+    # case/accent/symbol variants ("UTMB Mont-Blanc ®", "utmb mont-blanc") hit.
+    for canonical, aliases in EVENT_ALIASES.items():
+        if nt == normalize_title(canonical) or nt in {normalize_title(a) for a in aliases}:
+            return canonical.split()
+    return _strip_locality(nt.split())
 
 
 def _tokens_similarity(a: list[str], b: list[str]) -> float:

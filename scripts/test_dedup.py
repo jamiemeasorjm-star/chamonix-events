@@ -96,6 +96,20 @@ def test_same_name_different_date_stays():
     assert len(dedupe_events([a, b])) == 2
 
 
+def test_utmb_alias_merges_synonyms():
+    # Same real event, different wording, zero token overlap -> EVENT_ALIASES
+    a = _ev("UTMB Mont-Blanc ®", "2026-08-24", source="chamonix_fr")
+    b = _ev("Ultra Trail du Mont Blanc UTMB", "2026-08-24", source="chamonix_net")
+    out = dedupe_events([a, b])
+    assert len(out) == 1, f"expected 1 merged UTMB card, got {len(out)}"
+
+
+def test_utmb_alias_different_date_stays():
+    a = _ev("UTMB Mont-Blanc ®", "2026-08-24", source="chamonix_fr")
+    b = _ev("Ultra Trail du Mont Blanc UTMB", "2027-08-29", source="chamonix_net")
+    assert len(dedupe_events([a, b])) == 2
+
+
 if __name__ == "__main__":
     fns = [
         (name, obj) for name, obj in sorted(globals().items())
