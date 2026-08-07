@@ -381,6 +381,15 @@ var CAT_COLORS = {"Cinema": "cC", "concert": "cE", "exhibition": "cE", "family":
 var CAT_LABELS = {"Cinema": "Cinema", "concert": "Concert", "exhibition": "Exposition", "family": "Famille", "market": "Marche", "other": "Autre", "sport": "Sport", "theatre": "Theatre"};
 var CAT_PH = {"Cinema":"cinema","concert":"concert","exhibition":"exhibition","sport":"sport","market":"market","family":"family","theatre":"theatre","nightlife":"nightlife","other":"other"};
 function catPh(cat){return "placeholders/"+((CAT_PH[cat]||"other"))+".jpg";}
+// Generic placeholder / fallback logos that some scraped sources supply in
+// lieu of a real image (e.g. Unidivers' fallback-logo). Treat these as "no
+// image" so the card uses the category watercolour placeholder instead.
+var GENERIC_IMG_RE=/\/(fallback[-_ ]?logo|placeholder|default[-_ ]?image|no[-_ ]?image|not[-_ ]?found|coming[-_ ]?soon|generic|spacer)[^/]*\.(png|jpe?g|webp|gif)\b/i;
+function eventImg(e){
+  var u=e.image_url;
+  if(!u||u.indexOf("data:")===0||GENERIC_IMG_RE.test(u))return catPh(e.category);
+  return u;
+}
 
 var today=new Date(),tom=new Date(today);tom.setDate(tom.getDate()+1);
 var todayS=today.toISOString().split("T")[0],tomS=tom.toISOString().split("T")[0];
@@ -514,7 +523,7 @@ function openModal(idx){
   var fd=fmt(e.start_date),ed=fmt(e.end_date);
   var dateR=e.end_date&&e.end_date!==e.start_date?(fd?fd.display:"")+" -> "+(ed?ed.display:""):(fd?fd.display:"");
   var cc=catColor(e.category),lb=catLabel(e.category);
-  var img=e.image_url&&!e.image_url.startsWith("data:")?e.image_url:"";
+  var img=eventImg(e);
   var hs=e.showtimes&&Object.keys(e.showtimes).length>0;
   document.getElementById("modal-img").src=img;document.getElementById("modal-img").alt=esc(_l(e,'title'));
   document.getElementById("modal-cat").className="modal-cat "+cc;document.getElementById("modal-cat").textContent=lb;
@@ -647,9 +656,7 @@ function renderTodaySection(){
     var time=e.time?esc(e.time):"";
     var cc=catColor(e.category);
     var lb=catLabel(e.category);
-    var img=e.image_url&&!e.image_url.startsWith("data:")
-      ?"<img src=\""+e.image_url+"\" alt=\""+esc(_l(e,'title'))+"\" loading=\"lazy\">"
-      :"<img src=\""+catPh(e.category)+"\" alt=\""+esc(_l(e,'title'))+"\" loading=\"lazy\">";
+    var img=eventImg(e)?'<img src="'+eventImg(e)+'" alt="'+esc(_l(e,'title'))+'" loading="lazy">':'<img src="'+catPh(e.category)+'" alt="'+esc(_l(e,'title'))+'" loading="lazy">';
     var venueHtml=_l(e,'venue_name')?"<span class=\"td-venue\">"+esc(_l(e,'venue_name'))+_td_close("span"):"";
     var timeHtml=time?"<span class=\"td-time\">"+time+_td_close("span"):"";
     var html="<div class=\"td-card\" onclick=\"openModal("+EVENTS.indexOf(e)+")\">"
@@ -680,7 +687,7 @@ function render(){
     var tag=isT?t("today"):isTm?t("tomorrow"):"";
     var dl=fd?fd.dayNum:"",ml=fd?fd.month:"";
     var cc=catColor(e.category),lb=catLabel(e.category);
-    var img=e.image_url&&!e.image_url.startsWith("data:")?'<img src="'+e.image_url+'" alt="'+esc(_l(e,'title'))+'" loading="lazy" data-fb="'+esc(_l(e,'title')[0]||"")+'" data-cat="'+esc(e.category||"")+'">':'<img src="'+catPh(e.category)+'" alt="'+esc(_l(e,'title'))+'" loading="lazy">';
+    var img='<img src="'+eventImg(e)+'" alt="'+esc(_l(e,'title'))+'" loading="lazy" data-fb="'+esc(_l(e,'title')[0]||"")+'" data-cat="'+esc(e.category||"")+'">';
     var evVenue=_l(e,'venue_name')||e.venue||getEventVenue(e)||"";var vHtml=evVenue?'<span class="card-venue">'+esc(evVenue)+'</span>':"";
     // T25: info row — time / venue_name / price, only when present
     var infoItems=[];
