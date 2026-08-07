@@ -99,13 +99,18 @@ CATEGORY_MAP = [
 ]
 
 
-def classify_category(text: str) -> str:
+def classify_category(text: str, description: str = "") -> str:
     t = text.lower()
     if re.search(r"march[ée]|foire|brocante|braderie", t):
         return "market"
     for kw, cat in CATEGORY_MAP:
         if kw in t:
             return cat
+    # Tier 2: use curated low-noise phrases from the description only once the
+    # title gave no signal (avoids incidental-description misclassification).
+    if description:
+        from scripts.category_utils import desc_fallback_category
+        return desc_fallback_category(description)
     return "other"
 
 
@@ -212,7 +217,7 @@ def _parse_jsonld(html: str, url: str) -> dict:
                         cur = offers.get("priceCurrency", "EUR")
                         detail["price"] = f"{price} {cur}".strip()
 
-                detail["category"] = classify_category(name)
+                detail["category"] = classify_category(name, detail.get("description", ""))
                 return detail
     # No JSON-LD Event found — fall back to slug date + a bare title
     title = _guess_title(html, url)

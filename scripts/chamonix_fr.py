@@ -272,6 +272,13 @@ def normalize(raw: dict) -> Event:
         address=raw.get("address"),
         status="published",
     )
+    # Tier 2: if the title/card gave no category, fall back to curated low-noise
+    # phrases from the description (available after detail enrichment).
+    if ev.category == "other" and ev.description:
+        from scripts.category_utils import desc_fallback_category
+        fb = desc_fallback_category(ev.description)
+        if fb != "other":
+            ev.category = fb
     # Namespace the event id by source so the same title+date from another
     # source (e.g. Unidivers, chamonix.com) doesn't collide on the globally
     # UNIQUE events.id column.
