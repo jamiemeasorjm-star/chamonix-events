@@ -442,7 +442,7 @@ function renderCinemaGrid(date){
   }
   empty.style.display='none';
   el.innerHTML=dayFilms.map(function(f){
-    var img=f.image?'<img src="'+esc(f.image)+'" alt="'+esc(_l(f,'title'))+'" loading="lazy">':'<div class="no-img">'+esc(_l(f,'title')[0]||'')+'</div>';
+    var img=f.image?'<img src="'+esc(f.image)+'" alt="'+esc(_l(f,'title'))+'" loading="lazy">':'<img src="placeholders/cinema.jpg" alt="'+esc(_l(f,'title'))+'" loading="lazy">';
     var isVO=(f.lang&&(f.lang.toLowerCase().indexOf('vo')>=0||f.lang.toLowerCase().indexOf('vost')>=0));
     var langTag=isVO?'<span class="lang vo">VO</span>':'<span class="lang">FR</span>';
     var times=f.showtimes[date].map(function(t){

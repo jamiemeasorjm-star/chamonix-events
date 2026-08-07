@@ -379,6 +379,8 @@ document.documentElement.lang=LOCALE;
 <!-- VENUES_DATA -->
 var CAT_COLORS = {"Cinema": "cC", "concert": "cE", "exhibition": "cE", "family": "cF", "market": "cM", "other": "cP", "sport": "cS", "theatre": "cT"};
 var CAT_LABELS = {"Cinema": "Cinema", "concert": "Concert", "exhibition": "Exposition", "family": "Famille", "market": "Marche", "other": "Autre", "sport": "Sport", "theatre": "Theatre"};
+var CAT_PH = {"Cinema":"cinema","concert":"concert","exhibition":"exhibition","sport":"sport","market":"market","family":"family","theatre":"theatre","nightlife":"nightlife","other":"other"};
+function catPh(cat){return "placeholders/"+((CAT_PH[cat]||"other"))+".jpg";}
 
 var today=new Date(),tom=new Date(today);tom.setDate(tom.getDate()+1);
 var todayS=today.toISOString().split("T")[0],tomS=tom.toISOString().split("T")[0];
@@ -647,7 +649,7 @@ function renderTodaySection(){
     var lb=catLabel(e.category);
     var img=e.image_url&&!e.image_url.startsWith("data:")
       ?"<img src=\""+e.image_url+"\" alt=\""+esc(_l(e,'title'))+"\" loading=\"lazy\">"
-      :"<div class=\"td-fb\">"+(esc(_l(e,'title'))[0]||"?")+_td_close("div");
+      :"<img src=\""+catPh(e.category)+"\" alt=\""+esc(_l(e,'title'))+"\" loading=\"lazy\">";
     var venueHtml=_l(e,'venue_name')?"<span class=\"td-venue\">"+esc(_l(e,'venue_name'))+_td_close("span"):"";
     var timeHtml=time?"<span class=\"td-time\">"+time+_td_close("span"):"";
     var html="<div class=\"td-card\" onclick=\"openModal("+EVENTS.indexOf(e)+")\">"
@@ -678,7 +680,7 @@ function render(){
     var tag=isT?t("today"):isTm?t("tomorrow"):"";
     var dl=fd?fd.dayNum:"",ml=fd?fd.month:"";
     var cc=catColor(e.category),lb=catLabel(e.category);
-    var img=e.image_url&&!e.image_url.startsWith("data:")?'<img src="'+e.image_url+'" alt="'+esc(_l(e,'title'))+'" loading="lazy" data-fb="'+esc(_l(e,'title')[0]||"")+'">':'<div class="card-img-f '+cc+'">'+(_l(e,'title')[0]||"")+'</div>';
+    var img=e.image_url&&!e.image_url.startsWith("data:")?'<img src="'+e.image_url+'" alt="'+esc(_l(e,'title'))+'" loading="lazy" data-fb="'+esc(_l(e,'title')[0]||"")+'" data-cat="'+esc(e.category||"")+'">':'<img src="'+catPh(e.category)+'" alt="'+esc(_l(e,'title'))+'" loading="lazy">';
     var evVenue=_l(e,'venue_name')||e.venue||getEventVenue(e)||"";var vHtml=evVenue?'<span class="card-venue">'+esc(evVenue)+'</span>':"";
     // T25: info row — time / venue_name / price, only when present
     var infoItems=[];
@@ -718,7 +720,7 @@ function resetFilters(){
   renderVenues();
 }
 
-document.addEventListener("error",function(e){if(e.target.tagName==="IMG"&&e.target.dataset.fb!==void 0){var fb=document.createElement("div");fb.className="card-img-f";fb.textContent=e.target.dataset.fb||"";e.target.parentNode.replaceChild(fb,e.target);}},true);
+document.addEventListener("error",function(e){if(e.target.tagName==="IMG"&&e.target.dataset.fb!==void 0){if(e.target.dataset.cat){e.target.src=catPh(e.target.dataset.cat);return;}var fb=document.createElement("div");fb.className="card-img-f";fb.textContent=e.target.dataset.fb||"";e.target.parentNode.replaceChild(fb,e.target);}},true);
 
 
 function toggleTheme(){var h=document.documentElement;var isLight=h.classList.contains('light');if(isLight){h.classList.remove('light');localStorage.setItem('chx-theme','dark')}else{h.classList.add('light');localStorage.setItem('chx-theme','light')}}
