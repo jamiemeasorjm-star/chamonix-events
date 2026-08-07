@@ -80,12 +80,34 @@ def _load_existing(storage) -> list[dict]:
     return existing
 
 
+# Commune landing pages that chamonix.com's sitemap lists under
+# /animations-et-evenements-* but which are NOT single-event detail pages.
+# They yield nav boilerplate as a "description" and would pollute the DB if
+# ingested as events. Filter them out of discovery (wiring-time guard, 2026-08-07).
+LANDING_PAGE_SLUGS = {
+    "animations-et-evenements-a-vallorcine",
+    "animations-et-evenements-autour-de-la-biodiversite",
+    "animations-et-evenements-chamonix-et-argentiere",
+    "animations-et-evenements-les-houches-servoz",
+    "animations-et-evenements-chamonix",
+}
+
+
 def _discover_urls(limit: int | None) -> list[str]:
     headers = {"User-Agent": USER_AGENT}
     with httpx.Client(headers=headers, verify=True) as client:
         print("Discovering event URLs from sitemap...")
         event_urls = discover_event_urls(client)
-        print(f"Found {len(event_urls)} event URLs")
+        # Drop commune landing pages (not single events) from the candidate set.
+        filtered = [
+            u for u in event_urls
+            if u.rstrip("/").split("/")[-1] not in LANDING_PAGE_SLUGS
+        ]
+        dropped = len(event_urls) - len(filtered)
+        if dropped:
+            print(f"Dropped {dropped} commune landing-page URL(s)")
+        event_urls = filtered
+        print(f"Found {len(event_urls)} event URLs (after landing-page filter)")
         if limit:
             event_urls = event_urls[:limit]
             print(f"Applying --limit {limit}: using {len(event_urls)}")
