@@ -26,9 +26,18 @@ publish_rules:
   min_confidence: 0.0          # absolute floor — drop only truly-broken events
   dedupe: true                 # collapse same [title + start_date + venue]
   # Exclude pure venue-ad nightlife entries (cat_nightlife) — these are venue
-  # descriptions, not specific events. KEEP happy hours, live-music, DJ/club
-  # and tasting nights (the actual events).
+  # descriptions from the curated recurring list, NOT actual events. They carry
+  # no real date/show and repeat every week. Only genuinely scraped nightlife
+  # events (an actual band/DJ/show with a real date from a venue site) should
+  # publish. Updated 2026-08-07: dropped the entire curated recurring venue-ad
+  # set — every recurring title excluded so the daily refresh can't re-add them.
   exclude_title_patterns:
+    - '^Afternoon Happy Hour$'
+    - '^Big Mountain Festival$'
+    - '^Live Music at Le Solerey$'
+    - '^Live Music Sessions$'
+    - '^Live Sports Screenings$'
+    - '^Apéro & Live Music$'
     - '^Ap.ro & Tapas$'
     - '^Bar & Social Evenings$'
     - '^Bar d''Up Evening Drinks$'
@@ -36,11 +45,20 @@ publish_rules:
     - '^Coff?ee & Aper'
     - '^Craft Beer & After-Ski$'
     - '^Cultural Events'
+    - '^DJ Sets & Late Night$'
+    - '^DJ Nights$'
     - '^Evening Cocktails$'
     - '^Le Chamonix Bar$'
+    - '^Le Garage Bar & Events$'
+    - '^Live Music & Bar$'
+    - '^Live Music & Irish Vibes$'
+    - '^Live Music Sessions$'
     - '^Local Bar & Events$'
     - '^Moon Tines Bar$'
     - '^Cocktails & Social$'
+    - '^Club Night$'
+    - '^Wine Tastings & Evenings$'
+    - '^Brewpub & Live Events$'
 
 sources:
   - id: chamonix_net
