@@ -59,10 +59,14 @@ def extract_event_links(html: str) -> list[tuple[str, str, str]]:
     seen_urls: set[str] = set()
 
     for item in soup.select("div.objet-touristique"):
-        # Pick the event link (not wishlist, not contact, not phone)
+        # Pick the event link (not wishlist, not contact, not phone).
+        # Only ACTUAL events qualify: /agenda/evenements-et-manifestations/
+        # (dated events) and /animations-et-evenements-* (commune events).
+        # /a-voir-a-faire/ is the "Things to do / leisure" section (recurring
+        # bookable activities like guided tours, spas) — NOT dated events, so it
+        # must NOT be treated as an event source (2026-08-07).
         link = (
             item.select_one("a[href*='/agenda/']")
-            or item.select_one("a[href*='/a-voir-a-faire/']")
             or item.select_one("a[href*='/animations-et']")
         )
         if not link:
