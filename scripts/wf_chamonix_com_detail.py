@@ -162,6 +162,12 @@ def _enrich_by_url(existing: list[dict], details: list[dict]) -> tuple[list[dict
     return existing, updated
 
 
+def _slug_id(title: str, start_date: str) -> str:
+    """Stable event-id slug matching the Event dataclass convention."""
+    from scripts.models import slugify
+    return f"{slugify(title)}-{(start_date or '')[:10]}"
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="wf-based chamonix.com detail drop-in")
     ap.add_argument("--dry-run", action="store_true",
@@ -242,15 +248,40 @@ def main(argv: list[str] | None = None) -> int:
     enriched, count = _enrich_by_url(existing, details)
     print(f"Enriched: {count} events updated (URL-matched)")
 
+    # BULK-INGEST (2026-08-07): also publish the wf-extracted chamonix.com event
+    # pages as real rows, not just enrich the tiny existing set. Namespace each
+    # event id by the source so the globally UNIQUE events.id column can't
+    # collide (same title+date also exists under chamonix_fr/unidivers/etc.).
+    # Written via the DURABLE upsert path (upsert-by-key + tombstone, preserves
+    # translations) — NOT upsert_events_ungated (that is DELETE-all).
+    bulk_rows: list[dict] = []
+    for d in details:
+        if not d.get("title") or not d.get("start_date"):
+            continue
+        row = dict(d)
+        row["source_id"] = SOURCE_ID
+        # Namespace id to avoid UNIQUE collisions and keep durable row_key stable.
+        row["id"] = f"{SOURCE_ID}-{_slug_id(d.get('title'), d.get('start_date'))}"
+        bulk_rows.append(row)
 
-    if count > 0:
-        storage.upsert_events_ungated(SOURCE_ID, enriched)
-        print(f"Written {len(enriched)} events to SQLite")
+    # Merge enriched existing + bulk rows (enriched wins on id overlap is fine;
+    # upsert keyed on row_key => (source, title, date, venue)).
+    combined = {row["id"]: row for row in (enriched + bulk_rows)}
+    write_rows = list(combined.values())
+
+    if not args.dry_run and write_rows:
+        # durable upsert: upsert-by-key + tombstone absent, preserves translations
+        written = storage.upsert_events(SOURCE_ID, write_rows)
+        print(f"Bulk-ingested {len(write_rows)} chamonix_com events via durable upsert "
+              f"(incl. {len(bulk_rows)} from wf discovery; enriched {count})")
+    elif args.dry_run:
+        print(f"[dry-run] would bulk-ingest {len(write_rows)} chamonix_com events "
+              f"(incl. {len(bulk_rows)} from wf discovery); NO write performed.")
     else:
-        print("No events to update")
+        print("No events to write")
 
-    after, _ = _coverage_summary(enriched)
-    print(f"desc-coverage after: {after}/{len(enriched)} events have a real description")
+    after, _ = _coverage_summary(write_rows)
+    print(f"desc-coverage (in-memory set): {after}/{len(write_rows)} events have a real description")
     return 0
 
 
