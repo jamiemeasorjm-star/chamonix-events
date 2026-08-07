@@ -34,7 +34,6 @@ import httpx
 from scripts.chamonix_com_detail import (
     USER_AGENT,
     discover_event_urls,
-    enrich_events_from_details,
 )
 from scripts import wf_chamonix_com as wf
 
@@ -114,6 +113,55 @@ def _discover_urls(limit: int | None) -> list[str]:
         return event_urls
 
 
+def _enrich_by_url(existing: list[dict], details: list[dict]) -> tuple[list[dict], int]:
+    """Bind extracted detail pages to EXISTING events by source_url (not title).
+
+    The old enrich_events_from_details() matches by NORMALIZED TITLE, which binds
+    ~0 chamonix.com events because the sitemap-discovered detail pages carry
+    titles that don't equal the listing events' titles. Matching on the stable
+    source_url is the correct key. Only fields that are empty on the existing
+    event are filled (descriptions/images/dates), mirroring the original intent
+    without bulk-importing new events.
+
+    Returns (updated_events, count_updated).
+    """
+    import re
+
+    def _norm_url(u: str) -> str:
+        u = (u or "").strip()
+        u = u.replace("http://", "https://")
+        u = u.lower().rstrip("/")
+        u = re.sub(r"[?#].*$", "", u)
+        return u
+
+    lookup: dict[str, dict] = {}
+    for d in details:
+        k = _norm_url(d.get("source_url", ""))
+        if k:
+            lookup.setdefault(k, d)
+
+    updated = 0
+    for ev in existing:
+        k = _norm_url(ev.get("source_url", ""))
+        detail = lookup.get(k)
+        if not detail:
+            continue
+        changed = False
+        for field in ("description", "image_url", "venue_name", "address", "commune"):
+            val = detail.get(field)
+            if val and not ev.get(field):
+                ev[field] = val
+                changed = True
+        for field in ("start_date", "end_date", "time"):
+            val = detail.get(field)
+            if val and not ev.get(field):
+                ev[field] = val
+                changed = True
+        if changed:
+            updated += 1
+    return existing, updated
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="wf-based chamonix.com detail drop-in")
     ap.add_argument("--dry-run", action="store_true",
@@ -191,8 +239,9 @@ def main(argv: list[str] | None = None) -> int:
         print(f"[dry-run] {len(details)} detail(s) extracted; NO DB write performed.")
         return 0
 
-    enriched, count = enrich_events_from_details(details, existing)
-    print(f"Enriched: {count} events updated")
+    enriched, count = _enrich_by_url(existing, details)
+    print(f"Enriched: {count} events updated (URL-matched)")
+
 
     if count > 0:
         storage.upsert_events_ungated(SOURCE_ID, enriched)
