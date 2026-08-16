@@ -700,6 +700,20 @@ def generate_event_pages(events: list[dict]) -> int:
         count += 1
 
     print(f"  [t41] wrote {count} event pages to events/")
+
+    # Prune orphan pages: remove event pages whose slug isn't in written_slugs
+    if os.path.isdir(EVENTS_DIR):
+        orphan_count = 0
+        for fname in os.listdir(EVENTS_DIR):
+            if not fname.endswith(".html"):
+                continue
+            slug = fname[:-5]  # strip .html
+            if slug not in written_slugs:
+                os.remove(os.path.join(EVENTS_DIR, fname))
+                orphan_count += 1
+        if orphan_count:
+            print(f"  [t41] pruned {orphan_count} orphan event pages from events/")
+
     return count
 
 

@@ -216,6 +216,38 @@ def extract_agenda_events(html: str) -> list[dict]:
     return events
 
 
+def _extract_localisation(soup: BeautifulSoup) -> tuple[str, str]:
+    """Extract venue_name and address from the Localisation section.
+
+    Structure: <h2>Localisation</h2><ul class="list-icon"><li><a>Venue<br/>Address<br/>Postcode Commune</a></li>
+    Returns (venue_name, full_address).
+    """
+    for h2 in soup.find_all("h2"):
+        if "localisation" in (h2.get_text(strip=True) or "").lower():
+            ul = h2.find_next_sibling("ul")
+            if ul:
+                li = ul.find("li")
+                if li:
+                    a = li.find("a")
+                    if a:
+                        # Split by <br/> to get venue name, address, postcode+commune
+                        parts = [p.strip() for p in a.decode_contents().split("<br/>") if p.strip()]
+                        # Also handle plain text (no <br/>)
+                        if not parts or len(parts) == 1:
+                            parts = [p.strip() for p in a.get_text("|").split("|") if p.strip()]
+                        venue_name = parts[0] if parts else ""
+                        # Build full address from venue + street + postcode
+                        addr_parts = []
+                        for p in parts:
+                            p_stripped = p.strip(" ,;")
+                            if p_stripped:
+                                addr_parts.append(p_stripped)
+                        full_address = " ".join(addr_parts[1:]) if len(addr_parts) > 1 else ""
+                        return venue_name, full_address
+            break
+    return "", ""
+
+
 def fetch_detail(url: str, client: httpx.Client) -> dict:
     """Fetch a mairie event detail page for description/image/venue/price."""
     detail: dict = {}
@@ -230,6 +262,13 @@ def fetch_detail(url: str, client: httpx.Client) -> dict:
     og = soup.find("meta", attrs={"property": "og:image"})
     if og and og.get("content"):
         detail["image_url"] = og["content"]
+
+    # Venue + address from Localisation section
+    venue_name, address = _extract_localisation(soup)
+    if venue_name:
+        detail["venue_name"] = venue_name
+    if address:
+        detail["address"] = address
 
     # Description: main content text, trimmed
     main = soup.select_one("main") or soup.select_one("article") or soup
