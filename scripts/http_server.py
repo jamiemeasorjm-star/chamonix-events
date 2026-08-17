@@ -819,12 +819,12 @@ def main() -> int:
 
     os.chdir(str(ROOT))
     sys.stderr.write(
-        f"chamonix http_server: serving {ROOT} on 0.0.0.0:{PORT} (PID {os.getpid()})\n"
+        f"chamonix http_server: serving {ROOT} on 127.0.0.1:{PORT} (PID {os.getpid()})\n"
     )
     sys.stderr.flush()
 
     try:
-        with ReusableTCPServer(("0.0.0.0", PORT), ChamonixHandler) as httpd:
+        with ReusableTCPServer(("127.0.0.1", PORT), ChamonixHandler) as httpd:
             httpd.serve_forever()
     except KeyboardInterrupt:
         sys.stderr.write("chamonix http_server: interrupted\n")
