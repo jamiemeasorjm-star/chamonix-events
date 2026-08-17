@@ -81,19 +81,23 @@ def gate_content(cur) -> tuple[bool, str]:
         ).fetchone()[0]
 
     n_title_start = prop("title IS NOT NULL AND trim(title)!='' AND start_date IS NOT NULL AND trim(start_date)!=''")
+    n_src = prop("source_url IS NOT NULL AND trim(source_url)!=''")
     n_vd = prop("venue_name IS NOT NULL AND trim(venue_name)!='' AND description IS NOT NULL AND trim(description)!=''")
     n_img = prop("image_url IS NOT NULL AND trim(image_url)!=''")
 
     p_ts = pct(n_title_start, total)
+    p_src = pct(n_src, total)
     p_vd = pct(n_vd, total)
     p_img = pct(n_img, total)
 
-    ok = (p_ts >= G1_TITLE_START_PCT and p_vd >= G1_VENUE_DESC_PCT
+    ok = (p_ts >= G1_TITLE_START_PCT and p_src >= 100.0
+          and p_vd >= G1_VENUE_DESC_PCT
           and p_img >= G1_IMAGE_PCT)
 
     lines = [
         f"  G1 events (published): {total}",
         f"  title+start_date coverage: {p_ts:.1f}% (target {G1_TITLE_START_PCT:.0f}%)",
+        f"  source_url coverage: {p_src:.1f}% (target 100.0%)",
         f"  venue_name+description coverage: {p_vd:.1f}% (target {G1_VENUE_DESC_PCT:.0f}%)",
         f"  image_url coverage: {p_img:.1f}% (target {G1_IMAGE_PCT:.0f}%)",
     ]
